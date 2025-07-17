@@ -26,7 +26,7 @@ public class HomeController {
 
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,1000,600);
         stage.setScene(scene);
         stage.show();
     }
@@ -36,7 +36,7 @@ public class HomeController {
 
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,1000,600);
         stage.setScene(scene);
         stage.show();
     }

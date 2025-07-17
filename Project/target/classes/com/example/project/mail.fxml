@@ -5,7 +5,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.mailcontroller">
    <children>
       <Button fx:id="Back" layoutX="514.0" layoutY="-1.0" mnemonicParsing="false" onAction="#backtomain" prefHeight="30.0" prefWidth="42.0">

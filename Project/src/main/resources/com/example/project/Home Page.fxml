@@ -1,53 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.HomeController">
+<AnchorPane minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.HomeController">
    <children>
-      <ImageView fitHeight="401.0" fitWidth="600.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Images/Screenshot%202025-07-14%20164014.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="Login" layoutX="266.0" layoutY="215.0" mnemonicParsing="false" onAction="#openLogin" prefHeight="34.0" prefWidth="68.0" style="-fx-background-color: #ffe599;" text="Login">
-         <font>
-            <Font name="Artifakt Element Black Italic" size="15.0" />
-         </font>
-      </Button>
-      <Button fx:id="Signup" layoutX="266.0" layoutY="273.0" mnemonicParsing="false" onAction="#openSignUp" prefHeight="34.0" prefWidth="68.0" style="-fx-background-color: #ffe599;" text="Signup">
-         <font>
-            <Font name="ArtifaktElement-Black" size="14.0" />
-         </font>
-      </Button>
-      <TextField layoutX="106.0" layoutY="349.0" prefHeight="36.0" prefWidth="410.0" style="-fx-background-color: #fce5cd;" text=" Read In The Name Of Almighty Who Created Us">
-         <font>
-            <Font name="ArtifaktElement-Heavy" size="17.0" />
-         </font>
-      </TextField>
-      <ImageView fitHeight="34.0" fitWidth="31.0" layoutX="222.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Images/images%20(1).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="34.0" fitWidth="31.0" layoutX="222.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Images/images%20(2).png" />
-         </image>
-      </ImageView>
-      <Button fx:id="Exit" layoutX="566.0" mnemonicParsing="false" onAction="#close" prefHeight="37.0" prefWidth="39.0">
-         <graphic>
-            <ImageView fitHeight="29.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Images/close.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
+      <VBox layoutX="-1.0" layoutY="-7.0" prefHeight="608.0" prefWidth="539.0" style="-fx-background-color: #5b5b5b;">
+         <children>
+            <AnchorPane prefHeight="611.0" prefWidth="539.0" style="-fx-background-color: #2a3239;">
+               <children>
+                  <ImageView fitHeight="70.0" fitWidth="68.0" layoutX="132.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/images%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="68.0" fitWidth="79.0" layoutX="132.0" layoutY="417.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/images%20(2).png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="Login" layoutX="231.0" layoutY="247.0" mnemonicParsing="false" onAction="#openLogin" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: #f9cb9c;" text="Login">
+                     <font>
+                        <Font name="ArtifaktElement-Black" size="28.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="Signup" layoutX="231.0" layoutY="411.0" mnemonicParsing="false" onAction="#openSignUp" prefHeight="79.0" prefWidth="120.0" style="-fx-background-color: #f9cb9c;" text="Signup">
+                     <font>
+                        <Font name="ArtifaktElement-Black" size="24.0" />
+                     </font>
+                  </Button>
+                  <Text fill="#f2e7e7" fontSmoothingType="LCD" layoutX="118.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account? Signup here" wrappingWidth="247.4223175048828">
+                     <font>
+                        <Font name="ArtifaktElement-Black" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#e1e0e0" layoutX="21.0" layoutY="569.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Read In The Name Of Almighty Who Created Us">
+                     <font>
+                        <Font name="ArtifaktElement-Book" size="22.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#ede8e8" layoutX="141.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The More You Read, The More You Learn" wrappingWidth="240.97456359863287">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="109.0" fitWidth="153.0" layoutX="187.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/download%20(14).png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox layoutX="537.0" layoutY="1.0" prefHeight="608.0" prefWidth="471.0" style="-fx-background-color: #311717;">
+         <children>
+            <AnchorPane prefHeight="615.0" prefWidth="469.0" style="-fx-background-color: #0b5394;">
+               <children>
+                  <Button fx:id="Exit" layoutX="430.0" layoutY="-5.0" mnemonicParsing="false" onAction="#close" prefHeight="37.0" prefWidth="39.0">
+                     <graphic>
+                        <ImageView fitHeight="29.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../Images/close.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Text fill="#edc4c4" layoutX="76.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To Inan-Dibya Edu." wrappingWidth="344.85511779785156">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#f7efef" layoutX="80.0" layoutY="454.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stay with us , you will find everything you wish for your education..." wrappingWidth="318.3477325439453">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="173.0" fitWidth="173.0" layoutX="153.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/download%20(12).png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
