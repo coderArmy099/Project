@@ -49,7 +49,7 @@ public class HelloController {
                 String[] userDetails = line.split(",");
                 if (userDetails[0].equals(userId) && userDetails[1].equals(password)) {
                     showAlert("Login successful!");
-
+                    CurrentUser.username = userId;
 
                     javafx.animation.PauseTransition delay = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.5));
                     delay.setOnFinished(e -> {

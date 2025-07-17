@@ -88,16 +88,24 @@ public class StudyTimerController {
     @FXML
     private void showPreviousRecords() {
         StringBuilder content = new StringBuilder();
+
         try (BufferedReader reader = new BufferedReader(new FileReader(RECORD_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
+                String[] parts = line.split(",");
+                if (parts.length == 3 && parts[0].equals(username)) {
+                    String dateTime = parts[1];
+                    String duration = parts[2];
+                    content.append("Date: ").append(dateTime)
+                            .append(" | Duration: ").append(duration)
+                            .append("\n");
+                }
             }
         } catch (IOException e) {
             content.append("No records found.");
         }
 
-        // Create TextArea for better display
+        // Create TextArea for display
         TextArea textArea = new TextArea(content.toString());
         textArea.setWrapText(true);
         textArea.setEditable(false);
@@ -113,7 +121,7 @@ public class StudyTimerController {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Study Records");
-        alert.setHeaderText("Previous Study Sessions:");
+        alert.setHeaderText("Your Study Sessions:");
         alert.getDialogPane().setContent(contentPane);
         alert.setResizable(true);
         alert.showAndWait();
@@ -124,7 +132,7 @@ public class StudyTimerController {
 
         String time = String.format("%02d:%02d:%02d", hours, minutes, seconds);
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        String record = timestamp + " - Studied for " + time;
+        String record = username + "," + timestamp + "," + time;
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(RECORD_FILE, true))) {
             writer.write(record);
