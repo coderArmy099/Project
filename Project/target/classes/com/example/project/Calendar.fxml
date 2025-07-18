@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+
+<BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/Calendar.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.CalendarController">
+
+    <center>
+        <VBox spacing="10" styleClass="main-content-vbox">
+            <padding>
+                <Insets bottom="10" left="20" right="20" top="10" />
+            </padding>
+           <HBox alignment="CENTER_LEFT" spacing="6" styleClass="top-bar">
+               <padding>
+               <Insets bottom="10" left="20" right="20" top="10" />
+            </padding>
+   
+               <!-- spacer pushes the cog to the right -->
+               <Pane HBox.hgrow="ALWAYS">
+               <children>
+         
+                     <!-- year (teal/bold) -->
+                     <Label fx:id="yearLabel" layoutX="427.0" layoutY="-3.0" styleClass="year-label" text="hjmh" />
+         
+                     <!-- month (white/bold) -->
+                     <Label fx:id="monthLabel" layoutX="375.0" layoutY="-3.0" styleClass="month-label" text="sdf" />
+               </children>
+            </Pane>
+   
+               <Label styleClass="top-button" text="⚙" />
+           </HBox>
+
+<!--            <HBox alignment="CENTER" prefHeight="67.0" prefWidth="892.0" style="-fx-background-color: #333;">-->
+<!--            <children>-->
+<!--               <Button contentDisplay="CENTER" mnemonicParsing="false" text="Button" textAlignment="RIGHT" textOverrun="CENTER_WORD_ELLIPSIS" />-->
+<!--            </children></HBox>-->
+
+            <HBox fx:id="weekBar" alignment="CENTER" prefHeight="56.0" prefWidth="892.0" spacing="18">
+                <padding><Insets bottom="6" top="6" /></padding>
+
+                <!-- ← previous week -->
+                <Button fx:id="prevWeekBtn" styleClass="week-nav-button">
+                    <graphic><FontIcon iconLiteral="fas-angle-left" styleClass="week-nav-icon" /></graphic>
+                </Button>
+
+                <!-- 7 day buttons + labels -->
+                <HBox fx:id="dayButtonsBox" alignment="CENTER" spacing="22">
+                    <!-- generated from code; left empty in FXML -->
+                </HBox>
+
+                <!-- → next week -->
+                <Button fx:id="nextWeekBtn" styleClass="week-nav-button">
+                    <graphic><FontIcon iconLiteral="fas-angle-right" styleClass="week-nav-icon" /></graphic>
+                </Button>
+            </HBox>
+
+
+            <GridPane fx:id="calendarGrid" hgap="5" prefHeight="536.0" prefWidth="892.0" styleClass="calendar-grid" vgap="5">
+                <rowConstraints>
+                    <javafx.scene.layout.RowConstraints prefHeight="30.0" />
+                    <javafx.scene.layout.RowConstraints prefHeight="30.0" />
+                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
+                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
+                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
+                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
+                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
+               <RowConstraints prefHeight="60.0" />
+               <RowConstraints prefHeight="60.0" />
+                </rowConstraints>
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            </GridPane>
+        </VBox>
+    </center>
+   <left>
+<!--      <VBox alignment="CENTER" prefHeight="625.0" prefWidth="67.0" BorderPane.alignment="CENTER">-->
+<!--         <children>-->
+<!--            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="68.0" text="Button" />-->
+<!--            <Button mnemonicParsing="false" prefHeight="68.0" prefWidth="68.0" text="Button" />-->
+<!--            <Button layoutX="10.0" layoutY="146.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="68.0" text="Button" />-->
+<!--            <Button layoutX="10.0" layoutY="78.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="68.0" text="Button" />-->
+<!--            <Button layoutX="10.0" layoutY="214.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="68.0" text="Button" />-->
+<!--         </children>-->
+<!--      </VBox>-->
+       <VBox fx:id="navPane" alignment="CENTER" spacing="18" styleClass="nav-pane">
+
+           <!-- Inbox -->
+           <Button fx:id="calendarBtn" styleClass="nav-button">
+               <graphic>
+                   <!-- “fas” = FontAwesome-Solid pack,  “calendar” = glyph name -->
+                   <FontIcon iconLiteral="fas-calendar" styleClass="nav-icon" />
+               </graphic>
+           </Button>
+         <Button fx:id="timerBtn" layoutX="22.0" layoutY="301.0" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+
+       </VBox>
+
+   </left>
+</BorderPane>
