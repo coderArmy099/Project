@@ -7,7 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.File;
 public class SignupController {
 
     @FXML
@@ -30,8 +30,9 @@ public class SignupController {
             showAlert("All fields must be filled.");
             return;
         }
-
-        try (FileWriter writer = new FileWriter("users.txt", true)) {
+        String basePath = "Project/data/";
+        new File(basePath).mkdirs();
+        try (FileWriter writer = new FileWriter(basePath + "users.txt", true)) {
             writer.write(userId + "," + password + "," + school + "," + name + "\n");
             showAlert("Sign-up successful!");
         } catch (IOException e) {
