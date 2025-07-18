@@ -8,73 +8,109 @@
 <BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/Calendar.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.CalendarController">
 
     <center>
-        <VBox spacing="10" styleClass="main-content-vbox">
-            <padding>
-                <Insets bottom="10" left="20" right="20" top="10" />
-            </padding>
-           <HBox alignment="CENTER_LEFT" spacing="6" styleClass="top-bar">
-               <padding>
-               <Insets bottom="10" left="20" right="20" top="10" />
-            </padding>
-   
-               <!-- spacer pushes the cog to the right -->
-               <Pane HBox.hgrow="ALWAYS">
-               <children>
-         
-                     <!-- year (teal/bold) -->
-                     <Label fx:id="yearLabel" layoutX="427.0" layoutY="-3.0" styleClass="year-label" text="hjmh" />
-         
-                     <!-- month (white/bold) -->
-                     <Label fx:id="monthLabel" layoutX="375.0" layoutY="-3.0" styleClass="month-label" text="sdf" />
-               </children>
-            </Pane>
-   
-               <Label styleClass="top-button" text="⚙" />
-           </HBox>
+        <StackPane fx:id="rootStack">
 
-<!--            <HBox alignment="CENTER" prefHeight="67.0" prefWidth="892.0" style="-fx-background-color: #333;">-->
-<!--            <children>-->
-<!--               <Button contentDisplay="CENTER" mnemonicParsing="false" text="Button" textAlignment="RIGHT" textOverrun="CENTER_WORD_ELLIPSIS" />-->
-<!--            </children></HBox>-->
+            <VBox spacing="10" styleClass="main-content-vbox">
 
-            <HBox fx:id="weekBar" alignment="CENTER" prefHeight="56.0" prefWidth="892.0" spacing="18">
-                <padding><Insets bottom="6" top="6" /></padding>
+                <padding>
+                    <Insets bottom="10" left="20" right="20" top="10" />
+                </padding>
+               <HBox alignment="CENTER" spacing="6" styleClass="top-bar">
+                   <padding>
+                   <Insets bottom="10" left="20" right="20" top="10" />
+                </padding>
 
-                <!-- ← previous week -->
-                <Button fx:id="prevWeekBtn" styleClass="week-nav-button">
-                    <graphic><FontIcon iconLiteral="fas-angle-left" styleClass="week-nav-icon" /></graphic>
-                </Button>
+                   <!-- month (white/bold) -->
+                   <Label fx:id="monthLabel" styleClass="month-label" text="sdf" />
 
-                <!-- 7 day buttons + labels -->
-                <HBox fx:id="dayButtonsBox" alignment="CENTER" spacing="22">
-                    <!-- generated from code; left empty in FXML -->
+                   <!-- year (teal/bold) -->
+                   <Label fx:id="yearLabel" styleClass="year-label" text="hjmh" />
+               </HBox>
+
+    <!--            <HBox alignment="CENTER" prefHeight="67.0" prefWidth="892.0" style="-fx-background-color: #333;">-->
+    <!--            <children>-->
+    <!--               <Button contentDisplay="CENTER" mnemonicParsing="false" text="Button" textAlignment="RIGHT" textOverrun="CENTER_WORD_ELLIPSIS" />-->
+    <!--            </children></HBox>-->
+
+                <HBox fx:id="weekBar" alignment="CENTER" prefHeight="56.0" prefWidth="892.0" spacing="18">
+                    <padding><Insets bottom="6" top="6" /></padding>
+
+                    <!-- ← previous week -->
+                    <Button fx:id="prevWeekBtn" styleClass="week-nav-button">
+                        <graphic><FontIcon iconLiteral="fas-angle-left" styleClass="week-nav-icon" /></graphic>
+                    </Button>
+
+                    <!-- 7 day buttons + labels -->
+                    <HBox fx:id="dayButtonsBox" alignment="CENTER" spacing="22">
+                        <!-- generated from code; left empty in FXML -->
+                    </HBox>
+
+                    <!-- → next week -->
+                    <Button fx:id="nextWeekBtn" styleClass="week-nav-button">
+                        <graphic><FontIcon iconLiteral="fas-angle-right" styleClass="week-nav-icon" /></graphic>
+                    </Button>
+                </HBox>
+                <ListView fx:id="taskListView" prefHeight="549.0" prefWidth="892.0" styleClass="task-list" />
+
+            </VBox>
+
+            <!-- ───────── floating “add” button ───────── -->
+            <Button fx:id="addTaskBtn" styleClass="fab" text="+" StackPane.alignment="BOTTOM_RIGHT">
+                <StackPane.margin>
+                    <Insets bottom="24" right="32" />
+                </StackPane.margin>
+            </Button>
+
+
+            <!-- ───────── pop-up card (initially hidden) ───────── -->
+            <!-- hide until button pressed -->
+            <!-- exclude from layout while hidden -->
+            <VBox fx:id="addTaskPane" managed="false" prefHeight="549" prefWidth="500" spacing="14" styleClass="add-task-card" visible="false" StackPane.alignment="BOTTOM_RIGHT">
+                <StackPane.margin>
+                    <!-- same right margin as button, but higher so it “grows” upward -->
+                    <Insets bottom="90" right="32" />
+                </StackPane.margin>
+
+                <!-- ───── header ───── -->
+                <Label styleClass="accent-label" text="Add Task" />
+
+                <!-- ───── task title ───── -->
+                <Label text="Task:" textFill="teal" />
+                <TextField fx:id="titleField" promptText="Enter task" />
+
+                <DatePicker fx:id="datePick" />
+
+
+                <!-- ───── start time ───── -->
+                <Label text="Start:" textFill="teal" />
+                <HBox spacing="6">
+                    <Spinner fx:id="hourSpin" prefWidth="55" />
+                    <Label text=":" />
+                    <Spinner fx:id="minSpin" prefWidth="55" />
                 </HBox>
 
-                <!-- → next week -->
-                <Button fx:id="nextWeekBtn" styleClass="week-nav-button">
-                    <graphic><FontIcon iconLiteral="fas-angle-right" styleClass="week-nav-icon" /></graphic>
-                </Button>
-            </HBox>
+                <!-- ───── duration ───── -->
+                <Label text="Duration:" textFill="teal" />
+                <HBox spacing="6">
+                    <Spinner fx:id="durSpin" prefWidth="80" />
+                    <Label text="min" />
+                </HBox>
+
+                <!-- ───── priority ───── -->
+                <Label text="Priority:" textFill="teal" />
+                <ChoiceBox fx:id="prioChoice" />
+
+                <!-- ───── action buttons ───── -->
+                <HBox alignment="CENTER_RIGHT" spacing="10">
+                    <Button fx:id="cancelBtn" text="Cancel" />
+                    <Button fx:id="saveBtn" defaultButton="true" text="Save" />
+                </HBox>
 
 
-            <GridPane fx:id="calendarGrid" hgap="5" prefHeight="536.0" prefWidth="892.0" styleClass="calendar-grid" vgap="5">
-                <rowConstraints>
-                    <javafx.scene.layout.RowConstraints prefHeight="30.0" />
-                    <javafx.scene.layout.RowConstraints prefHeight="30.0" />
-                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
-                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
-                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
-                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
-                    <javafx.scene.layout.RowConstraints prefHeight="60.0" />
-               <RowConstraints prefHeight="60.0" />
-               <RowConstraints prefHeight="60.0" />
-                </rowConstraints>
-            <columnConstraints>
-               <ColumnConstraints />
-               <ColumnConstraints />
-            </columnConstraints>
-            </GridPane>
-        </VBox>
+            </VBox>
+
+
+        </StackPane>
     </center>
    <left>
 <!--      <VBox alignment="CENTER" prefHeight="625.0" prefWidth="67.0" BorderPane.alignment="CENTER">-->
@@ -100,7 +136,6 @@
                <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
             </graphic>
          </Button>
-
        </VBox>
 
    </left>

@@ -184,3 +184,92 @@
 }
 
 
+/* ───────── floating action button ───────── */
+.fab {
+    -fx-background-color: #00bfa6;
+    -fx-text-fill: white;
+    -fx-font-size: 26px;      /* makes the “+” bigger */
+    -fx-pref-width: 56;
+    -fx-pref-height: 56;
+    -fx-background-radius: 28; /* perfect circle */
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.fab:pressed {
+    -fx-background-color: #009f96;
+}
+
+/* small card that slides in */
+.add-task-card {
+    -fx-background-color: #2b2b2b;
+    -fx-background-radius: 12;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.45),12,0,0,4);
+}
+
+
+.card-title {
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+/* teal accent text */
+.accent-label {
+    -fx-text-fill: #00bfa5;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+
+/* ─── LISTVIEW BACKGROUND & CORNERS ──────────────────────────────── */
+.task-list {
+    -fx-background-color: #2b2b2b;          /* outer frame */
+    -fx-background-radius: 12;
+    -fx-control-inner-background: black;  /* area behind the cells */
+    -fx-background-insets: 0;
+    -fx-padding: 0 0 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 15, 0.35, 0, 0);
+}
+
+/* every cell transparent ⇒ black frame shines through */
+.task-list .list-cell,
+.task-list .list-cell:filled:hover {
+    -fx-background-color: transparent;
+}
+
+/* selected row gets subtle dark grey so it is still visible */
+.task-list .list-cell:filled:selected,
+.task-list .list-cell:filled:selected:hover {
+    -fx-background-color: #2d2d2d;
+}
+
+/* keep scroll-bar & viewport transparent and respect corner radius */
+.task-list .scroll-pane,
+.task-list .viewport,
+.task-list .virtual-flow > .clip {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+}
+
+.list-cell:completed .label {
+    -fx-text-fill: #7a7a7a;
+    -fx-opacity: 0.45;
+    -fx-strikethrough: true;
+}
+
+.list-view .placeholder .label {
+    -fx-alignment: center;
+}
+
+
+
+
+.priority-low    { -fx-text-fill: limegreen; }
+.priority-normal { -fx-text-fill: goldenrod; }
+.priority-high   { -fx-text-fill: red; }
+
+
+
+
