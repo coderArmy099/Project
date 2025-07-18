@@ -4,6 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+
 
 <BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/Calendar.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.CalendarController">
 
@@ -71,39 +74,132 @@
                     <Insets bottom="90" right="32" />
                 </StackPane.margin>
 
-                <!-- ───── header ───── -->
-                <Label styleClass="accent-label" text="Add Task" />
+<!--                &lt;!&ndash; ───── header ───── &ndash;&gt;-->
+<!--                <Label styleClass="accent-label" text="Add Task" />-->
 
-                <!-- ───── task title ───── -->
-                <Label text="Task:" textFill="teal" />
-                <TextField fx:id="titleField" promptText="Enter task" />
+<!--                &lt;!&ndash; ───── task title ───── &ndash;&gt;-->
+<!--                <Label text="Task:" textFill="teal" />-->
+<!--                <TextField fx:id="titleField" promptText="Enter task" />-->
 
-                <DatePicker fx:id="datePick" />
+<!--                <DatePicker fx:id="datePick" />-->
 
 
-                <!-- ───── start time ───── -->
-                <Label text="Start:" textFill="teal" />
-                <HBox spacing="6">
-                    <Spinner fx:id="hourSpin" prefWidth="55" />
-                    <Label text=":" />
-                    <Spinner fx:id="minSpin" prefWidth="55" />
-                </HBox>
+<!--                &lt;!&ndash; ───── start time ───── &ndash;&gt;-->
+<!--                <Label text="Start:" textFill="teal" />-->
+<!--                <HBox spacing="6">-->
+<!--                    <Spinner fx:id="hourSpin" prefWidth="55" />-->
+<!--                    <Label text=":" />-->
+<!--                    <Spinner fx:id="minSpin" prefWidth="55" />-->
+<!--                </HBox>-->
 
-                <!-- ───── duration ───── -->
-                <Label text="Duration:" textFill="teal" />
-                <HBox spacing="6">
-                    <Spinner fx:id="durSpin" prefWidth="80" />
-                    <Label text="min" />
-                </HBox>
+<!--                &lt;!&ndash; ───── duration ───── &ndash;&gt;-->
+<!--                <Label text="Duration:" textFill="teal" />-->
+<!--                <HBox spacing="6">-->
+<!--                    <Spinner fx:id="durSpin" prefWidth="80" />-->
+<!--                    <Label text="min" />-->
+<!--                </HBox>-->
 
-                <!-- ───── priority ───── -->
-                <Label text="Priority:" textFill="teal" />
-                <ChoiceBox fx:id="prioChoice" />
+<!--                &lt;!&ndash; ───── priority ───── &ndash;&gt;-->
+<!--                <Label text="Priority:" textFill="teal" />-->
+<!--                <ChoiceBox fx:id="prioChoice" />-->
 
-                <!-- ───── action buttons ───── -->
-                <HBox alignment="CENTER_RIGHT" spacing="10">
-                    <Button fx:id="cancelBtn" text="Cancel" />
-                    <Button fx:id="saveBtn" defaultButton="true" text="Save" />
+<!--                &lt;!&ndash; ───── action buttons ───── &ndash;&gt;-->
+<!--                <HBox alignment="CENTER_RIGHT" spacing="10">-->
+<!--                    <Button fx:id="cancelBtn" text="Cancel" />-->
+<!--                    <Button fx:id="saveBtn" defaultButton="true" text="Save" />-->
+<!--                </HBox>-->
+
+
+                <!-- 1. form title -->
+                <Label text="Add Task" styleClass="form-title" />
+
+
+<!--                <GridPane fx:id="formGrid" hgap="14" vgap="24">-->
+<!--                    <columnConstraints>-->
+<!--                        <ColumnConstraints percentWidth="50"/>-->
+<!--                        <ColumnConstraints percentWidth="50"/>-->
+<!--                    </columnConstraints>-->
+
+<!--                    &lt;!&ndash; ── 1 ── title : spans full width &ndash;&gt;-->
+
+<!--                    <TextField fx:id="titleField" GridPane.columnSpan="2"-->
+<!--                               promptText="Task title"-->
+<!--                               maxWidth="Infinity" styleClass="form-field"/>-->
+
+<!--                    &lt;!&ndash; ── 2 ── date picker &ndash;&gt;-->
+
+<!--                    <Label text="Date:" textFill="teal" GridPane.rowIndex="1" styleClass="form-label"/>-->
+
+<!--                    <DatePicker fx:id="datePick" promptText="Date"-->
+<!--                                GridPane.rowIndex="1" styleClass="form-field"/>-->
+
+<!--                    &lt;!&ndash; ── 3 ── time pickers (HH : MM) &ndash;&gt;-->
+<!--                    <HBox spacing="6" GridPane.rowIndex="1" GridPane.columnIndex="1">-->
+<!--                        <Spinner fx:id="hourSpin" prefWidth="80" styleClass="form-field"/>-->
+<!--                        <Label text=":" style="-fx-text-fill:#e0e0e0; -fx-font-size:18; -fx-font-weight:bold;"/>-->
+<!--                        <Spinner fx:id="minSpin"  prefWidth="80" styleClass="form-field"/>-->
+<!--                    </HBox>-->
+
+<!--                    &lt;!&ndash; ── 4 ── duration &ndash;&gt;-->
+
+<!--                    <Spinner fx:id="durSpin" promptText="Minutes"-->
+<!--                             GridPane.rowIndex="2" styleClass="form-field"/>-->
+
+<!--                    &lt;!&ndash; ── 5 ── priority &ndash;&gt;-->
+<!--                    <ChoiceBox fx:id="prioChoice" GridPane.rowIndex="2" GridPane.columnIndex="1"-->
+<!--                               styleClass="form-field"/>-->
+<!--                </GridPane>-->
+
+
+                <!-- ───── grid inside the add-task card (complete, with fixed row indexes) ───── -->
+                <GridPane fx:id="formGrid" hgap="14" vgap="16">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+
+                    <!-- ───────── row 0 ▸ task-name caption ───────── -->
+                    <Label text="Task name" styleClass="hint-label"
+                           GridPane.columnSpan="2" GridPane.rowIndex="0"/>
+
+                    <!-- ───────── row 1 ▸ task-name field ───────── -->
+                    <TextField fx:id="titleField" styleClass="form-field"
+                               promptText="What has to be done?"
+                               GridPane.columnSpan="2" GridPane.rowIndex="1"/>
+
+                    <!-- ───────── row 2 ▸ date / time captions ───────── -->
+                    <Label text="Date"       styleClass="hint-label"
+                           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <Label text="Start time" styleClass="hint-label"
+                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                    <!-- ───────── row 3 ▸ date / time inputs ───────── -->
+                    <DatePicker fx:id="datePick" promptText="Pick a date"
+                                GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+
+                    <HBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Spinner fx:id="hourSpin" prefWidth="80"/>
+                        <Label text=":" style="-fx-text-fill:#e0e0e0; -fx-font-size:18;"/>
+                        <Spinner fx:id="minSpin"  prefWidth="80"/>
+                    </HBox>
+
+                    <!-- ───────── row 4 ▸ duration / priority captions ───────── -->
+                    <Label text="Duration (min)" styleClass="hint-label"
+                           GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <Label text="Priority"       styleClass="hint-label"
+                           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                    <!-- ───────── row 5 ▸ duration / priority inputs ───────── -->
+                    <Spinner fx:id="durSpin" prefWidth="110"
+                             GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                    <ChoiceBox fx:id="prioChoice"
+                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                </GridPane>
+
+
+                <HBox alignment="CENTER_RIGHT" spacing="16">
+                    <Button fx:id="cancelBtn" text="Cancel"   styleClass="flat-btn"/>
+                    <Button fx:id="saveBtn"   text="Save"     styleClass="accent-btn"/>
                 </HBox>
 
 

@@ -264,6 +264,95 @@
 }
 
 
+/*.form-field,*/
+/*.date-picker > .text-field,*/
+/*.spinner > .text-field,*/
+/*.combo-box-base {*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-border-width: 0 0 3 0;        !* bottom bar only *!*/
+/*    -fx-border-color: #00bfa6;        !* teal accent *!*/
+/*    -fx-text-fill: #e0e0e0;*/
+/*    -fx-font-size: 16px;*/
+/*    -fx-padding: 6 4 4 4;*/
+/*}*/
+
+/*.form-field:focused,*/
+/*.date-picker:focused > .text-field,*/
+/*.spinner:focused > .text-field,*/
+/*.combo-box-base:focused {*/
+/*    -fx-border-color: #00ffd7;        !* brighter on focus *!*/
+/*}*/
+
+/* root nodes: keep transparent, NO underline here (prevents double bars) */
+.form-field,
+.date-picker,
+.spinner,
+.choice-box {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e0e0e0; /* dimmed white */
+    -fx-font-size: 16px;
+
+}
+
+/* underline only on the editable / display part */
+.text-field,
+.date-picker > .text-field,
+.spinner > .text-field,
+.choice-box > .label {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 3 0;      /* single teal bar */
+    -fx-border-color: #00bfa6;
+    -fx-padding: 6 4 4 4;
+    -fx-text-fill: #f8f8f8;
+}
+
+
+
+
+/* keep spinner arrows minimal & tinted */
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: transparent;
+}
+
+.spinner .increment-arrow-button .arrow,
+.spinner .decrement-arrow-button .arrow {
+    -fx-background-color: #00bfa6;
+}
+
+
+/* simple button looks */
+.flat-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #b0b0b0;
+    -fx-font-size: 16px;
+}
+.flat-btn:hover {
+    -fx-text-fill: #e0e0e0;
+}
+
+.accent-btn {
+    -fx-background-color: #00bfa6;
+    -fx-text-fill: #101010;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+}
+.accent-btn:hover {
+    -fx-background-color: #00d7c0;
+}
+
+
+.form-title {
+    -fx-text-fill: #00bfa6; /* app accent colour */
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+
+
+
+
 
 
 .priority-low    { -fx-text-fill: limegreen; }
@@ -271,5 +360,8 @@
 .priority-high   { -fx-text-fill: red; }
 
 
-
-
+.hint-label {
+    -fx-text-fill: #b0b0b0; /* dimmed white */
+    -fx-font-size: 14px;
+    -fx-padding: 4 0 0 0;
+}

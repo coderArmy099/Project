@@ -490,23 +490,4 @@ public class CalendarController {
         addTaskPane.setManaged(false);
     }
 
-//    /** rudimentary “save” – just to prove it works */
-//    private void saveTaskFromForm() {
-//        String title = titleField.getText().trim();
-//        Integer hour = hourSpin.getValue();
-//        Integer min  = minSpin.getValue();
-//        Integer dur  = durSpin.getValue();
-//        String prio  = prioChoice.getValue();
-//
-//        System.out.printf("SAVE  title=%s  %02d:%02d  dur=%d  prio=%s%n",
-//                title,hour,min,dur,prio);
-//        // TODO: insert into your list / DB etc.
-//    }
-//
-//
-//    /* -------------- placeholder for your own logic -------------- */
-//    private void showTasksForDay(LocalDate date) {
-//        // TODO: populate calendarGrid / task list for the given date
-//        System.out.println("Show tasks for " + date);
-//    }
 }
