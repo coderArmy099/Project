@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.DashboardController">
+   <children>
+      <AnchorPane layoutX="-4.0" layoutY="-2.0" prefHeight="653.0" prefWidth="357.0" style="-fx-background-color: #413c3c;">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="104.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/images%20(1).jpeg" />
+               </image>
+            </ImageView>
+            <Text fill="#f9f5f5" layoutX="37.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Text>
+            <Button fx:id="Home" layoutX="147.0" layoutY="310.0" mnemonicParsing="false" onAction="#goToHome" prefHeight="49.0" prefWidth="85.0" style="-fx-background-color: #8fce00;" text="Home">
+               <font>
+                  <Font name="System Bold" size="12.179104804992676" />
+               </font>
+            </Button>
+            <Button layoutX="147.0" layoutY="383.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="85.0" style="-fx-background-color: #8fce00;" text="Message">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.179104804992676" />
+               </font>
+            </Button>
+            <Button layoutX="147.0" layoutY="458.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="85.0" style="-fx-background-color: #8fce00;" text="Notifications">
+               <font>
+                  <Font name="ArtifaktElement-Heavy" size="10.0" />
+               </font>
+            </Button>
+            <Button layoutX="147.0" layoutY="531.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="85.0" style="-fx-background-color: #8fce00;" text="Progress">
+               <font>
+                  <Font name="ArtifaktElement-Black" size="12.179104804992676" />
+               </font>
+            </Button>
+            <ImageView fitHeight="37.0" fitWidth="44.0" layoutX="79.0" layoutY="316.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/download%20(9).png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="37.0" fitWidth="44.0" layoutX="75.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/download%20(4).png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="75.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/download%20(5).jpeg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="44.0" fitWidth="50.0" layoutX="75.0" layoutY="534.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/download%20(11).png" />
+               </image>
+            </ImageView>
+            <Label fx:id="welcomeName" layoutX="170.0" layoutY="234.0" prefHeight="44.0" prefWidth="101.0" text="Label" textFill="#e4dddd">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="353.0" layoutY="-1.0" prefHeight="653.0" prefWidth="661.0" style="-fx-background-color: #eeeeee;">
+         <children>
+            <Text layoutX="228.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard User">
+               <font>
+                  <Font name="ArtifaktElement-Black" size="34.0" />
+               </font>
+            </Text>
+            <Button fx:id="StudyTImer" layoutX="125.0" layoutY="174.0" mnemonicParsing="false" onAction="#studyTimer" prefHeight="79.0" prefWidth="124.0">
+               <graphic>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/download%20(6).jpeg" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="Logout" layoutX="579.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="67.0" style="-fx-background-color: #f6b26b;" text="Logout">
+               <font>
+                  <Font name="Artifakt Element Black Italic" size="12.179104804992676" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
