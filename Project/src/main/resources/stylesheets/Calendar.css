@@ -1,0 +1,186 @@
+.root-pane {
+    -fx-background-color: #1a1a1a; /* Dark background */
+}
+
+.top-bar {
+    -fx-background-color: #2b2b2b;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);
+    -fx-padding: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.month-label {
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.top-button {
+    -fx-text-fill: #b0b0b0;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+
+.main-content-vbox {
+    -fx-background-color: #242424;
+}
+
+.calendar-grid {
+    -fx-background-color: #2b2b2b;
+    -fx-padding: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.day-cell {
+    -fx-background-color: #3b3b3b;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #4a4a4a;
+    -fx-padding: 5;
+    -fx-alignment: top-center;
+    -fx-cursor: hand;
+}
+
+.day-cell:hover {
+    -fx-background-color: #4a4a4a;
+}
+
+.day-cell-label {
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 14px;
+}
+
+.selected-day-cell {
+    -fx-background-color: #007bff; /* Blue for selected day */
+    -fx-text-fill: white;
+}
+
+.current-day-cell {
+    -fx-border-color: #007bff; /* Blue border for current day */
+    -fx-border-width: 2;
+}
+
+.daily-schedule-scrollpane {
+    -fx-background-color: #242424;
+}
+
+.daily-schedule-content {
+    -fx-background-color: #242424;
+    -fx-alignment: top_left;
+}
+
+/* Example style for a task item */
+.task-item {
+    -fx-background-color: #3b3b3b;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-alignment: center_left;
+    -fx-text-fill: #e0e0e0;
+}
+
+.task-time-label {
+    -fx-text-fill: #b0b0b0;
+    -fx-font-size: 12px;
+}
+
+.task-title-label {
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* ───────────────── Left-hand navigation pane ───────────────── */
+
+.nav-pane {
+    /* dark charcoal : blends with rest of UI but not pitch-black */
+    -fx-background-color: #202020;
+
+    /* faint teal glow that leaks ONLY to the right
+       syntax: dropshadow(gaussian, <color>, <radius>, <spread>, <offset-x>, <offset-y>) */
+    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.40), 20, 0.35, 2, 0);
+
+    -fx-padding: 25 12 25 12;
+}
+
+/* round icon buttons – slightly lighter grey for clear contrast */
+.nav-button {
+    -fx-background-color: #303030;
+    -fx-background-radius: 50%;
+
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-max-width: 44;
+    -fx-max-height: 44;
+
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* hover : one step lighter */
+.nav-button:hover {
+    -fx-background-color: #444444;
+}
+
+/* pressed / selected : teal highlight for active state */
+.nav-button:selected,
+.nav-button:pressed {
+    -fx-background-color: #00bfa6;
+}
+
+/* icon colour */
+.nav-icon {
+    -fx-fill: #ffffff;
+    -fx-font-size: 18px;
+}
+
+
+.week-nav-button {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.week-nav-icon {
+    -fx-fill: #b0b0b0;
+    -fx-font-size: 20;
+}
+
+.week-nav-button:hover .week-nav-icon {
+    -fx-fill: white;
+}
+
+/* ─────────── Date buttons ─────────── */
+
+.date-button {
+    -fx-background-color: #00bfa6;      /* teal */
+    -fx-background-radius: 50%;         /* round */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-max-width: 36;
+    -fx-max-height: 36;
+
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+/* active / selected day */
+.date-button:selected {
+    -fx-effect: dropshadow(gaussian, rgba(0,255,227,0.70), 12, 0.5, 0, 0);
+}
+
+
+
+/* new style for the four-digit year */
+.year-label {
+    -fx-text-fill: #00bfa6;   /* app accent colour */
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+
