@@ -1,0 +1,3 @@
+C001|Java Basics|Learn core Java from scratch
+C002|Data Structures|Master DSA fundamentals
+C003|Web Dev|HTML/CSS/JS full course

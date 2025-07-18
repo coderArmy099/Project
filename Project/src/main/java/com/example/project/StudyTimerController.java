@@ -39,7 +39,8 @@ public class StudyTimerController {
     private Timeline timeline;
     private int hours = 0, minutes = 0, seconds = 0;
     private boolean running = false;
-    private final String RECORD_FILE = "study_records.txt";
+    private final String BASE_PATH = "Project/data/";
+    private final String RECORD_FILE = BASE_PATH + "study_records.txt";
 
     public void setUsername(String username) {
         this.username = username;
@@ -47,6 +48,7 @@ public class StudyTimerController {
 
     @FXML
     public void initialize() {
+        new File(BASE_PATH).mkdirs();
         updateTimerLabel();
     }
 

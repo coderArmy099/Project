@@ -42,8 +42,9 @@ public class HelloController {
             showAlert("Please enter both username and password.");
             return;
         }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
+        String basePath = "Project/data/";
+        new java.io.File(basePath).mkdirs();
+        try (BufferedReader reader = new BufferedReader(new FileReader(basePath + "users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split(",");
