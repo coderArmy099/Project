@@ -321,6 +321,7 @@
 }
 
 
+
 /* simple button looks */
 .flat-btn {
     -fx-background-color: transparent;
@@ -364,4 +365,61 @@
     -fx-text-fill: #b0b0b0; /* dimmed white */
     -fx-font-size: 14px;
     -fx-padding: 4 0 0 0;
+}
+
+
+/* Scrollbar styling for dark theme with teal accents */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+/* Track (background of scrollbar) */
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: #1A1A1A;
+    /*-fx-border-color: #333333;*/
+    /*-fx-border-radius: 8px;*/
+    -fx-background-radius: 8px;
+}
+
+/* Thumb*/
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #404040;
+    /*-fx-border-color: #00BFA5;*/
+    /*-fx-border-width: 1px;*/
+    /*-fx-border-radius: 6px;*/
+    -fx-background-radius: 6px;
+}
+
+/* Thumb pressed effect */
+.scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #00BFA5;
+}
+
+/* Arrow buttons (increment/decrement) */
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.scroll-pane .scroll-bar .increment-button:hover,
+.scroll-pane .scroll-bar .decrement-button:hover {
+    -fx-background-color: #3A3A3A;
+}
+
+/* Arrow icons */
+.scroll-pane .scroll-bar .increment-arrow,
+.scroll-pane .scroll-bar .decrement-arrow {
+    -fx-background-color: #00BFA5;
+}
+
+/* Corner where scrollbars meet */
+.scroll-pane .corner {
+    -fx-background-color: #1A1A1A;
+}
+
+/* Make scrollbars thinner and more elegant */
+.scroll-pane .scroll-bar:vertical {
+    -fx-pref-width: 15px;
 }

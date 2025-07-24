@@ -8,7 +8,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.DashboardController">
    <children>
       <AnchorPane layoutX="-4.0" layoutY="-2.0" prefHeight="653.0" prefWidth="357.0" style="-fx-background-color: #413c3c;">
@@ -89,6 +88,16 @@
             <Button fx:id="Logout" layoutX="579.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="67.0" style="-fx-background-color: #f6b26b;" text="Logout">
                <font>
                   <Font name="Artifakt Element Black Italic" size="12.179104804992676" />
+               </font>
+            </Button>
+            <Button layoutX="359.0" layoutY="221.0" mnemonicParsing="false" onAction="#schedule" text="SCHEDULE">
+               <font>
+                  <Font name="ArtifaktElement-Heavy" size="31.0" />
+               </font>
+            </Button>
+            <Button fx:id="hiveButton" layoutX="134.0" layoutY="421.0" mnemonicParsing="false" onAction="#Rooms" text="HIVE">
+               <font>
+                  <Font name="Bank Gothic Light BT" size="38.0" />
                </font>
             </Button>
          </children>

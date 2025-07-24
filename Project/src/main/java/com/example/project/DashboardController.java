@@ -23,6 +23,8 @@ public class DashboardController {
     private  Button Logout;
     @FXML
     private Label welcomeName;
+    @FXML
+    private Button hiveButton;
 
 
     private void setlogout(ActionEvent actionEvent) throws IOException {
@@ -58,6 +60,27 @@ public class DashboardController {
         stage.show();
     }
 
+
+    private void setSchedule(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Calendar.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 1000, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void setRooms(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Rooms.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 1000, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     private void setHome(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
         Parent root = loader.load();
@@ -68,6 +91,17 @@ public class DashboardController {
         stage.setScene(scene);
         stage.show();
     }
+
+    @FXML
+    public void schedule(javafx.event.ActionEvent actionEvent) throws IOException {
+        setSchedule(actionEvent);
+    }
+
+    @FXML
+    public void Rooms(javafx.event.ActionEvent actionEvent) throws IOException {
+        setRooms(actionEvent);
+    }
+
     @FXML
     public void studyTimer(javafx.event.ActionEvent actionEvent) throws IOException {
         setStudyTimer(actionEvent);

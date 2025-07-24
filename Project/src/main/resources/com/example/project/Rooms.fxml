@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/Rooms.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.RoomsController">
+
+    <center>
+        <StackPane fx:id="rootStack">
+            <VBox spacing="10" styleClass="main-content-vbox">
+                <padding>
+                    <Insets bottom="10" left="20" right="20" top="10" />
+                </padding>
+
+                <!-- Top bar with HIVES title -->
+                <HBox alignment="CENTER" spacing="6" styleClass="top-bar">
+                    <padding>
+                        <Insets bottom="10" left="20" right="20" top="10" />
+                    </padding>
+                    <Label fx:id="hivesLabel" prefHeight="48.0" prefWidth="106.0" styleClass="hives-title" text="HIVES" />
+                </HBox>
+
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="891.0" text="Join a hive, or create one to study together" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font name="ArtifaktElement-Heavy" size="17.0" />
+                    </font>
+                </Label>
+
+                <ScrollPane fx:id="roomsScrollPane" fitToWidth="true" prefHeight="569.0" prefWidth="892.0" styleClass="task-list">
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
+                    <GridPane fx:id="roomsGridPane" hgap="20" vgap="20">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50" />
+                            <ColumnConstraints percentWidth="50" />
+                        </columnConstraints>
+                        <padding>
+                            <Insets bottom="10" left="10" right="10" top="10" />
+                        </padding>
+                    </GridPane>
+                </ScrollPane>
+
+            </VBox>
+
+            <!-- ───────── floating "create hive" button ───────── -->
+            <Button fx:id="createHiveBtn" onAction="#showCreateHiveForm" styleClass="fab" text="+" StackPane.alignment="BOTTOM_RIGHT">
+                <StackPane.margin>
+                    <Insets bottom="24" right="32" />
+                </StackPane.margin>
+            </Button>
+
+            <!-- ───────── Create Hive form (initially hidden) ───────── -->
+            <VBox fx:id="createHivePane" managed="false" spacing="14" styleClass="add-task-card" visible="false" StackPane.alignment="BOTTOM_RIGHT">
+                <StackPane.margin>
+                    <Insets bottom="90" right="32" />
+                </StackPane.margin>
+
+                <!-- Form title -->
+                <Label styleClass="form-title" text="Create Hive" />
+
+                <!-- Form grid -->
+                <GridPane fx:id="formGrid" hgap="14" vgap="16">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50" />
+                        <ColumnConstraints percentWidth="50" />
+                    </columnConstraints>
+
+                    <!-- ───────── row 0 ▸ room name caption ───────── -->
+                    <Label styleClass="hint-label" text="Room name" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+
+                    <!-- ───────── row 1 ▸ room name field ───────── -->
+                    <TextField fx:id="roomNameField" promptText="Enter hive name" styleClass="form-field" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+
+                    <!-- ───────── row 2 ▸ password caption ───────── -->
+                    <Label styleClass="hint-label" text="Password" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+
+                    <!-- ───────── row 3 ▸ password field ───────── -->
+                    <PasswordField fx:id="passwordField" promptText="Set room password" styleClass="form-field" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+
+                    <!-- ───────── row 4 ▸ access / duration captions ───────── -->
+                    <Label styleClass="hint-label" text="Access" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label styleClass="hint-label" text="Duration (min)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                    <!-- ───────── row 5 ▸ access / duration inputs ───────── -->
+                    <ChoiceBox fx:id="accessChoice" onAction="#onAccessChanged" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <Spinner fx:id="durationSpin" prefWidth="110" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+
+                <!-- Action buttons -->
+                <HBox alignment="CENTER_RIGHT" spacing="16">
+                    <Button fx:id="cancelBtn" onAction="#hideCreateHiveForm" styleClass="flat-btn" text="Cancel" />
+                    <Button fx:id="createBtn" onAction="#createHive" styleClass="accent-btn" text="Create" />
+                </HBox>
+
+            </VBox>
+
+        </StackPane>
+    </center>
+
+    <left>
+        <VBox fx:id="navPane" alignment="CENTER" spacing="18" styleClass="nav-pane">
+            <!-- Calendar Button -->
+            <Button fx:id="calendarBtn" onAction="#goToCalendar" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-calendar" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+
+            <!-- Timer Button -->
+            <Button fx:id="timerBtn" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+
+            <!-- Community/Study Together Button -->
+            <Button fx:id="communityBtn" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-users" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+        </VBox>
+    </left>
+
+</BorderPane>

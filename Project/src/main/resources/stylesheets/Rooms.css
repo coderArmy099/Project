@@ -1,0 +1,264 @@
+/* Copy all the base styles from Calendar.css */
+.root-pane {
+    -fx-background-color: #1a1a1a; /* Dark background */
+}
+
+.top-bar {
+    -fx-background-color: #2b2b2b;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);
+    -fx-padding: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.main-content-vbox {
+    -fx-background-color: #242424;
+}
+
+/* HIVES title - similar to month/year labels but in teal */
+.hives-title {
+    -fx-text-fill: #00bfa6;   /* teal accent color */
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Artifakt Element Heavy";
+}
+
+/* ───────────────── Left-hand navigation pane ───────────────── */
+.nav-pane {
+    -fx-background-color: #202020;
+    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.40), 20, 0.35, 2, 0);
+    -fx-padding: 25 12 25 12;
+}
+
+.nav-button {
+    -fx-background-color: #303030;
+    -fx-background-radius: 50%;
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-max-width: 44;
+    -fx-max-height: 44;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.nav-button:hover {
+    -fx-background-color: #444444;
+}
+
+.nav-button:selected,
+.nav-button:pressed {
+    -fx-background-color: #00bfa6;
+}
+
+.nav-icon {
+    -fx-fill: #ffffff;
+    -fx-font-size: 18px;
+}
+
+/* ───────── floating action button ───────── */
+.fab {
+    -fx-background-color: #00bfa6;
+    -fx-text-fill: white;
+    -fx-font-size: 26px;      /* makes the "+" bigger */
+    -fx-pref-width: 56;
+    -fx-pref-height: 56;
+    -fx-background-radius: 28; /* perfect circle */
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.fab:pressed {
+    -fx-background-color: #009f96;
+}
+
+/* small card that slides in */
+.add-task-card {
+    -fx-background-color: #2b2b2b;
+    -fx-background-radius: 12;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.45),12,0,0,4);
+}
+
+.form-title {
+    -fx-text-fill: #00bfa6; /* app accent colour */
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.hint-label {
+    -fx-text-fill: #b0b0b0; /* dimmed white */
+    -fx-font-size: 14px;
+    -fx-padding: 4 0 0 0;
+}
+
+/* Form field styles */
+.form-field,
+.choice-box,
+.spinner{
+    -fx-background-color: transparent;
+    -fx-text-fill: #e0e0e0; /* dimmed white */
+    -fx-font-size: 16px;
+}
+
+.text-field,
+.password-field,
+.choice-box > .label {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 3 0;      /* single teal bar */
+    -fx-border-color: #00bfa6;
+    -fx-padding: 6 4 4 4;
+    -fx-text-fill: #f8f8f8;
+}
+
+.text-field:focused,
+.password-field:focused,
+.spinner:focused > .text-field{
+    -fx-border-color: #00ffd7;        /* brighter on focus */
+}
+
+/* Disabled password field when access is public */
+.password-field:disabled {
+    -fx-opacity: 0.4;
+    -fx-border-color: #666666;
+}
+
+/* Spinner styles */
+.spinner > .text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #00bfa6;
+    -fx-padding: 6 4 4 4;
+    -fx-text-fill: #f8f8f8;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: transparent;
+}
+
+.spinner .increment-arrow-button .arrow,
+.spinner .decrement-arrow-button .arrow {
+    -fx-background-color: #00bfa6;
+}
+
+/* Button styles */
+.flat-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #b0b0b0;
+    -fx-font-size: 16px;
+}
+.flat-btn:hover {
+    -fx-text-fill: #e0e0e0;
+}
+
+.accent-btn {
+    -fx-background-color: #00bfa6;
+    -fx-text-fill: #101010;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+}
+.accent-btn:hover {
+    -fx-background-color: #00d7c0;
+}
+
+
+/* ─── LISTVIEW BACKGROUND & CORNERS ──────────────────────────────── */
+.task-list {
+    -fx-background-color: #2b2b2b;
+    -fx-background-radius: 12;
+    -fx-control-inner-background: black;
+    -fx-background-insets: 0;
+    -fx-padding: 0 0 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 15, 0.35, 0, 0);
+}
+
+.task-list .list-cell,
+.task-list .list-cell:filled:hover {
+    -fx-background-color: transparent;
+}
+
+.task-list .list-cell:filled:selected,
+.task-list .list-cell:filled:selected:hover {
+    -fx-background-color: #2d2d2d;
+}
+
+.task-list .scroll-pane,
+.task-list .viewport,
+.task-list .virtual-flow > .clip {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+}
+
+.list-view .placeholder .label {
+    -fx-alignment: center;
+    -fx-text-fill: #b0b0b0;
+}
+
+.task-list .scroll-pane .content {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+}
+
+.task-list .grid-pane {
+    -fx-background-color: transparent;
+}
+
+
+/* Scrollbar styling for dark theme with teal accents */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+/* Track (background of scrollbar) */
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: #1A1A1A;
+    /*-fx-border-color: #333333;*/
+    /*-fx-border-radius: 8px;*/
+    -fx-background-radius: 8px;
+}
+
+/* Thumb*/
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #404040;
+    /*-fx-border-color: #00BFA5;*/
+    /*-fx-border-width: 1px;*/
+    /*-fx-border-radius: 6px;*/
+    -fx-background-radius: 6px;
+}
+
+/* Thumb pressed effect */
+.scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #00BFA5;
+}
+
+/* Arrow buttons (increment/decrement) */
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.scroll-pane .scroll-bar .increment-button:hover,
+.scroll-pane .scroll-bar .decrement-button:hover {
+    -fx-background-color: #3A3A3A;
+}
+
+/* Arrow icons */
+.scroll-pane .scroll-bar .increment-arrow,
+.scroll-pane .scroll-bar .decrement-arrow {
+    -fx-background-color: #00BFA5;
+}
+
+/* Corner where scrollbars meet */
+.scroll-pane .corner {
+    -fx-background-color: #1A1A1A;
+}
+
+/* Make scrollbars thinner and more elegant */
+.scroll-pane .scroll-bar:vertical {
+    -fx-pref-width: 15px;
+}

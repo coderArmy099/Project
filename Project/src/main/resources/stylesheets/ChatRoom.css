@@ -1,0 +1,240 @@
+/* Chat Room Styling */
+.root-pane {
+    -fx-background-color: #121212;
+}
+
+/* Room Header - match navbar color from Rooms */
+.room-header {
+    -fx-background-color: #1A1A1A;
+    -fx-border-color: #333333;
+    -fx-border-width: 0 0 1 0;
+}
+
+.room-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00BFA5;
+    -fx-font-family: 'Artifakt Element Heavy';
+}
+
+.room-info {
+    -fx-font-size: 14px;
+    -fx-text-fill: #B0B0B0;
+    -fx-font-weight: 500;
+}
+
+.back-btn {
+    -fx-background-color: #2A2A2A;
+    -fx-text-fill: #00BFA5;
+    -fx-border-color: #00BFA5;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 8 16;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.back-btn:hover {
+    -fx-background-color: #3A3A3A;
+    -fx-border-color: #00E5CC;
+}
+
+/* Chat Area - exactly match Rooms main background */
+.chat-area {
+    -fx-background-color: #303030;
+}
+
+/* Messages list - exactly match Rooms scrollpane styling */
+.messages-list {
+    -fx-background-color: #1A1A1A;
+    -fx-border-color: #333333;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-border-width: 2px;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 191, 165, 0.2), 6, 0, 0, 2);
+}
+
+.messages-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8 12;
+    -fx-text-fill: #E0E0E0;
+    -fx-font-size: 14px;
+}
+
+.messages-list .list-cell:selected {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 5px;
+}
+
+/* Message Input Area - exactly match Rooms scrollpane styling */
+.message-input-area {
+
+    -fx-background-color: #1A1A1A;
+    -fx-padding: 15;
+    -fx-border-color: #333333;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 191, 165, 0.2), 6, 0, 0, 2);
+}
+
+.message-input {
+    -fx-background-color: #2A2A2A;
+    -fx-text-fill: #E0E0E0;
+    -fx-border-color: #00BFA5;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-border-width: 2px;
+    -fx-padding: 12 20;
+    -fx-font-size: 14px;
+}
+
+.message-input:focused {
+    -fx-border-color: #00E5CC;
+    -fx-background-color: #333333;
+}
+
+.send-btn {
+    -fx-background-color: #00BFA5;
+    -fx-text-fill: white;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 12 15;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 191, 165, 0.4), 6, 0, 0, 2);
+    -fx-min-width: 50px;
+    -fx-pref-width: 50px;
+}
+
+.send-btn:hover {
+    -fx-background-color: #00E5CC;
+    -fx-effect: dropshadow(gaussian, rgba(0, 191, 165, 0.6), 8, 0, 0, 3);
+}
+
+.send-btn:pressed {
+    -fx-background-color: #009688;
+}
+
+/* Send button icon styling */
+.send-icon {
+    -fx-icon-size: 16px;
+    -fx-icon-color: white;
+}
+
+/* Users Panel - exactly match navbar color from Rooms */
+.users-panel {
+    -fx-background-color: #1A1A1A;
+    -fx-border-color: #333333;
+    -fx-border-width: 0 0 0 2;
+}
+
+.panel-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00BFA5;
+    -fx-padding: 0 0 15 0;
+}
+
+.users-list {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.users-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B0B0B0;
+    -fx-padding: 8 12;
+    -fx-border-color: transparent;
+    -fx-font-size: 14px;
+}
+
+.users-list .list-cell:hover {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 5px;
+}
+
+/* Scrollbar styling for chat - exactly match Rooms scrollbars */
+.messages-list .scroll-bar:vertical,
+.users-list .scroll-bar:vertical {
+    -fx-pref-width: 12px;
+    -fx-background-color: transparent;
+}
+
+.messages-list .scroll-bar:horizontal,
+.users-list .scroll-bar:horizontal {
+    -fx-pref-height: 12px;
+    -fx-background-color: transparent;
+}
+
+.messages-list .scroll-bar:vertical .track,
+.messages-list .scroll-bar:horizontal .track,
+.users-list .scroll-bar:vertical .track,
+.users-list .scroll-bar:horizontal .track {
+    -fx-background-color: #1A1A1A;
+    -fx-border-color: #333333;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.messages-list .scroll-bar:vertical .thumb,
+.messages-list .scroll-bar:horizontal .thumb,
+.users-list .scroll-bar:vertical .thumb,
+.users-list .scroll-bar:horizontal .thumb {
+    -fx-background-color: #404040;
+    -fx-border-color: #00BFA5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.messages-list .scroll-bar:vertical .thumb:hover,
+.messages-list .scroll-bar:horizontal .thumb:hover,
+.users-list .scroll-bar:vertical .thumb:hover,
+.users-list .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #505050;
+    -fx-border-color: #00E5CC;
+    -fx-border-width: 2px;
+}
+
+.messages-list .scroll-bar:vertical .thumb:pressed,
+.messages-list .scroll-bar:horizontal .thumb:pressed,
+.users-list .scroll-bar:vertical .thumb:pressed,
+.users-list .scroll-bar:horizontal .thumb:pressed {
+    -fx-background-color: #00BFA5;
+    -fx-border-color: #00E5CC;
+}
+
+.messages-list .scroll-bar .increment-button,
+.messages-list .scroll-bar .decrement-button,
+.users-list .scroll-bar .increment-button,
+.users-list .scroll-bar .decrement-button {
+    -fx-background-color: #2A2A2A;
+    -fx-border-color: #00BFA5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.messages-list .scroll-bar .increment-button:hover,
+.messages-list .scroll-bar .decrement-button:hover,
+.users-list .scroll-bar .increment-button:hover,
+.users-list .scroll-bar .decrement-button:hover {
+    -fx-background-color: #3A3A3A;
+    -fx-border-color: #00E5CC;
+}
+
+.messages-list .scroll-bar .increment-arrow,
+.messages-list .scroll-bar .decrement-arrow,
+.users-list .scroll-bar .increment-arrow,
+.users-list .scroll-bar .decrement-arrow {
+    -fx-background-color: #00BFA5;
+}
+
+.messages-list .scroll-bar .corner,
+.users-list .scroll-bar .corner {
+    -fx-background-color: #1A1A1A;
+}

@@ -78,30 +78,32 @@ public class CalendarController {
 
 
     public static class Task {
-        private final StringProperty  title      = new SimpleStringProperty();
+        private final StringProperty  title = new SimpleStringProperty();
         private final BooleanProperty completed  = new SimpleBooleanProperty(false);
-        private LocalDate             date;
-        private LocalTime             start;
-        private int                   duration;          // minutes
-        private String                priority;
+        private LocalDate date;
+        private LocalTime start;
+        private int duration;          // minutes
+        private String priority;
+        private String username;
 
         Task(String title, LocalDate date, LocalTime start,
-             int duration, String priority, boolean completed) {
+             int duration, String priority, boolean completed, String username) {
             this.title.set(title);
-            this.date       = date;
-            this.start      = start;
-            this.duration   = duration;
-            this.priority   = priority;
+            this.date = date;
+            this.start = start;
+            this.duration = duration;
+            this.priority = priority;
             this.completed.set(completed);
+            this.username = username;
         }
         /* getters … */
         public StringProperty titleProperty()     { return title; }
         public BooleanProperty completedProperty(){ return completed; }
 
         /* simple CSV (tab) representation */
-        String toLine(String user){
+        String toLine(){
             return String.join("\t",
-                    user,
+                    username,
                     date.toString(),
                     completed.get()? "1":"0",
                     start.toString(),
@@ -112,14 +114,15 @@ public class CalendarController {
 
         static Task fromLine(String line){
             String[] p = line.split("\t", 7);
-            // 0=user 1=date 2=done 3=start 4=dur 5=prio 6=title
+            // 0=user 1=date 2=done 3=start 4=dura 5=prio 6=title
             return new Task(
                     p[6],
                     LocalDate.parse(p[1]),
                     LocalTime.parse(p[3]),
                     Integer.parseInt(p[4]),
                     p[5],
-                    p[2].equals("1")
+                    p[2].equals("1"),
+                    p[0]
             );
         }
     }
@@ -189,10 +192,10 @@ public class CalendarController {
         emptyLbl.setAlignment(Pos.CENTER);
         emptyLbl.setWrapText(true);
         emptyLbl.setStyle("""
-            -fx-text-fill: white;
-            -fx-font-size: 42px;
+            -fx-text-fill: #b0b0b0;
+            -fx-font-size: 34px;
             -fx-font-weight: 900;
-            -fx-font-family: 'Artifakt Element Heavy';
+            -fx-font-family: 'Impact';
             """);
 
         /* subtle cyan glow */
@@ -310,14 +313,14 @@ public class CalendarController {
         int       dur   = durSpin.getValue();
         String    prio  = prioChoice.getValue();
 
-        Task t = new Task(title, date, start, dur, prio, false);
+        Task t = new Task(title, date, start, dur, prio, false, CurrentUser.username);
 
         /* 1 ── append to file */
         try (BufferedWriter w = Files.newBufferedWriter(TASK_FILE,
                 StandardCharsets.UTF_8,
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
 
-            w.write(t.toLine(CurrentUser.username));
+            w.write(t.toLine());
             w.newLine();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -373,9 +376,8 @@ public class CalendarController {
 
         /* 3 ── finally rewrite the whole file without any duplicates        */
         try (BufferedWriter w = Files.newBufferedWriter(TASK_FILE)) {
-            String user = CurrentUser.username;          // or whatever you use
             for (Task t : map.values()) {
-                w.write(t.toLine(user));
+                w.write(t.toLine());
                 w.newLine();
             }
         } catch (IOException ex) {
