@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import java.util.HashMap;
 import java.util.Map;
 import java.net.ServerSocket;
+import com.example.project.CurrentUser;
 
 import java.io.IOException;
 
@@ -204,11 +205,17 @@ public class RoomsController {
                 // this implements runnable interface, the lambda expression is used to provide the implementation of run method
                 String roomKey = room.getRoomName() + "->" + room.getHostIP() + ":" + room.getPort();
 
-                // Add or update the room
-                discoveredRooms.put(roomKey, room);
+//                // Add or update the room
+//                discoveredRooms.put(roomKey, room);
+//
+//                // Refresh the display
+//                displayDiscoveredRooms();
 
-                // Refresh the display
-                displayDiscoveredRooms();
+                // only add new keys
+                if (!discoveredRooms.containsKey(roomKey)) {
+                    discoveredRooms.put(roomKey, room);
+                    displayDiscoveredRooms();
+                }
             });
         });
     }
@@ -328,7 +335,7 @@ public class RoomsController {
         }
 
         // Get username
-        String username = promptForUsername();
+        String username = CurrentUser.getUsername();
         if (username == null || username.trim().isEmpty()) return;
 
         try {
@@ -338,14 +345,19 @@ public class RoomsController {
 
             ChatRoomController chatController = loader.getController();
             chatController.initializeRoom(room, username.trim(), password);
+            chatController.setHostedServer(hostedRoomServer);  // hand off the RoomServer
+            chatController.setIsHost(true);
 
             Stage stage = (Stage) createHiveBtn.getScene().getWindow();
             Scene scene = new Scene(root, 1000, 600);
             stage.setScene(scene);
             stage.show();
 
-            // Cleanup current controller
-            cleanup();
+//            // Cleanup current controller
+//            //cleanup();
+            if (roomDiscovery != null) {
+                roomDiscovery.cleanup();
+            }
 
         } catch (IOException e) {
             showAlert("Failed to open chat room: " + e.getMessage());
@@ -353,15 +365,15 @@ public class RoomsController {
         }
     }
 
-    // Add this helper method
-    private String promptForUsername() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Join Room");
-        dialog.setHeaderText("Enter your username");
-        dialog.setContentText("Username:");
-
-        return dialog.showAndWait().orElse(null);
-    }
+//    // Add this helper method
+//    private String promptForUsername() {
+//        TextInputDialog dialog = new TextInputDialog();
+//        dialog.setTitle("Join Room");
+//        dialog.setHeaderText("Enter your username");
+//        dialog.setContentText("Username:");
+//
+//        return dialog.showAndWait().orElse(null);
+//    }
 
     // NEW: Password input dialog
     private String promptForPassword() {
@@ -376,10 +388,6 @@ public class RoomsController {
     public void cleanup() {
         if (roomDiscovery != null) {
             roomDiscovery.cleanup();
-        }
-
-        if (hostedRoomServer != null) {
-            hostedRoomServer.stopServer();
         }
     }
 

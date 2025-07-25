@@ -3,6 +3,7 @@ package com.example.project;
 import com.example.project.model.Message;
 import com.example.project.model.Room;
 import com.example.project.network.ChatClient;
+import com.example.project.network.RoomServer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +35,18 @@ public class ChatRoomController {
     private String username;
     private ObservableList<String> messages = FXCollections.observableArrayList();
     private ObservableList<String> onlineUsers = FXCollections.observableArrayList();
+
+
+    private RoomServer hostedServer;
+    private boolean isHost = false;
+
+    public void setHostedServer(RoomServer server) {
+        this.hostedServer = server;
+    }
+
+    public void setIsHost(boolean host) {
+        this.isHost = host;
+    }
 
     @FXML
     public void initialize() {
@@ -164,7 +177,7 @@ public class ChatRoomController {
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1000, 700);
+        Scene scene = new Scene(root, 1000, 600);
         stage.setScene(scene);
         stage.show();
     }
