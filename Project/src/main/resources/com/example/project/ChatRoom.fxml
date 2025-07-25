@@ -9,13 +9,17 @@
 
     <top>
         <!-- Room Header -->
-        <VBox styleClass="room-header">
+        <VBox styleClass="room-top">
             <padding>
                 <Insets bottom="15" left="20" right="20" top="15" />
             </padding>
 
-            <HBox alignment="CENTER_LEFT" spacing="20">
-                <Button fx:id="backBtn" onAction="#goBack" styleClass="back-btn" text="← Back" />
+            <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="956.0" spacing="20" styleClass="room-info">
+                <Button fx:id="backBtn" onAction="#goBack" prefHeight="43.0" prefWidth="47.0" styleClass="back-btn">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-arrow-left" styleClass="back-icon" />
+                    </graphic>
+                </Button>
 
                 <VBox spacing="5">
                     <Label fx:id="roomNameLabel" styleClass="room-title" text="Study Room #1" />
@@ -35,12 +39,12 @@
                 <Insets bottom="10" left="20" right="20" top="10" />
             </padding>
 
-            <ListView fx:id="messagesListView" styleClass="messages-list" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="messagesListView" prefHeight="525.0" prefWidth="760.0" styleClass="messages-list" VBox.vgrow="ALWAYS" />
 
             <!-- Message Input -->
-            <HBox spacing="10" styleClass="messages-list">
-                <TextField fx:id="messageTextField" onAction="#sendMessage" promptText="Type your message..." styleClass="message-input" HBox.hgrow="ALWAYS" />
-                <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="send-btn">
+            <HBox prefHeight="72.0" prefWidth="760.0" spacing="10" styleClass="message-input-area">
+                <TextField fx:id="messageTextField" onAction="#sendMessage" prefHeight="48.0" prefWidth="637.0" promptText="Type your message..." styleClass="message-input" HBox.hgrow="ALWAYS" />
+                <Button fx:id="sendBtn" onAction="#sendMessage" prefHeight="48.0" prefWidth="71.0" styleClass="send-btn">
                     <graphic>
                         <FontIcon iconLiteral="fas-paper-plane" styleClass="send-icon" />
                     </graphic>
@@ -51,13 +55,13 @@
 
     <right>
         <!-- Online Users Panel -->
-        <VBox prefWidth="200" styleClass="users-panel">
+        <VBox prefWidth="200" styleClass="room-header">
             <padding>
                 <Insets bottom="20" left="15" right="15" top="20" />
             </padding>
 
-            <Label styleClass="panel-title" text="Online Users" />
-            <ListView fx:id="usersListView" styleClass="users-list" VBox.vgrow="ALWAYS" />
+            <Label prefHeight="43.0" prefWidth="125.0" styleClass="panel-title" text="StudyMates" />
+            <ListView fx:id="usersListView" styleClass="messages-list" VBox.vgrow="ALWAYS" />
         </VBox>
     </right>
 

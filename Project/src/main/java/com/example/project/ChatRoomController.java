@@ -48,6 +48,8 @@ public class ChatRoomController {
         this.isHost = host;
     }
 
+    public boolean getIsHost() { return this.isHost;}
+
     @FXML
     public void initialize() {
         messagesListView.setItems(messages);

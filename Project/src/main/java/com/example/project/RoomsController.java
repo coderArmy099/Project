@@ -157,7 +157,7 @@ public class RoomsController {
             System.out.println("Room created successfully: " + roomName + " on port " + port);
 
             // TODO: Navigate to chat room as host
-            showAlert("Room created successfully!\nRoom: " + roomName + "\nPort: " + port);
+             showAlert("Room created successfully!\nRoom: " + roomName + "\nPort: " + port);
 
             hideCreateHiveForm();
 
