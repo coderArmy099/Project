@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.HelloController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.HelloController">
    <left>
       <VBox prefHeight="600.0" prefWidth="519.0" style="-fx-background-color: #1b1e21;" BorderPane.alignment="CENTER">
          <children>
@@ -56,7 +48,7 @@
                   <Font name="System Bold" size="30.0" />
                </font>
             </Text>
-            <Hyperlink fx:id="ForgotPass" layoutX="93.0" layoutY="480.0" onAction="#forgotPassword" text="Forgot Password? Click Here Magi !" textFill="#f0ecec">
+            <Hyperlink fx:id="ForgotPass" layoutX="93.0" layoutY="480.0" onAction="#forgotPassword" text="Forgot Password?Click here" textFill="#f0ecec">
                <font>
                   <Font size="18.0" />
                </font></Hyperlink>

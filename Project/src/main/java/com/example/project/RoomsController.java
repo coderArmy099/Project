@@ -65,9 +65,9 @@ public class RoomsController {
 
         // Initially disable password field for public rooms
         passwordField.setDisable(true);
-        // Bind form size to parent container (like Calendar does)
+
         createHivePane.prefHeightProperty().bind(roomsScrollPane.heightProperty().multiply(0.8));
-        createHivePane.maxHeightProperty().bind(roomsScrollPane.heightProperty().multiply(0.8));
+        createHivePane.maxHeightProperty().bind(roomsScrollPane.heightProperty().multiply(0.5));
         createHivePane.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
         createHivePane.maxWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
 
@@ -88,7 +88,21 @@ public class RoomsController {
         passwordField.clear();
         accessChoice.setValue("Public");
         durationSpin.getValueFactory().setValue(60);
+        durationSpin.editableProperty().setValue(true);
     }
+
+    @FXML
+    public void showCreateHiveForm() {
+        if (createHivePane.isVisible()) {
+            hideCreateHiveForm();
+        } else {
+            createHivePane.setVisible(true);
+            createHivePane.setManaged(true);
+        }
+    }
+
+
+
 
     @FXML
     public void onAccessChanged() {
@@ -164,20 +178,6 @@ public class RoomsController {
         } catch (Exception e) {
             showAlert("Failed to create room: " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-
-
-
-
-    @FXML
-    public void showCreateHiveForm() {
-        if (createHivePane.isVisible()) {
-            hideCreateHiveForm();
-        } else {
-            createHivePane.setVisible(true);
-            createHivePane.setManaged(true);
         }
     }
 
@@ -349,7 +349,7 @@ public class RoomsController {
             chatController.setIsHost(true);
 
             Stage stage = (Stage) createHiveBtn.getScene().getWindow();
-            Scene scene = new Scene(root, 1000, 600);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
 

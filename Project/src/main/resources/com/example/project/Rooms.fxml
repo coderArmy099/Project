@@ -12,28 +12,28 @@
         <StackPane fx:id="rootStack">
             <VBox spacing="10" styleClass="main-content-vbox">
                 <padding>
-                    <Insets bottom="10" left="20" right="20" top="10" />
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                 </padding>
 
-                <!-- Top bar with HIVES title -->
-                <HBox alignment="CENTER" prefHeight="66.0" prefWidth="892.0" spacing="6" styleClass="task-list">
-                    <padding>
-                        <Insets bottom="10" left="20" right="20" top="10" />
-                    </padding>
-                    <Label fx:id="hivesLabel" prefHeight="48.0" prefWidth="106.0" styleClass="hives-title" text="HIVES" />
-                </HBox>
 
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="891.0" text="Join a hive, or create one to study together" textAlignment="CENTER" textFill="WHITE">
-                    <font>
-                        <Font name="ArtifaktElement-Heavy" size="17.0" />
-                    </font>
-                </Label>
+            <HBox alignment="CENTER" fillHeight="false" maxHeight="56.0" minHeight="56.0" prefHeight="56.0" prefWidth="892.0" styleClass="task-list">
+                <Label fx:id="hivesLabel" prefHeight="78.0" prefWidth="106.0" styleClass="hives-title" text="HIVES" />
+            </HBox>
+            <HBox alignment="CENTER" fillHeight="false" prefHeight="24.0" prefWidth="892.0">
+               <children>
+                      <Label alignment="CENTER" prefHeight="17.0" prefWidth="891.0" text="Join a hive, or create one to study together" textAlignment="CENTER" textFill="WHITE">
+                          <font>
+                              <Font name="ArtifaktElement-Heavy" size="17.0" />
+                          </font>
+                      </Label>
+               </children>
+            </HBox>
 
-                <ScrollPane fx:id="roomsScrollPane" fitToWidth="true" prefHeight="569.0" prefWidth="892.0" styleClass="task-list">
+                <ScrollPane fx:id="roomsScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="587.0" prefWidth="892.0" styleClass="task-list" VBox.vgrow="ALWAYS">
                     <padding>
-                        <Insets bottom="20" left="20" right="20" top="20" />
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
-                    <GridPane fx:id="roomsGridPane" hgap="20" vgap="20">
+                    <GridPane fx:id="roomsGridPane" hgap="20" prefHeight="614.0" prefWidth="892.0" vgap="20">
                         <columnConstraints>
                             <ColumnConstraints percentWidth="50" />
                             <ColumnConstraints percentWidth="50" />
@@ -42,21 +42,30 @@
                             <Insets bottom="10" left="10" right="10" top="10" />
                         </padding>
                     </GridPane>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
                 </ScrollPane>
 
             </VBox>
+         <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="user-button" text="Button" textAlignment="JUSTIFY" StackPane.alignment="TOP_RIGHT">
+
+
+            <StackPane.margin>
+               <Insets right="30.0" top="28.0" />
+            </StackPane.margin></Button>
 
             <!-- ───────── floating "create hive" button ───────── -->
             <Button fx:id="createHiveBtn" onAction="#showCreateHiveForm" styleClass="fab" text="+" StackPane.alignment="BOTTOM_RIGHT">
                 <StackPane.margin>
-                    <Insets bottom="24" right="32" />
+                    <Insets bottom="45.0" right="45.0" />
                 </StackPane.margin>
             </Button>
 
             <!-- ───────── Create Hive form (initially hidden) ───────── -->
             <VBox fx:id="createHivePane" managed="false" spacing="14" styleClass="add-task-card" visible="false" StackPane.alignment="BOTTOM_RIGHT">
                 <StackPane.margin>
-                    <Insets bottom="90" right="32" />
+                    <Insets bottom="110.0" right="40.0" />
                 </StackPane.margin>
 
                 <!-- Form title -->
@@ -114,7 +123,7 @@
             <!-- Calendar Button -->
             <Button fx:id="calendarBtn" onAction="#goToCalendar" styleClass="nav-button">
                 <graphic>
-                    <FontIcon iconLiteral="fas-calendar" styleClass="nav-icon" />
+                    <FontIcon iconLiteral="fas-calendar" selectionEnd="0" styleClass="nav-icon" />
                 </graphic>
             </Button>
 

@@ -23,6 +23,18 @@
     -fx-font-family: "Artifakt Element Heavy";
 }
 
+.user-button {
+    -fx-background-color: #202020;
+    -fx-background-radius: 50%;
+    -fx-min-width: 38;
+    -fx-min-height: 38;
+    -fx-max-width: 38;
+    -fx-max-height: 38;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
 /* ───────────────── Left-hand navigation pane ───────────────── */
 .nav-pane {
     -fx-background-color: #202020;
@@ -60,12 +72,18 @@
 .fab {
     -fx-background-color: #00bfa6;
     -fx-text-fill: white;
-    -fx-font-size: 26px;      /* makes the "+" bigger */
+    -fx-font-size: 26px;
     -fx-pref-width: 56;
     -fx-pref-height: 56;
-    -fx-background-radius: 28; /* perfect circle */
+    -fx-background-radius: 28;
     -fx-alignment: center;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.40), 10, 0.35, 0, 2);
+}
+
+.fab:hover{
+    -fx-background-color: #00d7c0; /* lighter teal on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.60), 12, 0.35, 0, 4);
 }
 
 .fab:pressed {
@@ -77,7 +95,7 @@
     -fx-background-color: #2b2b2b;
     -fx-background-radius: 12;
     -fx-padding: 16;
-    -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.45),12,0,0,4);
+    -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.55),15,0.35,0,0);
 }
 
 .form-title {

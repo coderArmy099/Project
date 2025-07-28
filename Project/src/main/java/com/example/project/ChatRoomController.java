@@ -17,6 +17,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import com.example.project.components.MessageBubble;
+import javafx.scene.control.ListCell;
+
 import java.io.IOException;
 
 public class ChatRoomController {
@@ -25,7 +28,7 @@ public class ChatRoomController {
     @FXML private Label roomNameLabel;
     @FXML private Label usersCountLabel;
     @FXML private Label connectionStatusLabel;
-    @FXML private ListView<String> messagesListView;
+    @FXML private ListView<Message> messagesListView;
     @FXML private TextField messageTextField;
     @FXML private Button sendBtn;
     @FXML private ListView<String> usersListView;
@@ -33,7 +36,7 @@ public class ChatRoomController {
     private Room currentRoom;
     private ChatClient chatClient;
     private String username;
-    private ObservableList<String> messages = FXCollections.observableArrayList();
+    private ObservableList<Message> messages = FXCollections.observableArrayList();
     private ObservableList<String> onlineUsers = FXCollections.observableArrayList();
 
 
@@ -55,8 +58,23 @@ public class ChatRoomController {
         messagesListView.setItems(messages);
         usersListView.setItems(onlineUsers);
 
+
+        messagesListView.setCellFactory(listView -> new ListCell<Message>() {
+            @Override
+            protected void updateItem(Message message, boolean empty) {
+                super.updateItem(message, empty);
+
+                if (empty || message == null) {
+                    setGraphic(null);
+                } else {
+                    MessageBubble bubble = new MessageBubble(message);
+                    setGraphic(bubble);
+                }
+            }
+        });
+
         // Auto-scroll to bottom when new messages arrive
-        messages.addListener((javafx.collections.ListChangeListener<String>) change -> {
+        messages.addListener((javafx.collections.ListChangeListener<Message>) change -> {
             Platform.runLater(() -> {
                 if (!messages.isEmpty()) {
                     messagesListView.scrollTo(messages.size() - 1);
@@ -114,16 +132,20 @@ public class ChatRoomController {
     }
 
     private void onMessageReceived(Message message) {
+//        Platform.runLater(() -> {
+//            String displayMessage;
+//            if (message.isSystemMessage()) {
+//                displayMessage = String.format("[%s] %s",
+//                        message.getFormattedTime(), message.getContent());
+//            } else {
+//                displayMessage = String.format("[%s] %s: %s",
+//                        message.getFormattedTime(), message.getUsername(), message.getContent());
+//            }
+//            messages.add(displayMessage);
+//        });
+
         Platform.runLater(() -> {
-            String displayMessage;
-            if (message.isSystemMessage()) {
-                displayMessage = String.format("[%s] %s",
-                        message.getFormattedTime(), message.getContent());
-            } else {
-                displayMessage = String.format("[%s] %s: %s",
-                        message.getFormattedTime(), message.getUsername(), message.getContent());
-            }
-            messages.add(displayMessage);
+            messages.add(message);
         });
     }
 

@@ -10,18 +10,18 @@
 /* Room Header - match navbar color from Rooms */
 .room-header {
     -fx-background-color: #202020;
-    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.40), 20, 0.35, 2, 4);
-    -fx-padding: 25 12 25 12;
+    -fx-padding: 12 12 12 12;
 }
 
 .room-top{
     -fx-background-color: #202020;
     -fx-text-fill: #E0E0E0;
-    -fx-border-color: #00BFA5;
+    /*-fx-border-color: #00BFA5;*/
     /*-fx-border-radius: 20px;*/
     /*-fx-background-radius: 20px;*/
-    -fx-border-width: 2px;
-    -fx-padding: 12 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.40), 20, 0.35, 2, 4);
+    /*-fx-border-width: 2px;*/
+    -fx-padding: 12 12;
     -fx-font-size: 14px;
 }
 
@@ -72,7 +72,7 @@
     -fx-padding: 10 20 10 20; /* Add top padding */
 }
 
-/* Messages list - exactly match Rooms scrollpane styling */
+/* Update the messages-list styling in ChatRoom.css */
 .messages-list {
     -fx-background-color: #2b2b2b;
     -fx-border-radius: 12px;
@@ -87,14 +87,21 @@
 .messages-list .list-cell {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-padding: 8 12;
-    -fx-text-fill: #E0E0E0;
-    -fx-font-size: 14px;
+    -fx-padding: 4 0;
 }
 
 .messages-list .list-cell:selected {
-    -fx-background-color: #2A2A2A;
-    -fx-background-radius: 5px;
+    -fx-background-color: transparent;
+}
+
+/* Ensure ListView content area is transparent */
+.messages-list .scroll-pane .content {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
+
+.messages-list .virtual-flow .clipped-container .sheet .list-cell {
+    -fx-background-color: transparent;
 }
 
 /* Message Input Area - exactly match Rooms scrollpane styling */
@@ -161,7 +168,7 @@
     -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: #00BFA5;
-    -fx-padding: 0 0 15 0;
+    -fx-padding: 0 0 0 0;
     -fx-font-family: 'Artifakt Element Heavy';
 }
 

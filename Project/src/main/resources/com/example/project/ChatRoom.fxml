@@ -14,7 +14,7 @@
                 <Insets bottom="15" left="20" right="20" top="15" />
             </padding>
 
-            <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="956.0" spacing="20" styleClass="room-info">
+            <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="993.0" spacing="20" styleClass="messages-list">
                 <Button fx:id="backBtn" onAction="#goBack" prefHeight="43.0" prefWidth="47.0" styleClass="back-btn">
                     <graphic>
                         <FontIcon iconLiteral="fas-arrow-left" styleClass="back-icon" />
@@ -22,7 +22,7 @@
                 </Button>
 
                 <VBox spacing="5">
-                    <Label fx:id="roomNameLabel" styleClass="room-title" text="Study Room #1" />
+                    <Label fx:id="roomNameLabel" prefHeight="75.0" prefWidth="174.0" styleClass="room-title" text="Study Room #1" />
                     <HBox spacing="15">
                         <Label fx:id="usersCountLabel" styleClass="room-info" text="👥 3/15" />
                         <Label fx:id="connectionStatusLabel" styleClass="room-info" text="🟢 Connected" />
@@ -39,10 +39,10 @@
                 <Insets bottom="10" left="20" right="20" top="10" />
             </padding>
 
-            <ListView fx:id="messagesListView" prefHeight="525.0" prefWidth="760.0" styleClass="messages-list" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="messagesListView" prefHeight="630.0" prefWidth="742.0" styleClass="messages-list" VBox.vgrow="ALWAYS" />
 
             <!-- Message Input -->
-            <HBox prefHeight="72.0" prefWidth="760.0" spacing="10" styleClass="message-input-area">
+            <HBox prefHeight="0.0" prefWidth="742.0" spacing="10" styleClass="message-input-area">
                 <TextField fx:id="messageTextField" onAction="#sendMessage" prefHeight="48.0" prefWidth="637.0" promptText="Type your message..." styleClass="message-input" HBox.hgrow="ALWAYS" />
                 <Button fx:id="sendBtn" onAction="#sendMessage" prefHeight="48.0" prefWidth="71.0" styleClass="send-btn">
                     <graphic>
@@ -55,13 +55,13 @@
 
     <right>
         <!-- Online Users Panel -->
-        <VBox prefWidth="200" styleClass="room-header">
+        <VBox prefHeight="612.0" prefWidth="218.0" styleClass="room-header">
             <padding>
-                <Insets bottom="20" left="15" right="15" top="20" />
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
 
-            <Label prefHeight="43.0" prefWidth="125.0" styleClass="panel-title" text="StudyMates" />
-            <ListView fx:id="usersListView" styleClass="messages-list" VBox.vgrow="ALWAYS" />
+            <Label minHeight="37.0" prefHeight="54.0" prefWidth="194.0" styleClass="panel-title" text="StudyMates" />
+            <ListView fx:id="usersListView" prefHeight="657.0" prefWidth="194.0" styleClass="messages-list" VBox.vgrow="ALWAYS" />
         </VBox>
     </right>
 
