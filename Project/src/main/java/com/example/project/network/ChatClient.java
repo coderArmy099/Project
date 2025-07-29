@@ -23,6 +23,9 @@ public class ChatClient {
     private Consumer<List<String>> onUserListUpdated;
     private Consumer<Boolean> onConnectionStatusChanged;
     private Consumer<String> onError;
+    private Consumer<String> onServerShutdown;
+    private Consumer<String> onKicked;
+    private Consumer<Boolean> onMuted;
 
     public ChatClient(Room room, String username, String password) {
         this.room = room;
@@ -41,9 +44,9 @@ public class ChatClient {
             if (room.isPrivate() && password != null && !password.isEmpty()) {
                 joinRequest += ":" + password;
             }
-            out.println(joinRequest);
+            out.println(joinRequest); // server expects "JOIN:username:password
 
-            // Wait for response
+            // Waits for the SUCCESS or ERROR response , SUCCESS hoile dhukay dibe
             String response = in.readLine();
             if (response == null) {
                 if (onError != null) onError.accept("No response from server");
@@ -56,13 +59,21 @@ public class ChatClient {
                 return false;
             }
 
+            if (response.startsWith("KICKED:")) {
+                String reason = response.substring(7);
+                if (onKicked != null) {
+                    onKicked.accept(reason);
+                }
+                return false;
+            }
+
             if (response.startsWith("SUCCESS:")) {
                 connected = true;
                 if (onConnectionStatusChanged != null) {
                     onConnectionStatusChanged.accept(true);
                 }
 
-                // Start listening for messages
+                // Start listening for messages, background e cholbe along with others
                 Thread listenerThread = new Thread(this::messageListener);
                 listenerThread.setDaemon(true);
                 listenerThread.start();
@@ -91,7 +102,7 @@ public class ChatClient {
         try {
             String inputLine;
             List<String> connectedUsers = new ArrayList<>();
-            connectedUsers.add(username); // Add ourselves
+            connectedUsers.add(username); // Add current user
 
             while (connected && (inputLine = in.readLine()) != null) {
                 if (inputLine.startsWith("MESSAGE:")) {
@@ -103,8 +114,8 @@ public class ChatClient {
                         String content = message.getContent();
                         if (content.contains(" joined the room")) {
                             String joinedUser = content.split(" joined the room")[0];
-                            if (!connectedUsers.contains(joinedUser)) {
-                                connectedUsers.add(joinedUser);
+                            if (!connectedUsers.contains(joinedUser)) {// system message e kew join korse ashle, users list e add hobe
+                                connectedUsers.add(joinedUser);// ar , jokhon chatclient join korbe, tokhon to previous messages load kore dibe
                                 if (onUserListUpdated != null) {
                                     onUserListUpdated.accept(new ArrayList<>(connectedUsers));
                                 }
@@ -121,11 +132,41 @@ public class ChatClient {
                     if (onMessageReceived != null) {
                         onMessageReceived.accept(message);
                     }
+                }else if (inputLine.startsWith("KICKED:")) {
+                    String reason = inputLine.substring(7);
+                    if (onKicked != null) {
+                        onKicked.accept(reason);
+                    }
+                    break;
+                } else if (inputLine.startsWith("MUTED:")) {
+                    if (onMuted != null) {
+                        onMuted.accept(true);
+                    }
+                } else if (inputLine.startsWith("UNMUTED:")) {
+                    if (onMuted != null) {
+                        onMuted.accept(false);
+                    }
+                } else if (inputLine.startsWith("SERVER_SHUTDOWN:")) {
+                    String reason = inputLine.substring(16);
+                    if (onServerShutdown != null) {
+                        onServerShutdown.accept(reason);
+                    }
+                    break;
+                }else if(inputLine.startsWith("SESSION_TIMEOUT:")) {
+                    String reason = inputLine.substring(16);
+                    if (onServerShutdown != null) {
+                        onServerShutdown.accept("Session timeout: " + reason);
+                    }
+                    break;
                 }
             }
         } catch (IOException e) {
             if (connected && onError != null) {
                 onError.accept("Connection lost: " + e.getMessage());
+                // Also trigger server shutdown callback for navigation
+                if (onServerShutdown != null) {
+                    onServerShutdown.accept("Connection lost to server");
+                }
             }
         } finally {
             connected = false;
@@ -180,5 +221,17 @@ public class ChatClient {
 
     public boolean isConnected() {
         return connected;
+    }
+
+    public void setOnServerShutdown(Consumer<String> callback) {
+        this.onServerShutdown = callback;
+    }
+
+    public void setOnKicked(Consumer<String> callback) {
+        this.onKicked = callback;
+    }
+
+    public void setOnMuted(Consumer<Boolean> callback) {
+        this.onMuted = callback;
     }
 }

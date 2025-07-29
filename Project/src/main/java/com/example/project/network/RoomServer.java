@@ -14,14 +14,22 @@ public class RoomServer {
     private ServerSocket serverSocket;
     private RoomDiscovery roomDiscovery;
     private boolean isRunning = false;
+    private Timer sessionTimer;
 
     // Thread-safe collections for client management
     private Map<String, ClientHandler> clients = new ConcurrentHashMap<>();
     private List<Message> messageHistory = new CopyOnWriteArrayList<>();
 
+    private Set<String> mutedUsers = ConcurrentHashMap.newKeySet();
+
     public RoomServer(Room room) {
         this.room = room;
         this.roomDiscovery = new RoomDiscovery();
+    }
+
+
+    public boolean checkUserExists(String username) {
+        return clients.containsKey(username);
     }
 
     public void startServer() {
@@ -30,14 +38,14 @@ public class RoomServer {
             isRunning = true;
 
             System.out.println("Room server started on port " + room.getPort());
-
+            startSessionTimer();
             // Start broadcasting room discovery
             roomDiscovery.startBroadcasting(room, 3); // Broadcast every 3 seconds
 
             // Accept client connections
             while (isRunning) {
                 try {
-                    Socket clientSocket = serverSocket.accept();
+                    Socket clientSocket = serverSocket.accept(); // runs in background thread
                     handleNewClient(clientSocket);
                 } catch (IOException e) {
                     if (isRunning) {
@@ -48,6 +56,32 @@ public class RoomServer {
         } catch (IOException e) {
             System.err.println("Failed to start server: " + e.getMessage());
         }
+    }
+
+    private void startSessionTimer() {
+        sessionTimer = new Timer(true);
+        long durationMillis = room.getDuration() * 60 * 1000L;
+
+        sessionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Message timeoutMessage = Message.systemMessage("Session time expired. Room is closing.");
+                broadcastMessage(timeoutMessage);
+
+                //sessiontimeout message
+                for (ClientHandler client : clients.values()) {
+                    client.sendMessage("SESSION_TIMEOUT:Session ended");
+                }
+
+                Timer shutdownTimer = new Timer();
+                shutdownTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        stopServer();
+                    }
+                }, 2000);
+            }
+        }, durationMillis);
     }
 
     private void handleNewClient(Socket clientSocket) {
@@ -87,9 +121,9 @@ public class RoomServer {
                 return;
             }
 
-            // Check for duplicate username
+            // duplicate user handling(ekhon apatoto join korte dibo na)
             if (clients.containsKey(username)) {
-                out.println("ERROR:Username already taken");
+                out.println("KICKED:Username already taken or joined from a different device, leave the room first from the other device");
                 clientSocket.close();
                 return;
             }
@@ -97,14 +131,14 @@ public class RoomServer {
             // Accept the client
             out.println("SUCCESS:Welcome to " + room.getRoomName());
 
-            // Create client handler
+            // Create clientHandler
             ClientHandler clientHandler = new ClientHandler(username, clientSocket, in, out);
             clients.put(username, clientHandler);
 
             // Update room user count
             room.setCurrentUsers(clients.size() + 1); // +1 for host
 
-            // Send message history to new client
+            // previous messages pathailam (messageHistory te store thakar jonno database lagtesena)
             for (Message msg : messageHistory) {
                 out.println("MESSAGE:" + msg.toNetworkString());
             }
@@ -113,7 +147,7 @@ public class RoomServer {
             Message joinMessage = Message.systemMessage(username + " joined the room");
             broadcastMessage(joinMessage);
 
-            // Start handling this client's messages
+            // background thread e client handling hobe
             Thread clientThread = new Thread(clientHandler);
             clientThread.setDaemon(true);
             clientThread.start();
@@ -147,6 +181,47 @@ public class RoomServer {
         }
     }
 
+
+
+    public void kickUser(String username) {
+        ClientHandler client = clients.get(username);
+        if (client != null) {
+            client.sendMessage("KICKED:You have been kicked from the room");
+            client.disconnect();
+            removeClient(username);
+        }
+    }
+
+    public void muteUser(String username) {
+        if (clients.containsKey(username)) {
+            mutedUsers.add(username);
+            ClientHandler client = clients.get(username);
+            if (client != null) {
+                client.sendMessage("MUTED:You have been muted");
+            }
+
+            Message muteMessage = Message.systemMessage(username + " has been muted");
+            broadcastMessage(muteMessage);
+        }
+    }
+
+    public void unmuteUser(String username) {
+        mutedUsers.remove(username);
+        ClientHandler client = clients.get(username);
+        if (client != null) {
+            client.sendMessage("UNMUTED:You have been unmuted");
+        }
+
+        Message unmuteMessage = Message.systemMessage(username + " has been unmuted");
+        broadcastMessage(unmuteMessage);
+    }
+
+    public boolean isUserMuted(String username) {
+        return mutedUsers.contains(username);
+    }
+
+
+    // host leave korle call kora hobe
     public void stopServer() {
         isRunning = false;
 
@@ -154,11 +229,18 @@ public class RoomServer {
         Message shutdownMessage = Message.systemMessage("Room is closing");
         broadcastMessage(shutdownMessage);
 
-        // Close all client connections
-        for (ClientHandler client : clients.values()) {
-            client.disconnect();
-        }
-        clients.clear();
+        Timer disconnectTimer = new Timer();
+        disconnectTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (ClientHandler client : clients.values()) {
+                    client.sendMessage("SERVER_SHUTDOWN:Room ended by host");
+                    client.disconnect();
+                }
+                clients.clear();
+            }
+        }, 1000); // 1 second delay
+
 
         // Stop broadcasting
         if (roomDiscovery != null) {
@@ -174,18 +256,22 @@ public class RoomServer {
             System.err.println("Error closing server socket: " + e.getMessage());
         }
 
+        if (sessionTimer != null) {
+            sessionTimer.cancel();
+        }
+
         System.out.println("Room server stopped");
     }
 
     public Room getRoom() { return room; }
     public int getClientCount() { return clients.size(); }
 
-    // Inner class to handle individual client connections
+    // thread class jeita background(daemon thread) e run kore client er request handle kore
     private class ClientHandler implements Runnable {
-        private String username;
-        private Socket socket;
-        private BufferedReader in;
-        private PrintWriter out;
+        private String username; // client name
+        private Socket socket; // the socket that client is connected to
+        private BufferedReader in; // input stream
+        private PrintWriter out;    // output stream
         private boolean connected = true;
 
         public ClientHandler(String username, Socket socket, BufferedReader in, PrintWriter out) {
@@ -201,6 +287,12 @@ public class RoomServer {
                 String inputLine;
                 while (connected && (inputLine = in.readLine()) != null) {
                     if (inputLine.startsWith("MESSAGE:")) {
+
+                        if (mutedUsers.contains(username)) {
+                            sendMessage("ERROR:You are currently muted");
+                            continue;
+                        }
+
                         String messageContent = inputLine.substring(8);
                         Message message = new Message(username, messageContent);
                         broadcastMessage(message);
@@ -220,7 +312,7 @@ public class RoomServer {
 
         public void sendMessage(String message) {
             if (connected && out != null) {
-                out.println(message);
+                out.println(message); // ei user re message pathano hobe, pura clients map iterate korle shobar kache message jabe
             }
         }
 

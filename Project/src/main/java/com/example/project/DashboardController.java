@@ -55,7 +55,7 @@ public class DashboardController {
         controller.setUsername(welcomeName.getText().replace("Welcome ", ""));
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }

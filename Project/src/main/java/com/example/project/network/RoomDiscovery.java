@@ -130,6 +130,8 @@ public class RoomDiscovery {
 
     // Cleanup all resources
     public void cleanup() {
+
+        // listening ar broadcasting duitai off kortese
         stopListening();
 
         if (broadcastSocket != null && !broadcastSocket.isClosed()) {

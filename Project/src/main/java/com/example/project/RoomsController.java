@@ -27,7 +27,7 @@ import java.io.IOException;
 
 public class RoomsController {
 
-
+    private Boolean isHost = false;
     private RoomServer hostedRoomServer;
     private RoomDiscovery roomDiscovery;
     private Map<String, Room> discoveredRooms = new HashMap<>();
@@ -165,15 +165,20 @@ public class RoomsController {
 
             // Start server in background thread
             Thread serverThread = new Thread(() -> hostedRoomServer.startServer());
-            serverThread.setDaemon(true);
+            serverThread.setDaemon(true); // sets roomserver thread as background thread
             serverThread.start();
 
             System.out.println("Room created successfully: " + roomName + " on port " + port);
 
-            // TODO: Navigate to chat room as host
-             showAlert("Room created successfully!\nRoom: " + roomName + "\nPort: " + port);
+            Thread.sleep(100);
+
+
+            showAlert("Room created successfully!\nRoom: " + roomName + "\nPort: " + port, "Success");
 
             hideCreateHiveForm();
+
+            //navigate to chat room
+            navigateToChatRoom(newRoom, CurrentUser.getUsername(), password, true);
 
         } catch (Exception e) {
             showAlert("Failed to create room: " + e.getMessage());
@@ -181,8 +186,31 @@ public class RoomsController {
         }
     }
 
+    private void navigateToChatRoom(Room room, String username, String password, boolean isHost) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatRoom.fxml"));
+            Parent root = loader.load();
+
+            ChatRoomController chatController = loader.getController();
+            chatController.initializeRoom(room, username, password);
+            chatController.setHostedServer(hostedRoomServer);
+            chatController.setIsHost(isHost);
+
+            Stage stage = (Stage) createHiveBtn.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            if (roomDiscovery != null) {
+                roomDiscovery.cleanup();
+            }
+        } catch (IOException e) {
+            showAlert("Failed to open chat room: " + e.getMessage());
+        }
+    }
+
     private void showAlert(String message, String title) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -338,6 +366,7 @@ public class RoomsController {
         String username = CurrentUser.getUsername();
         if (username == null || username.trim().isEmpty()) return;
 
+
         try {
             // Navigate to chat room
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatRoom.fxml"));
@@ -346,7 +375,9 @@ public class RoomsController {
             ChatRoomController chatController = loader.getController();
             chatController.initializeRoom(room, username.trim(), password);
             chatController.setHostedServer(hostedRoomServer);  // hand off the RoomServer
-            chatController.setIsHost(true);
+            //if(isHost) {chatController.setIsHost(true);}
+
+
 
             Stage stage = (Stage) createHiveBtn.getScene().getWindow();
             Scene scene = new Scene(root);
@@ -364,16 +395,6 @@ public class RoomsController {
             e.printStackTrace();
         }
     }
-
-//    // Add this helper method
-//    private String promptForUsername() {
-//        TextInputDialog dialog = new TextInputDialog();
-//        dialog.setTitle("Join Room");
-//        dialog.setHeaderText("Enter your username");
-//        dialog.setContentText("Username:");
-//
-//        return dialog.showAndWait().orElse(null);
-//    }
 
     // NEW: Password input dialog
     private String promptForPassword() {
