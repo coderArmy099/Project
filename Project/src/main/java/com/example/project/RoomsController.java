@@ -42,6 +42,8 @@ public class RoomsController {
     @FXML private Button calendarBtn;
     @FXML private Button timerBtn;
     @FXML private Button communityBtn;
+    @FXML private Button dashboardBtn;
+    @FXML private Button courseTrackerNavBtn;
 
     // Create Hive form elements
     @FXML private Button createHiveBtn;
@@ -197,7 +199,7 @@ public class RoomsController {
             chatController.setIsHost(isHost);
 
             Stage stage = (Stage) createHiveBtn.getScene().getWindow();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 1280, 720);
             stage.setScene(scene);
             stage.show();
 
@@ -380,7 +382,7 @@ public class RoomsController {
 
 
             Stage stage = (Stage) createHiveBtn.getScene().getWindow();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 1280, 720);
             stage.setScene(scene);
             stage.show();
 
@@ -420,7 +422,7 @@ public class RoomsController {
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, 1280, 720);
         stage.setScene(scene);
         stage.show();
     }
@@ -430,4 +432,64 @@ public class RoomsController {
         cleanup();
         setCalendar(actionEvent);
     }
+
+
+    @FXML
+    private void goToDashboard(ActionEvent event) {
+        try {
+            cleanup();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToCourseTracker(ActionEvent event) {
+        try {
+            cleanup();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CourseTracker.fxml"));
+            Parent root = loader.load();
+            CourseTrackerController controller = loader.getController();
+            if (CurrentUser.username != null && !CurrentUser.username.isEmpty()) {
+                controller.setUsername(CurrentUser.username);
+            } else {
+                controller.setUsername("defaultUser");
+            }
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToStudyTimer(ActionEvent event) {
+        try {
+            cleanup();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("studyTimer.fxml"));
+            Parent root = loader.load();
+            StudyTimerController controller = loader.getController();
+            if (CurrentUser.username != null && !CurrentUser.username.isEmpty()) {
+                controller.setUsername(CurrentUser.username);
+            } else {
+                controller.setUsername("defaultUser");
+            }
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root,1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

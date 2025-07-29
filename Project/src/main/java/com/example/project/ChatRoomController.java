@@ -15,15 +15,24 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.OverrunStyle;
 
 import com.example.project.components.MessageBubble;
 import javafx.scene.control.ListCell;
 import org.kordamp.ikonli.javafx.FontIcon;
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.layout.Region;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -37,7 +46,7 @@ public class ChatRoomController {
     @FXML private TextField messageTextField;
     @FXML private Button sendBtn;
     @FXML private ListView<String> usersListView;
-
+    @FXML private Label sessionTimerLabel;
 
     @FXML private Button actionBtn; // Will be "Back" or "End Room"
     @FXML private VBox usersListContainer; // Container for user list with controls
@@ -47,6 +56,8 @@ public class ChatRoomController {
     private String username;
     private ObservableList<Message> messages = FXCollections.observableArrayList();
     private ObservableList<String> onlineUsers = FXCollections.observableArrayList();
+    private Timeline sessionTimer;
+    private int sessionTimeRemaining;
 
 
     private RoomServer hostedServer;
@@ -64,6 +75,7 @@ public class ChatRoomController {
 
     public String getUsername() { return this.username; }
 
+
     @FXML
     public void initialize() {
         messagesListView.setItems(messages);
@@ -79,7 +91,7 @@ public class ChatRoomController {
                 if (empty || message == null) {
                     setGraphic(null);
                 } else {
-                    MessageBubble bubble = new MessageBubble(message);
+                    MessageBubble bubble = new MessageBubble(message, messagesListView);
                     setGraphic(bubble);
                 }
             }
@@ -94,13 +106,47 @@ public class ChatRoomController {
             });
         });
 
-        // Focus on message input
+        initializeSessionTimer();
+
         Platform.runLater(() -> messageTextField.requestFocus());
+    }
+
+    private void initializeSessionTimer() {
+        sessionTimer = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateSessionTimer()));
+        sessionTimer.setCycleCount(Timeline.INDEFINITE);
+        sessionTimer.play();
+        updateSessionTimerDisplay();
+    }
+
+    private void updateSessionTimer() {
+        sessionTimeRemaining--;
+        updateSessionTimerDisplay();
+
+        if (sessionTimeRemaining <= 0) {
+            sessionTimer.stop();
+            // Handle session timeout
+            Platform.runLater(() -> {
+                showAlert("Session has expired", "Session Timeout");
+                navigateBackToRooms();
+            });
+        }
+    }
+
+    private void updateSessionTimerDisplay() {
+        int hours = sessionTimeRemaining / 3600;
+        int remainingAfterHours = sessionTimeRemaining % 3600;
+        int minutes = remainingAfterHours / 60;
+        int seconds = remainingAfterHours % 60;
+        Platform.runLater(() -> {
+            sessionTimerLabel.setText(String.format("%02d:%02d:%02d",hours, minutes, seconds));
+        });
     }
 
     public void initializeRoom(Room room, String username, String password) {
         this.currentRoom = room;
         this.username = username;
+
+        this.sessionTimeRemaining = room.getDuration() * 60;
 
         updateUIForHost();
 
@@ -152,10 +198,11 @@ public class ChatRoomController {
 
     private void updateUIForHost() {
         if (isHost) {
-            actionBtn.setText("End Room");
-            actionBtn.setStyle(actionBtn.getStyle() + "-fx-text-fill: #ff4444;");
+            FontIcon endRoomIcon = new FontIcon("fas-door-closed");
+            actionBtn.setGraphic(endRoomIcon);
         } else {
-            actionBtn.setText("Back");
+            FontIcon backIcon = new FontIcon("fas-arrow-left");
+            actionBtn.setGraphic(backIcon);
         }
     }
 
@@ -195,34 +242,108 @@ public class ChatRoomController {
         private Button kickBtn;
         private Button muteBtn;
 
+        // Fixed dimensions
+        private static final double CONTAINER_WIDTH = 245;
+        private static final double CONTAINER_HEIGHT = 32;
+        private static final double HORIZONTAL_PADDING = 8;
+        private static final double BUTTON_SPACING = 6;
+        private static final double KICK_BTN_WIDTH = 45;
+        private static final double MUTE_BTN_MIN_WIDTH = 45;
+        private static final double MUTE_BTN_MAX_WIDTH = 60;
+
         public UserListCell() {
             super();
             createControls();
         }
 
         private void createControls() {
-            container = new HBox(10);
+            container = new HBox(BUTTON_SPACING);
             container.setAlignment(Pos.CENTER_LEFT);
 
+            // Fixed container dimensions
+            container.setPrefWidth(CONTAINER_WIDTH);
+            container.setMaxWidth(CONTAINER_WIDTH);
+            container.setMinWidth(CONTAINER_WIDTH);
+            container.setPrefHeight(CONTAINER_HEIGHT);
+            container.setMaxHeight(CONTAINER_HEIGHT);
+            container.setMinHeight(CONTAINER_HEIGHT);
+
+            container.setStyle(
+                    "-fx-background-color: #1a1a1a; " +
+                            "-fx-background-radius: 12px; " +
+                            "-fx-padding: " + HORIZONTAL_PADDING + " " + HORIZONTAL_PADDING + " " + HORIZONTAL_PADDING + " " + HORIZONTAL_PADDING + "; " +
+                            "-fx-border-color: #333333; " +
+                            "-fx-border-width: 1px; " +
+                            "-fx-border-radius: 12px;"
+            );
+
             userLabel = new Label();
-            userLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+            userLabel.setStyle(
+                    "-fx-text-fill: white; " +
+                            "-fx-font-size: 11px; " +
+                            "-fx-font-family: 'Artifakt Element';"
+            );
+
+            // Calculate available width for username
+            double availableWidth = CONTAINER_WIDTH - (2 * HORIZONTAL_PADDING);
 
             if (isHost) {
+                // Reserve space for buttons
+                double buttonSpace = KICK_BTN_WIDTH + MUTE_BTN_MAX_WIDTH + (2 * BUTTON_SPACING);
+                double userLabelWidth = availableWidth - buttonSpace;
+
+                userLabel.setPrefWidth(userLabelWidth);
+                userLabel.setMaxWidth(userLabelWidth);
+                userLabel.setMinWidth(0);
+
                 kickBtn = new Button("Kick");
-                kickBtn.setStyle("-fx-background-color: #ff4444; -fx-text-fill: white; -fx-font-size: 10px;");
-                kickBtn.setPrefWidth(50);
+                kickBtn.setPrefWidth(KICK_BTN_WIDTH);
+                kickBtn.setMaxWidth(KICK_BTN_WIDTH);
+                kickBtn.setMinWidth(KICK_BTN_WIDTH);
+                kickBtn.setPrefHeight(22);
+                kickBtn.setMaxHeight(22);
+                kickBtn.setStyle(
+                        "-fx-background-color: #ff4444; " +
+                                "-fx-text-fill: white; " +
+                                "-fx-font-size: 10px; " +
+                                "-fx-font-family: 'Artifakt Element'; " +
+                                "-fx-background-radius: 8px; " +
+                                "-fx-border-radius: 8px; " +
+                                "-fx-padding: 2 4;"
+                );
 
                 muteBtn = new Button("Mute");
-                muteBtn.setStyle("-fx-background-color: #ffaa00; -fx-text-fill: white; -fx-font-size: 10px;");
-                muteBtn.setPrefWidth(50);
+                muteBtn.setMinWidth(MUTE_BTN_MIN_WIDTH);
+                muteBtn.setMaxWidth(MUTE_BTN_MAX_WIDTH);
+                muteBtn.setPrefHeight(22);
+                muteBtn.setMaxHeight(22);
+                muteBtn.setStyle(
+                        "-fx-background-color: #ffaa00; " +
+                                "-fx-text-fill: white; " +
+                                "-fx-font-size: 10px; " +
+                                "-fx-font-family: 'Artifakt Element'; " +
+                                "-fx-background-radius: 8px; " +
+                                "-fx-border-radius: 8px; " +
+                                "-fx-padding: 2 4;"
+                );
 
-                container.getChildren().addAll(userLabel, kickBtn, muteBtn);
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+
+                container.getChildren().addAll(userLabel, spacer, muteBtn, kickBtn);
 
                 kickBtn.setOnAction(e -> kickUser(getItem()));
                 muteBtn.setOnAction(e -> muteUser(getItem()));
             } else {
+                // No buttons, username can use full width
+                userLabel.setPrefWidth(availableWidth);
+                userLabel.setMaxWidth(availableWidth);
+                userLabel.setMinWidth(0);
                 container.getChildren().add(userLabel);
             }
+
+            // Enable text truncation for long usernames
+            userLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
         }
 
         @Override
@@ -232,7 +353,26 @@ public class ChatRoomController {
             if (empty || username == null) {
                 setGraphic(null);
             } else {
-                userLabel.setText(username);
+                // Check if this user is the host and add indicator
+                boolean isHostUser = isHost && username.equals(getUsername());
+                String displayName = isHostUser ? username + " - Host" : username;
+
+                if (isHostUser) {
+                    userLabel.setStyle(
+                            "-fx-text-fill: #00BFA5; " +
+                                    "-fx-font-size: 11px; " +
+                                    "-fx-font-family: 'Artifakt Element'; " +
+                                    "-fx-font-weight: bold;"
+                    );
+                } else {
+                    userLabel.setStyle(
+                            "-fx-text-fill: white; " +
+                                    "-fx-font-size: 11px; " +
+                                    "-fx-font-family: 'Artifakt Element';"
+                    );
+                }
+
+                userLabel.setText(displayName);
 
                 // Hide buttons for the host's own entry
                 if (isHost && kickBtn != null && muteBtn != null) {
@@ -242,10 +382,29 @@ public class ChatRoomController {
 
                     if (!isOwnEntry && hostedServer != null) {
                         boolean isMuted = hostedServer.isUserMuted(username);
-                        muteBtn.setText(isMuted ? "Unmute" : "Mute");
+                        String buttonText = isMuted ? "Unmute" : "Mute";
+                        muteBtn.setText(buttonText);
+
+                        // Adjust button width based on text
+                        double textWidth = buttonText.equals("Unmute") ? MUTE_BTN_MAX_WIDTH : MUTE_BTN_MIN_WIDTH;
+                        muteBtn.setPrefWidth(textWidth);
+
                         muteBtn.setStyle(isMuted ?
-                                "-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-size: 10px;" :
-                                "-fx-background-color: #ffaa00; -fx-text-fill: white; -fx-font-size: 10px;");
+                                "-fx-background-color: #4caf50; " +
+                                        "-fx-text-fill: white; " +
+                                        "-fx-font-size: 10px; " +
+                                        "-fx-font-family: 'Artifakt Element'; " +
+                                        "-fx-background-radius: 8px; " +
+                                        "-fx-border-radius: 8px; " +
+                                        "-fx-padding: 2 4;" :
+                                "-fx-background-color: #ffaa00; " +
+                                        "-fx-text-fill: white; " +
+                                        "-fx-font-size: 10px; " +
+                                        "-fx-font-family: 'Artifakt Element'; " +
+                                        "-fx-background-radius: 8px; " +
+                                        "-fx-border-radius: 8px; " +
+                                        "-fx-padding: 2 4;"
+                        );
                     }
                 }
 
@@ -341,7 +500,7 @@ public class ChatRoomController {
             Parent root = loader.load();
 
             Stage stage = (Stage) rootPane.getScene().getWindow();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 1280, 720);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -377,7 +536,7 @@ public class ChatRoomController {
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, 1280, 720);
         stage.setScene(scene);
         stage.show();
     }
@@ -391,6 +550,9 @@ public class ChatRoomController {
     }
 
     public void cleanup() {
+        if (sessionTimer != null) {
+            sessionTimer.stop();
+        }
         if (chatClient != null) {
             chatClient.disconnect();
         }

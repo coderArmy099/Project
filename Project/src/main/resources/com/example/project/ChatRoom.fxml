@@ -15,11 +15,7 @@
             </padding>
 
             <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="993.0" spacing="20" styleClass="messages-list">
-                <Button fx:id="actionBtn" onAction="#onActionButtonClicked" prefHeight="43.0" prefWidth="47.0" styleClass="back-btn">
-                    <graphic>
-                        <FontIcon iconLiteral="fas-arrow-left" styleClass="back-icon" />
-                    </graphic>
-                </Button>
+                <Button fx:id="actionBtn" onAction="#onActionButtonClicked" prefHeight="43.0" prefWidth="47.0" styleClass="back-btn" />
 
                 <VBox spacing="5">
                     <Label fx:id="roomNameLabel" prefHeight="75.0" prefWidth="174.0" styleClass="room-title" text="Study Room #1" />
@@ -28,6 +24,9 @@
                         <Label fx:id="connectionStatusLabel" styleClass="room-info" text="🟢 Connected" />
                     </HBox>
                 </VBox>
+
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="sessionTimerLabel" styleClass="session-timer" text="⏱️ 29:45" />
             </HBox>
         </VBox>
     </top>
@@ -55,13 +54,13 @@
 
     <right>
         <!-- Online Users Panel -->
-        <VBox prefHeight="612.0" prefWidth="218.0" styleClass="room-header">
+        <VBox prefHeight="586.0" prefWidth="318.0" styleClass="room-header">
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
 
             <Label minHeight="37.0" prefHeight="54.0" prefWidth="194.0" styleClass="panel-title" text="StudyMates" />
-            <ListView fx:id="usersListView" prefHeight="657.0" prefWidth="194.0" styleClass="messages-list" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="usersListView" minHeight="294.0" prefHeight="525.0" prefWidth="294.0" styleClass="messages-list" VBox.vgrow="ALWAYS" />
         </VBox>
     </right>
 

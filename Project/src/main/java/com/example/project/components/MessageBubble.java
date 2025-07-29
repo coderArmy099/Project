@@ -13,12 +13,17 @@ import javafx.scene.shape.Circle;
 import com.example.project.CurrentUser;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import javafx.geometry.Insets;
+import javafx.scene.control.ListView;
 
 public class MessageBubble extends HBox {
-    private static final String CURRENT_USER = CurrentUser.getUsername(); // You'll need to implement this
+    private static final String CURRENT_USER = CurrentUser.getUsername();
+    private ListView<?> parentListView;
 
-    public MessageBubble(Message message) {
+
+    public MessageBubble(Message message, ListView<?> parentListView) {
         super();
+        this.parentListView = parentListView;
 
         if (message.isSystemMessage()) {
             createSystemMessage(message);
@@ -26,6 +31,10 @@ public class MessageBubble extends HBox {
             boolean isCurrentUser = message.getUsername().equals(CURRENT_USER);
             createUserMessage(message, isCurrentUser);
         }
+    }
+
+    public MessageBubble(Message message) {
+        this(message, null);
     }
 
     private void createSystemMessage(Message message) {
@@ -55,29 +64,38 @@ public class MessageBubble extends HBox {
         this.setMaxWidth(Region.USE_COMPUTED_SIZE);
 
         if (isCurrentUser) {
-            // Current user: meta info + bubble (right aligned)
+            // Current user: no avatar, just meta info + bubble with extra padding (right aligned)
             VBox metaAndBubble = createMessageContainer(message, true);
             Region spacer = new Region();
-            StackPane avatar = createAvatar(message.getUsername(), true);
             HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
-            this.getChildren().addAll(spacer, metaAndBubble,avatar);
+            // Add extra right padding to avoid scrollbar overlap
+            HBox.setMargin(metaAndBubble, new Insets(0, 12, 0, 0));
+            this.getChildren().addAll(spacer, metaAndBubble);
         } else {
             // Other user: avatar + meta info + bubble (left aligned)
-            StackPane avatar = createAvatar(message.getUsername(),false); // Changed from Circle to StackPane
+            StackPane avatar = createAvatar(message.getUsername());
             VBox metaAndBubble = createMessageContainer(message, false);
-            this.getChildren().addAll(avatar, metaAndBubble);
+
+            // Create container to align avatar at bottom of message bubble
+            VBox avatarContainer = new VBox();
+            avatarContainer.setAlignment(Pos.BOTTOM_LEFT);
+            Region avatarSpacer = new Region();
+            VBox.setVgrow(avatarSpacer, javafx.scene.layout.Priority.ALWAYS);
+            avatarContainer.getChildren().addAll(avatarSpacer, avatar);
+
+            HBox.setMargin(metaAndBubble, new Insets(0, 0, 0, 10));
+            this.getChildren().addAll(avatarContainer, metaAndBubble);
         }
     }
 
-
-    private StackPane createAvatar(String username, boolean isCurrentUser) {
+    private StackPane createAvatar(String username) {
         StackPane avatarContainer = new StackPane();
         avatarContainer.setPrefSize(30, 30);
         avatarContainer.setMaxSize(30, 30);
         avatarContainer.setMinSize(30, 30);
 
         // Background circle
-        Circle background = new Circle(17);
+        Circle background = new Circle(15);
 
         // Generate color based on username hash
         int hash = Math.abs(username.hashCode());
@@ -100,20 +118,11 @@ public class MessageBubble extends HBox {
         avatarContainer.getChildren().addAll(background, userIcon);
         HBox.setMargin(avatarContainer, new Insets(0, 8, 0, 0));
 
-
-        if (isCurrentUser) {
-            HBox.setMargin(avatarContainer, new Insets(0, 0, 0, 12)); // Left margin for right-aligned
-        } else {
-            HBox.setMargin(avatarContainer, new Insets(0, 8, 0, 0)); // Right margin for left-aligned
-        }
-
         return avatarContainer;
     }
 
-
     private VBox createMessageContainer(Message message, boolean isCurrentUser) {
         VBox container = new VBox(3);
-        container.setMaxWidth(300);
         container.setAlignment(isCurrentUser ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
 
         // Meta information (username and time)
@@ -129,7 +138,13 @@ public class MessageBubble extends HBox {
         // Message bubble
         Label messageLabel = new Label(message.getContent());
         messageLabel.setWrapText(true);
-        messageLabel.setMaxWidth(280);
+        messageLabel.setMinWidth(35);
+        messageLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
+
+        // Bind to parent ListView width if available
+        if (parentListView != null) {
+            messageLabel.maxWidthProperty().bind(parentListView.widthProperty().multiply(0.5));
+        }
 
         String bubbleColor = isCurrentUser ? "#00BFA5" : "#3a3a3a";
         String textColor = isCurrentUser ? "white" : "#e0e0e0";
@@ -137,9 +152,10 @@ public class MessageBubble extends HBox {
         messageLabel.setStyle(
                 "-fx-background-color: " + bubbleColor + "; " +
                         "-fx-text-fill: " + textColor + "; " +
-                        "-fx-padding: 8 12; " +
+                        "-fx-padding: 9 9; " +
                         "-fx-background-radius: 15; " +
-                        "-fx-font-size: 13px; " +
+                        "-fx-font-size: 16px; " +
+                        "-fx-font-family: 'Artifakt Element'; " +
                         "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 0, 1);"
         );
 

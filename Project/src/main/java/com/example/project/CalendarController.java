@@ -28,11 +28,17 @@ import javafx.scene.layout.BorderPane;
 
 
 import javafx.scene.paint.Color;          // (new)
-import javafx.util.StringConverter;       // already added before
 import javafx.scene.text.Font;
 
 import javafx.scene.effect.DropShadow;
 import javafx.scene.text.TextAlignment;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 
 public class CalendarController {
@@ -55,7 +61,7 @@ public class CalendarController {
     @FXML private VBox   addTaskPane;
     @FXML private Button cancelBtn;
     @FXML private Button saveBtn;
-    @FXML private TextField         titleField;
+    @FXML private TextField titleField;
     @FXML private Spinner<Integer>  hourSpin;
     @FXML private Spinner<Integer>  minSpin;
     @FXML private Spinner<Integer>  durSpin;
@@ -181,8 +187,8 @@ public class CalendarController {
         prioChoice.getItems().setAll("Low","Normal","High");
         prioChoice.setValue("Normal");
 
-        addTaskPane.prefHeightProperty().bind(taskListView.heightProperty());
-        addTaskPane.maxHeightProperty().bind(taskListView.heightProperty());
+        addTaskPane.prefHeightProperty().bind(taskListView.heightProperty().multiply(0.8));
+        addTaskPane.maxHeightProperty().bind(taskListView.heightProperty().multiply(0.6));
         addTaskPane.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
         addTaskPane.maxWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
         showTasksForDay(LocalDate.now(APP_ZONE));
@@ -490,6 +496,74 @@ public class CalendarController {
     private void hideAddTaskForm() {
         addTaskPane.setVisible(false);
         addTaskPane.setManaged(false);
+    }
+
+    @FXML
+    private void goToDashboard(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToCourseTracker(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CourseTracker.fxml"));
+            Parent root = loader.load();
+            CourseTrackerController controller = loader.getController();
+            if (CurrentUser.username != null && !CurrentUser.username.isEmpty()) {
+                controller.setUsername(CurrentUser.username);
+            } else {
+                controller.setUsername("defaultUser");
+            }
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToStudyTimer(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("studyTimer.fxml"));
+            Parent root = loader.load();
+            StudyTimerController controller = loader.getController();
+            if (CurrentUser.username != null && !CurrentUser.username.isEmpty()) {
+                controller.setUsername(CurrentUser.username);
+            } else {
+                controller.setUsername("defaultUser");
+            }
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToCommunity(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Rooms.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

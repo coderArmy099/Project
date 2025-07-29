@@ -233,17 +233,12 @@
 /* Track (background of scrollbar) */
 .scroll-pane .scroll-bar:vertical .track {
     -fx-background-color: #1A1A1A;
-    /*-fx-border-color: #333333;*/
-    /*-fx-border-radius: 8px;*/
     -fx-background-radius: 8px;
 }
 
 /* Thumb*/
 .scroll-pane .scroll-bar:vertical .thumb {
     -fx-background-color: #404040;
-    /*-fx-border-color: #00BFA5;*/
-    /*-fx-border-width: 1px;*/
-    /*-fx-border-radius: 6px;*/
     -fx-background-radius: 6px;
 }
 
@@ -279,4 +274,58 @@
 /* Make scrollbars thinner and more elegant */
 .scroll-pane .scroll-bar:vertical {
     -fx-pref-width: 15px;
+}
+
+
+/*dashboard er part*/
+
+.user-avatar-large {
+    -fx-icon-size: 120px;
+    -fx-icon-color: #00BFA5;
+    -fx-background-color: #303030;
+    -fx-background-radius: 60px;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.3), 8, 0, 0, 2);
+}
+
+/* Username display - large and prominent */
+.username-display {
+    -fx-text-fill: #00BFA5;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Artifakt Element Heavy';
+}
+
+/* School display - smaller, secondary info */
+.school-display {
+    -fx-text-fill: #B0B0B0;
+    -fx-font-size: 18px;
+    -fx-font-weight: normal;
+    -fx-font-family: 'Artifakt Element';
+}
+
+/* Logout button using ChatRoom back-btn styling */
+.back-btn {
+    -fx-background-color: #00BFA5;
+    -fx-text-fill: white;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 8 12;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 191, 165, 0.4), 6, 0, 0, 2);
+}
+
+.back-btn:hover {
+    -fx-background-color: #00E5CC;
+    -fx-effect: dropshadow(gaussian, rgba(0, 191, 165, 0.6), 8, 0, 0, 3);
+}
+
+.back-btn:pressed {
+    -fx-background-color: #009688;
+}
+
+.back-icon {
+    -fx-icon-size: 16px;
+    -fx-icon-color: white;
 }

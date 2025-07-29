@@ -48,12 +48,6 @@
                 </ScrollPane>
 
             </VBox>
-         <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="user-button" text="Button" textAlignment="JUSTIFY" StackPane.alignment="TOP_RIGHT">
-
-
-            <StackPane.margin>
-               <Insets right="30.0" top="28.0" />
-            </StackPane.margin></Button>
 
             <!-- ───────── floating "create hive" button ───────── -->
             <Button fx:id="createHiveBtn" onAction="#showCreateHiveForm" styleClass="fab" text="+" StackPane.alignment="BOTTOM_RIGHT">
@@ -120,6 +114,16 @@
 
     <left>
         <VBox fx:id="navPane" alignment="CENTER" spacing="18" styleClass="nav-pane">
+            <Button fx:id="dashboardBtn" onAction="#goToDashboard" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-home" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="courseTrackerNavBtn" onAction="#goToCourseTracker" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-book" styleClass="nav-icon" />
+                </graphic>
+            </Button>
             <!-- Calendar Button -->
             <Button fx:id="calendarBtn" onAction="#goToCalendar" styleClass="nav-button">
                 <graphic>
@@ -128,7 +132,7 @@
             </Button>
 
             <!-- Timer Button -->
-            <Button fx:id="timerBtn" styleClass="nav-button">
+            <Button fx:id="timerBtn" onAction="#goToStudyTimer" styleClass="nav-button">
                 <graphic>
                     <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
                 </graphic>

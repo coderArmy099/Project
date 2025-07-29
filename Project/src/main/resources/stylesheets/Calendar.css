@@ -1,5 +1,10 @@
 .root-pane {
     -fx-background-color: #1a1a1a; /* Dark background */
+    -fx-clip-children: false; /* Ensures no overflow */
+}
+
+.border-pane > .left {
+    -fx-clip-children: false;
 }
 
 .top-bar {
@@ -14,6 +19,7 @@
     -fx-text-fill: #e0e0e0;
     -fx-font-size: 24px;
     -fx-font-weight: bold;
+    -fx-font-family: "Artifakt Element Heavy";
 }
 
 .top-button {
@@ -103,6 +109,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.40), 20, 0.35, 2, 0);
 
     -fx-padding: 25 12 25 12;
+    -fx-view-order: -1;
 }
 
 /* round icon buttons – slightly lighter grey for clear contrast */
@@ -181,6 +188,7 @@
     -fx-text-fill: #00bfa6;   /* app accent colour */
     -fx-font-size: 24px;
     -fx-font-weight: bold;
+    -fx-font-family: "Artifakt Element Heavy";
 }
 
 
@@ -253,11 +261,11 @@
     -fx-background-radius: 12;
 }
 
-.list-cell:completed .label {
-    -fx-text-fill: #7a7a7a;
-    -fx-opacity: 0.45;
-    -fx-strikethrough: true;
-}
+/*.list-cell:completed .label {*/
+/*    -fx-text-fill: #7a7a7a;*/
+/*    -fx-opacity: 0.45;*/
+/*    -fx-strikethrough: true;*/
+/*}*/
 
 .list-view .placeholder .label {
     -fx-alignment: center;
@@ -422,4 +430,274 @@
 /* Make scrollbars thinner and more elegant */
 .scroll-pane .scroll-bar:vertical {
     -fx-pref-width: 15px;
+}
+
+
+
+/*Dibya er part*/
+
+
+.course-card {
+    -fx-background-color: #3b3b3b; /* Darker background for cards */
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);
+    /* For 3 courses in a row, adjust width to be roughly 33% minus gaps */
+    -fx-pref-width: 30%; /* Start with a percentage */
+    -fx-min-width: 280px; /* Minimum width to prevent squishing */
+    -fx-max-width: 320px; /* Maximum width to control growth on large screens */
+    -fx-min-height: 200px; /* Give some minimum height */
+    -fx-alignment: top-left;
+}
+
+.course-title-label {
+    -fx-text-fill: #00bfa6; /* Changed to teal color as requested */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.course-detail-label {
+    -fx-text-fill: #e0e0e0; /* Changed to light gray for visibility */
+    -fx-font-size: 14px; /* Slightly increased font size */
+}
+
+.course-progress-bar .bar {
+    -fx-background-color: linear-gradient(to right, #00bfa6, #00d7c0); /* Teal gradient */
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-padding: 0.2em;
+    -fx-border-radius: 8;
+    -fx-background-clip: padding-box;
+    -fx-border-width: 0;
+}
+
+.course-progress-bar {
+    -fx-control-inner-background: #4a4a4a; /* Background of the progress bar track */
+    -fx-background-radius: 8;
+    -fx-padding: 0;
+    -fx-pref-height: 16px;
+    -fx-background-clip: padding-box;
+    -fx-border-width: 0;
+    -fx-hgrow: ALWAYS; /* Allow progress bar to grow horizontally */
+}
+
+
+/* Transparent ScrollPane for better integration with dark themes */
+.transparent-scrollpane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.transparent-scrollpane .scroll-bar:vertical .track-background,
+.transparent-scrollpane .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/* Added styles to make the viewport and content of the ScrollPane transparent */
+.transparent-scrollpane .viewport {
+    -fx-background-color: #2b2b2b !important; /* Explicitly set dark background with !important */
+}
+
+.transparent-scrollpane .content {
+    -fx-background-color: #2b2b2b !important; /* Explicitly set dark background with !important */
+}
+
+.transparent-scrollpane .scroll-bar:vertical .thumb,
+.transparent-scrollpane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #555555; /* Darker thumb */
+    -fx-background-insets: 2;
+    -fx-background-radius: 5;
+}
+
+.transparent-scrollpane .scroll-bar:vertical .thumb:hover,
+.transparent-scrollpane .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #3b3b3b; /* Lighter thumb on hover */
+}
+
+.transparent-scrollpane .scroll-bar .increment-button,
+.transparent-scrollpane .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.transparent-scrollpane .scroll-bar .increment-arrow,
+.transparent-scrollpane .scroll-bar .decrement-arrow {
+    -fx-background-color: #3a3a3a; /* Arrow color */
+}
+
+.transparent-scrollpane .scroll-bar .track {
+    -fx-background-color: #3a3a3a; /* Track background */
+    -fx-background-radius: 5;
+}
+
+/* --- NEW HIGHLY SPECIFIC STYLES FOR TEXT INPUT AREAS WITHIN FORMS --- */
+/* This targets the internal text-input region to force a dark background and visible caret */
+.add-task-card .text-field .text-input,
+.add-task-card .spinner .text-field .text-input,
+.add-task-card .date-picker .text-field .text-input {
+    -fx-background-color: #1a1a1a !important; /* Make background truly black */
+    -fx-text-fill: #e0e0e0 !important; /* Ensure text is visible (light gray) */
+    -fx-caret-color: #00bfa6 !important; /* Teal cursor */
+}
+
+/* Style for CheckBox text within the forms/details view */
+.check-box .text { /* More general rule for all checkbox text */
+    -fx-fill: #e0e0e0; /* Light gray for checkbox text */
+}
+
+.check-box { /* Also target the checkbox control itself */
+    -fx-text-fill: #e0e0e0;
+}
+
+/* Style for the delete cross icon button */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+    -fx-cursor: hand;
+}
+
+.icon-button:hover .delete-icon {
+    -fx-fill: #ff6666; /* Red on hover */
+}
+
+.delete-icon {
+    -fx-fill: #e0e0e0; /* Light grey by default */
+    -fx-font-size: 16px;
+}
+
+/* Styles for the custom confirmation dialog */
+.custom-confirm-dialog {
+    -fx-background-color: #2b2b2b;
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 12, 0, 0, 4);
+    -fx-border-color: #00bfa6;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.custom-confirm-dialog .form-title {
+    -fx-text-fill: #e0e0e0; /* Ensure title is visible */
+}
+
+/* Bar Graph Canvas styling (optional, for visual distinction) */
+.study-time-bar-graph-canvas {
+    -fx-background-color: #2b2b2b; /* Dark background for the canvas */
+    -fx-background-radius: 8;
+    -fx-border-color: #4a4a4a;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+}
+
+/* Specific style for the content box within study records to ensure dark background */
+.study-records-content-box {
+    -fx-background-color: #2b2b2b; /* Dark background */
+    -fx-padding: 10; /* Add some padding */
+    -fx-background-radius: 8;
+}
+
+/* Specific style for the VBox containing topics checklist in course details */
+.detail-topics-checklist-box {
+    -fx-background-color: #2b2b2b; /* Dark background */
+    -fx-padding: 5;
+    -fx-background-radius: 8;
+}
+
+/* Explicitly set background for SplitPane and its divider */
+.split-pane {
+    -fx-background-color: #2b2b2b;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: #4a4a4a; /* Darker divider */
+}
+
+
+/*dibya er bug*/
+
+/* ChoiceBox arrow styling */
+.choice-box > .open-button > .arrow {
+    -fx-background-color: #00bfa6;
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+    -fx-scale-shape: true;
+    -fx-pref-width: 8;
+    -fx-pref-height: 4;
+}
+
+.choice-box > .open-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 8 0 0;
+}
+
+/* ChoiceBox prompt text visibility */
+.choice-box > .label {
+    -fx-text-fill: #b0b0b0; /* Lighter gray for prompt text */
+}
+
+/* When item is selected, make text more visible */
+.choice-box:showing > .label {
+    -fx-text-fill: #f8f8f8;
+}
+
+/* ComboBox styling to match ChoiceBox */
+.combo-box-base {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 16px;
+}
+
+/* ComboBox text field (editable area) */
+.combo-box-base > .text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #00bfa6;
+    -fx-padding: 6 4 4 4;
+    -fx-text-fill: #f8f8f8;
+    -fx-prompt-text-fill: #b0b0b0; /* Match ChoiceBox prompt text color */
+}
+
+.combo-box-base:focused > .text-field {
+    -fx-border-color: #00ffd7;
+    -fx-prompt-text-fill: #e0e0e0;
+}
+
+/* ComboBox arrow button - matches ChoiceBox */
+.combo-box-base > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 8 0 0;
+}
+
+.combo-box-base > .arrow-button > .arrow {
+    -fx-background-color: #00bfa6;
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+    -fx-scale-shape: true;
+    -fx-pref-width: 8;
+    -fx-pref-height: 4;
+}
+
+/* ComboBox dropdown styling */
+.combo-box-popup > .list-view {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #00bfa6;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.combo-box-popup > .list-view > .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e0e0e0;
+    -fx-padding: 8 12;
+}
+
+.combo-box-popup > .list-view > .list-cell:hover {
+    -fx-background-color: #404040;
+}
+
+.combo-box-popup > .list-view > .list-cell:selected {
+    -fx-background-color: #00bfa6;
+    -fx-text-fill: #101010;
 }

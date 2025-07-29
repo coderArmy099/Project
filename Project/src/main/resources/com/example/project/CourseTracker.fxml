@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+
+<BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/Calendar.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.CourseTrackerController">
+
+    <left>
+        <VBox fx:id="navPane" alignment="CENTER" spacing="18.0" styleClass="nav-pane">
+            <Button fx:id="dashboardBtn" onAction="#goToDashboard" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-home" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="courseTrackerNavBtn" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-book" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="calendarBtn" onAction="#goToCalendar" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-calendar" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="timerNavBtn" onAction="#goToStudyTimer" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="communityBtn" onAction="#goToCommunity" styleClass="nav-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-users" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="rootStack">
+            <VBox fx:id="mainContentVBox" spacing="10" styleClass="main-content-vbox">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+
+                <HBox alignment="CENTER" prefHeight="53.0" prefWidth="892.0" spacing="10" styleClass="task-list">
+                    <padding>
+                        <Insets bottom="10" left="20" right="20" top="10" />
+                    </padding>
+                    <Label styleClass="year-label" text="Course Tracker" />
+                </HBox>
+            <HBox alignment="CENTER" prefHeight="17.0" prefWidth="892.0">
+               <children>
+                  <Label alignment="CENTER" text="One place to keep track of all your courses" textFill="WHITE">
+                     <font>
+                        <Font name="ArtifaktElement-Heavy" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+
+                <ScrollPane fitToWidth="true" styleClass="task-list" VBox.vgrow="ALWAYS">
+                    <content>
+                        <FlowPane fx:id="courseFlowPane" alignment="TOP_LEFT" hgap="20" vgap="20">
+                            <!-- Courses will be dynamically added here by the controller -->
+                        </FlowPane>
+                    </content>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                </ScrollPane>
+            </VBox>
+
+            <Label fx:id="noCoursesPromptLabel" managed="false" style="-fx-text-fill: #b0b0b0; -fx-font-size: 24px; -fx-font-weight: bold;" text="Click the '+' icon to add your courses!" visible="false" StackPane.alignment="CENTER" />
+
+
+            <Button fx:id="addCourseBtn" styleClass="fab" text="+" StackPane.alignment="BOTTOM_RIGHT">
+                <StackPane.margin>
+                    <Insets bottom="45.0" left="45.0" right="45.0" top="45.0" />
+                </StackPane.margin>
+            </Button>
+
+            <!-- Add Course Form (initially hidden) -->
+            <VBox fx:id="addCoursePane" managed="false" spacing="14" styleClass="add-task-card" visible="false" StackPane.alignment="CENTER">
+                <StackPane.margin>
+                    <Insets bottom="50" left="150" right="150" top="50" />
+                </StackPane.margin>
+                <prefWidth>600.0</prefWidth>
+                <prefHeight>550.0</prefHeight>
+
+                <Label styleClass="form-title" text="Add New Course" />
+
+                <ScrollPane fitToWidth="true" styleClass="transparent-scrollpane" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="14">
+                            <GridPane fx:id="formGrid" hgap="14" vgap="16">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="100" />
+                                </columnConstraints>
+
+                                <Label styleClass="hint-label" text="Course Name" GridPane.rowIndex="0" />
+                                <TextField fx:id="courseNameField" promptText="Enter course name" styleClass="form-field" GridPane.rowIndex="1" />
+
+                                <Label styleClass="hint-label" text="Teacher Name" GridPane.rowIndex="2" />
+                                <TextField fx:id="teacherNameField" promptText="Enter teacher name" styleClass="form-field" GridPane.rowIndex="3" />
+
+                                <Label styleClass="hint-label" text="Credit Hour" GridPane.rowIndex="4" />
+                                <Spinner fx:id="creditHourSpinner" styleClass="form-field" GridPane.rowIndex="5" />
+
+                                <Label styleClass="hint-label" text="Add Topic" GridPane.rowIndex="6" />
+                                <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="7">
+                                    <TextField fx:id="newTopicField" promptText="Enter a new topic" styleClass="form-field" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="addTopicBtn" prefHeight="30" prefWidth="100" styleClass="accent-btn" text="Add Topic" />
+                                </HBox>
+
+                                <Label styleClass="hint-label" text="Current Topics:" GridPane.rowIndex="8" />
+                                <FlowPane fx:id="topicsDisplayBox" hgap="5" vgap="5" GridPane.rowIndex="9">
+                                    <!-- Dynamically added topics (e.g., as HBox with Label and Remove Button) will go here -->
+                                </FlowPane>
+
+                                <Label styleClass="hint-label" text="Reference Books" GridPane.rowIndex="10" />
+                                <TextField fx:id="refBooksField" promptText="Enter reference books (comma-separated)" styleClass="form-field" GridPane.rowIndex="11" />
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                            </GridPane>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <HBox alignment="CENTER_RIGHT" spacing="16">
+                    <Button fx:id="cancelBtn" styleClass="flat-btn" text="Cancel" />
+                    <Button fx:id="createBtn" styleClass="accent-btn" text="Create Course" />
+                </HBox>
+            </VBox>
+
+            <!-- Course Details View (initially hidden) -->
+            <VBox fx:id="courseDetailsPane" managed="false" spacing="14" styleClass="add-task-card" visible="false" StackPane.alignment="CENTER">
+                <StackPane.margin>
+                    <Insets bottom="50" left="150" right="150" top="50" />
+                </StackPane.margin>
+                <prefWidth>600.0</prefWidth>
+                <prefHeight>550.0</prefHeight>
+
+                <HBox alignment="CENTER" spacing="10">
+                    <Label fx:id="detailCourseNameLabel" styleClass="form-title" text="Course Name" />
+                </HBox>
+
+                <Label styleClass="hint-label" text="Progress:" />
+                <HBox alignment="CENTER" spacing="10">
+                    <StackPane prefHeight="150" prefWidth="150">
+                        <Canvas fx:id="detailProgressCanvas" height="150" width="150" />
+                        <Label fx:id="detailProgressText" styleClass="accent-label" text="0%" />
+                    </StackPane>
+                </HBox>
+
+                <Label styleClass="hint-label" text="Topics Checklist:" />
+                <ScrollPane fitToWidth="true" prefHeight="200" styleClass="transparent-scrollpane" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox fx:id="detailTopicsChecklist" spacing="5" styleClass="detail-topics-checklist-box">
+                            <!-- Checkboxes for topics will be added here dynamically -->
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <HBox alignment="BOTTOM_RIGHT" spacing="16">
+                    <Button fx:id="showStudyRecordsBtn" styleClass="accent-btn" text="Show Study Records" />
+                    <Button fx:id="okDetailsBtn" styleClass="accent-btn" text="OK" />
+                </HBox>
+            </VBox>
+
+            <!-- Custom Study Records Display (initially hidden) -->
+            <VBox fx:id="studyRecordsDisplayPane" managed="false" spacing="10" styleClass="add-task-card" visible="false" StackPane.alignment="CENTER">
+                <StackPane.margin>
+                    <Insets bottom="50" left="150" right="150" top="50" />
+                </StackPane.margin>
+                <prefWidth>600.0</prefWidth>
+                <prefHeight>550.0</prefHeight>
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label fx:id="studyRecordsTitleLabel" styleClass="form-title" text="Study Records" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button fx:id="closeStudyRecordsBtn" prefHeight="30" prefWidth="30" styleClass="fab" text="X" />
+                </HBox>
+
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+                    <items>
+                        <VBox>
+                            <Label styleClass="hint-label" text="Study Records List:" /> <!-- New label for records list -->
+                            <ScrollPane fitToWidth="true" prefHeight="200" styleClass="transparent-scrollpane" VBox.vgrow="ALWAYS">
+                                <content>
+                                    <VBox fx:id="studyRecordsContentBox" spacing="5" styleClass="study-records-content-box">
+                                        <!-- Study records will be dynamically added here -->
+                                    </VBox>
+                                </content>
+                            </ScrollPane>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <Label styleClass="hint-label" text="Study Time Breakdown:" />
+                            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" prefHeight="200" styleClass="transparent-scrollpane" vbarPolicy="NEVER">
+                                <content>
+                                    <Canvas fx:id="studyTimeBarGraphCanvas" height="150" width="500" /> <!-- Canvas for bar graph -->
+                                </content>
+                            </ScrollPane>
+                        </VBox>
+                    </items>
+                </SplitPane>
+            </VBox>
+
+            <!-- Custom Confirmation Dialog (initially hidden) -->
+            <VBox fx:id="customConfirmDialog" alignment="CENTER" managed="false" spacing="20" styleClass="add-task-card" visible="false">
+                <StackPane.margin>
+                    <Insets left="200" right="200" />
+                </StackPane.margin>
+                <Label fx:id="confirmMessageLabel" styleClass="form-title" textAlignment="CENTER" wrapText="true" />
+                <HBox alignment="CENTER" spacing="20">
+                    <Button fx:id="confirmYesButton" prefWidth="100" styleClass="accent-btn" text="Yes" />
+                    <Button fx:id="confirmNoButton" prefWidth="100" styleClass="flat-btn" text="No" />
+                </HBox>
+            </VBox>
+
+        </StackPane>
+    </center>
+</BorderPane>

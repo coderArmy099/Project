@@ -58,7 +58,7 @@ public class HelloController {
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
                             Parent root = loader.load();
                             DashboardController controller = loader.getController();
-                            controller.setUsername(userId);
+                            //controller.setUsername(userId);
                             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                             Scene scene = new Scene(root, 1000, 600);
                             stage.setScene(scene);

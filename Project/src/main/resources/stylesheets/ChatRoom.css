@@ -87,7 +87,6 @@
 .messages-list .list-cell {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-padding: 4 0;
 }
 
 .messages-list .list-cell:selected {
@@ -208,8 +207,6 @@
 .users-list .scroll-bar:vertical .track,
 .users-list .scroll-bar:horizontal .track {
     -fx-background-color: #1A1A1A;
-    -fx-border-color: #333333;
-    -fx-border-radius: 8px;
     -fx-background-radius: 8px;
 }
 
@@ -218,9 +215,6 @@
 .users-list .scroll-bar:vertical .thumb,
 .users-list .scroll-bar:horizontal .thumb {
     -fx-background-color: #404040;
-    -fx-border-color: #00BFA5;
-    -fx-border-width: 1px;
-    -fx-border-radius: 6px;
     -fx-background-radius: 6px;
 }
 
@@ -229,7 +223,6 @@
 .users-list .scroll-bar:vertical .thumb:hover,
 .users-list .scroll-bar:horizontal .thumb:hover {
     -fx-background-color: #505050;
-    -fx-border-color: #00E5CC;
     -fx-border-width: 2px;
 }
 
@@ -238,7 +231,6 @@
 .users-list .scroll-bar:vertical .thumb:pressed,
 .users-list .scroll-bar:horizontal .thumb:pressed {
     -fx-background-color: #00BFA5;
-    -fx-border-color: #00E5CC;
 }
 
 .messages-list .scroll-bar .increment-button,
@@ -246,10 +238,7 @@
 .users-list .scroll-bar .increment-button,
 .users-list .scroll-bar .decrement-button {
     -fx-background-color: #2A2A2A;
-    -fx-border-color: #00BFA5;
-    -fx-border-width: 1px;
     -fx-background-radius: 4px;
-    -fx-border-radius: 4px;
 }
 
 .messages-list .scroll-bar .increment-button:hover,
@@ -270,4 +259,36 @@
 .messages-list .scroll-bar .corner,
 .users-list .scroll-bar .corner {
     -fx-background-color: #1A1A1A;
+}
+
+
+/* Session Timer styling */
+.session-timer {
+    -fx-background-color: #00BFA5;
+    -fx-text-fill: white;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 12 20;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Artifakt Element';
+    -fx-effect: dropshadow(gaussian, rgba(0, 191, 165, 0.4), 6, 0, 0, 2);
+}
+
+/* Update users list cell styling */
+.users-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B0B0B0;
+    -fx-padding: 6 8;
+    -fx-border-color: transparent;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Artifakt Element';
+}
+
+.users-list .list-cell:hover {
+    -fx-background-color: transparent;
+}
+
+.users-list .list-cell:selected {
+    -fx-background-color: transparent;
 }

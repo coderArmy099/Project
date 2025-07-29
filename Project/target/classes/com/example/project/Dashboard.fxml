@@ -1,106 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.DashboardController">
-   <children>
-      <AnchorPane layoutX="-4.0" layoutY="-2.0" prefHeight="653.0" prefWidth="357.0" style="-fx-background-color: #413c3c;">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="104.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Images/images%20(1).jpeg" />
-               </image>
-            </ImageView>
-            <Text fill="#f9f5f5" layoutX="37.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome">
-               <font>
-                  <Font size="28.0" />
-               </font>
-            </Text>
-            <Button fx:id="Home" layoutX="147.0" layoutY="310.0" mnemonicParsing="false" onAction="#goToHome" prefHeight="49.0" prefWidth="85.0" style="-fx-background-color: #8fce00;" text="Home">
-               <font>
-                  <Font name="System Bold" size="12.179104804992676" />
-               </font>
-            </Button>
-            <Button layoutX="147.0" layoutY="383.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="85.0" style="-fx-background-color: #8fce00;" text="Message">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="12.179104804992676" />
-               </font>
-            </Button>
-            <Button layoutX="147.0" layoutY="458.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="85.0" style="-fx-background-color: #8fce00;" text="Notifications">
-               <font>
-                  <Font name="ArtifaktElement-Heavy" size="10.0" />
-               </font>
-            </Button>
-            <Button layoutX="147.0" layoutY="531.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="85.0" style="-fx-background-color: #8fce00;" text="Progress">
-               <font>
-                  <Font name="ArtifaktElement-Black" size="12.179104804992676" />
-               </font>
-            </Button>
-            <ImageView fitHeight="37.0" fitWidth="44.0" layoutX="79.0" layoutY="316.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Images/download%20(9).png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="37.0" fitWidth="44.0" layoutX="75.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Images/download%20(4).png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="75.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Images/download%20(5).jpeg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="44.0" fitWidth="50.0" layoutX="75.0" layoutY="534.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Images/download%20(11).png" />
-               </image>
-            </ImageView>
-            <Label fx:id="welcomeName" layoutX="170.0" layoutY="234.0" prefHeight="44.0" prefWidth="101.0" text="Label" textFill="#e4dddd">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="353.0" layoutY="-1.0" prefHeight="653.0" prefWidth="661.0" style="-fx-background-color: #eeeeee;">
-         <children>
-            <Text layoutX="228.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard User">
-               <font>
-                  <Font name="ArtifaktElement-Black" size="34.0" />
-               </font>
-            </Text>
-            <Button fx:id="StudyTImer" layoutX="125.0" layoutY="174.0" mnemonicParsing="false" onAction="#studyTimer" prefHeight="79.0" prefWidth="124.0">
-               <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../Images/download%20(6).jpeg" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="Logout" layoutX="579.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="67.0" style="-fx-background-color: #f6b26b;" text="Logout">
-               <font>
-                  <Font name="Artifakt Element Black Italic" size="12.179104804992676" />
-               </font>
-            </Button>
-            <Button layoutX="359.0" layoutY="221.0" mnemonicParsing="false" onAction="#schedule" text="SCHEDULE">
-               <font>
-                  <Font name="ArtifaktElement-Heavy" size="31.0" />
-               </font>
-            </Button>
-            <Button fx:id="hiveButton" layoutX="134.0" layoutY="421.0" mnemonicParsing="false" onAction="#Rooms" text="HIVE">
-               <font>
-                  <Font name="Bank Gothic Light BT" size="38.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-   </children>
-</AnchorPane>
+<BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/Rooms.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.DashboardController">
+
+   <center>
+      <StackPane fx:id="rootStack">
+         <VBox spacing="10" styleClass="main-content-vbox">
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+
+
+            <HBox fx:id="userInfoBox" alignment="CENTER_LEFT" fillHeight="false" maxHeight="360.0" minHeight="56.0" prefHeight="203.0" prefWidth="892.0" styleClass="task-list" VBox.vgrow="NEVER">
+               <padding>
+                  <Insets bottom="25.0" left="30.0" right="30.0" top="25.0" />
+               </padding>
+
+               <!-- User Avatar Circle -->
+               <FontIcon iconLiteral="fas-user-circle" styleClass="user-avatar-large">
+                  <HBox.margin>
+                     <Insets left="25.0" right="10.0" />
+                  </HBox.margin>
+               </FontIcon>
+
+               <!-- User Info VBox -->
+               <VBox spacing="6" HBox.hgrow="NEVER">
+                  <HBox.margin>
+                     <Insets left="10.0" right="20.0" />
+                  </HBox.margin>
+                  <Label fx:id="usernameLabel" styleClass="username-display" text="Username" />
+                  <Label fx:id="schoolLabel" styleClass="school-display" text="School" />
+               </VBox>
+
+               <!-- Spacer -->
+               <Region HBox.hgrow="ALWAYS" />
+
+               <!-- Logout Button -->
+               <Button fx:id="logoutBtn" maxHeight="55.0" maxWidth="100.0" minHeight="55.0" minWidth="100.0" onAction="#handleLogout" prefHeight="55.0" prefWidth="100.0" styleClass="back-btn" text="Logout">
+                  <HBox.margin>
+                     <Insets left="35.0" right="35.0" />
+                  </HBox.margin>
+                  <font>
+                     <Font name="ArtifaktElement-Black" size="18.0" />
+                  </font>
+               </Button>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="562.0" prefWidth="892.0" styleClass="task-list" VBox.vgrow="ALWAYS" />
+
+         </VBox>
+
+      </StackPane>
+   </center>
+
+   <left>
+      <VBox fx:id="navPane" alignment="CENTER" spacing="18" styleClass="nav-pane">
+         <Button fx:id="dashboardBtn" onAction="#goToDashboard" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-home" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+         <Button fx:id="courseTrackerNavBtn" onAction="#goToCourseTracker" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-book" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+         <!-- Calendar Button -->
+         <Button fx:id="calendarBtn" onAction="#goToCalendar" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-calendar" selectionEnd="0" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+
+         <!-- Timer Button -->
+         <Button fx:id="timerBtn" onAction="#goToStudyTimer" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+
+         <!-- Community/Study Together Button -->
+         <Button fx:id="communityBtn" onAction="#goToCommunity" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-users" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+      </VBox>
+   </left>
+
+</BorderPane>

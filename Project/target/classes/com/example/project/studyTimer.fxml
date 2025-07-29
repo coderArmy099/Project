@@ -1,69 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
+<BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/Calendar.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.StudyTimerController">
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #bcbcbc;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.StudyTimerController">
-   <children>
-      <Label fx:id="timerLabel" layoutX="398.0" layoutY="238.0" prefHeight="85.0" prefWidth="248.0" text="00:00:00">
-         <font>
-            <Font name="ArtifaktElement-Heavy" size="50.0" />
-         </font>
-      </Label>
-      <Button fx:id="Start" layoutX="338.0" layoutY="365.0" mnemonicParsing="false" onAction="#startButton" prefHeight="67.0" prefWidth="90.0" style="-fx-background-color: #ffe599;" text="Start">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="22.0" />
-         </font>
-      </Button>
-      <Button fx:id="Stop" layoutX="466.0" layoutY="365.0" mnemonicParsing="false" onAction="#stopButton" prefHeight="67.0" prefWidth="90.0" style="-fx-background-color: #ffe599;" text="Stop">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="23.0" />
-         </font>
-      </Button>
-      <Button fx:id="Reset" layoutX="584.0" layoutY="365.0" mnemonicParsing="false" onAction="#resetbutton" prefHeight="67.0" prefWidth="90.0" style="-fx-background-color: #ffe599;" text="Reset">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="18.0" />
-         </font>
-      </Button>
-      <ImageView fitHeight="188.0" fitWidth="197.0" layoutX="64.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Images/download%20(7).jpeg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="179.0" fitWidth="188.0" layoutX="773.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Images/images%20(2).jpeg" />
-         </image>
-      </ImageView>
-      <Text layoutX="383.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="It's my study time" wrappingWidth="278.67156982421875">
-         <font>
-            <Font name="System Bold" size="32.0" />
-         </font>
-      </Text>
-      <Text layoutX="41.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Motivation to study often sparks from purpose and progress—knowing what you're working toward and seeing how far you've come.">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Text>
-      <Button fx:id="showPreviousButton" layoutX="412.0" layoutY="479.0" mnemonicParsing="false" onAction="#showPreviousRecords" style="-fx-background-color: #e69138;" text="Show previous records">
-         <font>
-            <Font name="ArtifaktElement-Black" size="16.0" />
-         </font>
-      </Button>
-      <Button fx:id="Back" layoutX="934.0" layoutY="6.0" mnemonicParsing="false" onAction="#backtoDashboard" prefHeight="21.0" prefWidth="54.0">
-         <graphic>
-            <ImageView fitHeight="34.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Images/download%20(13).png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-   </children>
-</AnchorPane>
+   <left>
+      <VBox fx:id="navPane" alignment="CENTER" spacing="18" styleClass="nav-pane">
+         <Button fx:id="dashboardNavBtn" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-home" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+         <Button fx:id="courseTrackerNavBtn" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-book" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+         <Button fx:id="calendarNavBtn" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-calendar" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+         <Button fx:id="timerNavBtn" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+         <Button fx:id="communityBtn" styleClass="nav-button">
+            <graphic>
+               <FontIcon iconLiteral="fas-users" styleClass="nav-icon" />
+            </graphic>
+         </Button>
+      </VBox>
+   </left>
+
+   <center>
+      <StackPane fx:id="rootStack">
+         <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="main-content-vbox">
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+
+            <HBox alignment="CENTER" maxHeight="56.0" minHeight="56.0" prefHeight="56.0" prefWidth="892.0" spacing="10" styleClass="task-list" VBox.vgrow="NEVER">
+               <padding>
+                  <Insets bottom="10" left="20" right="20" top="10" />
+               </padding>
+               <Label styleClass="year-label" text="Study Timer" />
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="12.0" prefWidth="892.0">
+               <children>
+      
+                  <!-- "It's my study time" label -->
+                  <Label text="Track your study sessions" textFill="WHITE">
+                     <font>
+                        <Font name="ArtifaktElement-Heavy" size="17.0" />
+                     </font></Label>
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="559.0" prefWidth="892.0" spacing="10.0" styleClass="task-list" VBox.vgrow="ALWAYS">
+               <children>
+      
+                  <!-- Course and Topic Selection -->
+                  <HBox alignment="CENTER" spacing="15">
+                     <ComboBox fx:id="courseSelectionComboBox" editable="true" prefWidth="300" promptText="Select Course" styleClass="combo-box-base" />
+                     <ComboBox fx:id="topicSelectionComboBox" editable="true" prefWidth="300" promptText="Select Topic" styleClass="combo-box-base" />
+                  </HBox>
+
+                  <!-- Selected Course/Topic Label - Styled and bigger font size -->
+                  <Label fx:id="selectedCourseTopicLabel" alignment="CENTER" text="No course/topic selected" textFill="#7beab3">
+                     <font>
+                        <Font name="ArtifaktElement-Black" size="19.0" /> <!-- Increased font size -->
+                     </font>
+                     <style>-fx-text-fill: #00bfa6;</style> <!-- Explicitly set text color to white -->
+                  </Label>
+
+                  <!-- Circular Timer Animation with Digital Timer Label -->
+                  <StackPane alignment="CENTER" prefHeight="200" prefWidth="200">
+                     <Canvas fx:id="timerCanvas" height="200" width="200" />
+                     <Label fx:id="timerLabel" alignment="CENTER" styleClass="accent-label" text="00:00:00">
+                        <font>
+                           <Font name="System Bold" size="60.0" />
+                        </font>
+                        <textFill>#FFFFFF</textFill>
+                     </Label>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </StackPane>
+
+                  <!-- Timer Control Buttons (Icons) -->
+                  <HBox alignment="CENTER" spacing="30">
+                     <Button fx:id="startButton" maxHeight="50" maxWidth="50" minHeight="50" minWidth="50" onAction="#startButton" prefHeight="50" prefWidth="50" style="-fx-background-radius: 50%; -fx-border-radius: 50%;" styleClass="accent-btn">
+                        <graphic>
+                           <FontIcon fx:id="startIcon" iconLiteral="fas-play" iconSize="24" styleClass="nav-icon" />
+                        </graphic>
+                     </Button>
+                     <Button fx:id="stopButton" maxHeight="50" maxWidth="50" minHeight="50" minWidth="50" onAction="#stopButton" prefHeight="50" prefWidth="50" style="-fx-background-radius: 50%; -fx-border-radius: 50%;" styleClass="accent-btn">
+                        <graphic>
+                           <FontIcon iconLiteral="fas-stop" iconSize="24" styleClass="nav-icon" />
+                        </graphic>
+                     </Button>
+                     <Button fx:id="resetButton" maxHeight="50" maxWidth="50" minHeight="50" minWidth="50" onAction="#resetButton" prefHeight="50" prefWidth="50" style="-fx-background-radius: 50%; -fx-border-radius: 50%;" styleClass="accent-btn">
+                        <graphic>
+                           <FontIcon iconLiteral="fas-redo" iconSize="24" styleClass="nav-icon" />
+                        </graphic>
+                     </Button>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="892.0">
+                     <children>
+            
+                        <!-- Motivation Text -->
+                        <Label alignment="CENTER" maxWidth="900" text="Motivation to study often sparks from purpose and progress" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Artifakt Element Heavy Italic" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+      
+                  <!-- Message for no courses -->
+                  <Label fx:id="noCoursesMessageLabel" alignment="CENTER" managed="false" maxWidth="400" styleClass="hint-label" text="No courses found. Please go to Course Tracker to add courses." visible="false" wrapText="true" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </VBox>
+      </StackPane>
+   </center>
+</BorderPane>

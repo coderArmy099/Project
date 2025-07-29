@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane prefHeight="600.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/start.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.startController">
+
+    <!-- Login Pane -->
+    <HBox fx:id="loginPane" alignment="CENTER" prefHeight="400.0" prefWidth="700.0" spacing="0" styleClass="auth-container" visible="false">
+
+        <!-- Left Side - Welcome Text (no padding) -->
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="350.0" spacing="20" styleClass="welcome-side" HBox.hgrow="ALWAYS">
+         <Label styleClass="zeno-logo" text="ZENO" textFill="WHITE" />
+
+            <Label styleClass="welcome-title" text="Welcome Back!" />
+            <Label prefHeight="18.0" prefWidth="195.0" styleClass="welcome-subtitle" text="Good to see you again!" />
+         <Label prefHeight="121.0" prefWidth="367.0" text="Dive back into your Hives, where focused learners work side by side. Track your progress, measure every milestone, and transform study sessions into achievements. Here, your effort fuels not just your growth — but the entire community’s." textFill="WHITE" wrapText="true">
+            <font>
+               <Font name="ArtifaktElement-Black" size="15.0" />
+            </font>
+         </Label>
+        </VBox>
+
+        <!-- Right Side - Login Form (no padding) -->
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="376.0" spacing="25" styleClass="form-side" HBox.hgrow="ALWAYS">
+
+            <Label styleClass="form-title" text="Login" />
+
+            <VBox prefWidth="280.0" spacing="20">
+                <TextField fx:id="loginUsernameField" prefHeight="45.0" promptText="Enter username" styleClass="form-field" />
+                <PasswordField fx:id="loginPasswordField" prefHeight="51.0" prefWidth="410.0" promptText="Enter password" styleClass="form-field" />
+                <Button fx:id="loginButton" onAction="#handleLogin" prefHeight="45.0" prefWidth="591.0" styleClass="auth-button" text="Login" />
+            </VBox>
+
+            <Label onMouseClicked="#showSignupPane" styleClass="switch-text" text="Don't have an account? Sign up here" />
+        </VBox>
+    </HBox>
+
+    <!-- Signup Pane -->
+    <HBox fx:id="signupPane" alignment="CENTER" prefHeight="450.0" prefWidth="800.0" spacing="0" styleClass="auth-container">
+
+        <!-- Left Side - Signup Form (no padding) -->
+        <VBox alignment="CENTER" prefHeight="450.0" prefWidth="400.0" spacing="20" styleClass="form-side" HBox.hgrow="ALWAYS">
+
+            <Label styleClass="form-title" text="Create Account" />
+
+            <VBox prefWidth="320.0" spacing="15">
+                <TextField fx:id="signupNameField" prefHeight="45.0" promptText="Choose username" styleClass="form-field" />
+                <TextField fx:id="signupSchoolField" prefHeight="45.0" promptText="Enter your school" styleClass="form-field" />
+                <PasswordField fx:id="signupPasswordField" prefHeight="45.0" promptText="Choose password" styleClass="form-field" />
+                <Button fx:id="signupButton" onAction="#handleSignup" prefHeight="39.0" prefWidth="392.0" styleClass="auth-button" text="Sign Up" />
+            </VBox>
+
+            <Label onMouseClicked="#showLoginPane" styleClass="switch-text" text="Already have an account? Login here" />
+        </VBox>
+
+        <!-- Right Side - Welcome Text (no padding) -->
+        <VBox alignment="CENTER" prefHeight="450.0" prefWidth="400.0" spacing="20" styleClass="welcome-side" HBox.hgrow="ALWAYS">
+         <Label styleClass="zeno-logo" text="ZENO" />
+
+            <Label styleClass="welcome-title" text="Welcome to ZENO!" />
+         <Label prefHeight="164.0" prefWidth="407.0" text="The smarter way to study — track your progress with powerful stats and insights, stay productive with focused study sessions, and keep everything organized with simple to‑do lists. When you’re ready to connect, dive into Hives: vibrant study communities where learners motivate each other and achieve more, together." textFill="WHITE" wrapText="true">
+            <font>
+               <Font name="ArtifaktElement-Black" size="15.0" />
+            </font>
+         </Label>
+        </VBox>
+    </HBox>
+</StackPane>

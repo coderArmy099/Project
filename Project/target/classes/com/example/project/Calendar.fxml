@@ -4,9 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-
 
 <BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1000.0" styleClass="root-pane" stylesheets="@../../../stylesheets/Calendar.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.CalendarController">
 
@@ -16,9 +13,9 @@
             <VBox spacing="10" styleClass="main-content-vbox">
 
                 <padding>
-                    <Insets bottom="10" left="20" right="20" top="10" />
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                 </padding>
-               <HBox alignment="CENTER" spacing="6" styleClass="top-bar">
+               <HBox alignment="CENTER" minHeight="56.0" prefHeight="56.0" prefWidth="892.0" spacing="6" styleClass="task-list">
                    <padding>
                    <Insets bottom="10" left="20" right="20" top="10" />
                 </padding>
@@ -53,14 +50,14 @@
                         <graphic><FontIcon iconLiteral="fas-angle-right" styleClass="week-nav-icon" /></graphic>
                     </Button>
                 </HBox>
-                <ListView fx:id="taskListView" prefHeight="549.0" prefWidth="892.0" styleClass="task-list" />
+                <ListView fx:id="taskListView" prefHeight="549.0" prefWidth="892.0" styleClass="task-list" VBox.vgrow="ALWAYS" />
 
             </VBox>
 
             <!-- ───────── floating “add” button ───────── -->
             <Button fx:id="addTaskBtn" styleClass="fab" text="+" StackPane.alignment="BOTTOM_RIGHT">
                 <StackPane.margin>
-                    <Insets bottom="24" right="32" />
+                    <Insets bottom="45.0" right="45.0" />
                 </StackPane.margin>
             </Button>
 
@@ -68,10 +65,10 @@
             <!-- ───────── pop-up card (initially hidden) ───────── -->
             <!-- hide until button pressed -->
             <!-- exclude from layout while hidden -->
-            <VBox fx:id="addTaskPane" managed="false" prefHeight="549" prefWidth="500" spacing="14" styleClass="add-task-card" visible="false" StackPane.alignment="BOTTOM_RIGHT">
+            <VBox fx:id="addTaskPane" managed="false" spacing="14" styleClass="add-task-card" visible="false" StackPane.alignment="BOTTOM_RIGHT">
                 <StackPane.margin>
                     <!-- same right margin as button, but higher so it “grows” upward -->
-                    <Insets bottom="90" right="32" />
+                    <Insets bottom="110.0" right="40.0" />
                 </StackPane.margin>
 
 <!--                &lt;!&ndash; ───── header ───── &ndash;&gt;-->
@@ -111,7 +108,7 @@
 
 
                 <!-- 1. form title -->
-                <Label text="Add Task" styleClass="form-title" />
+                <Label styleClass="form-title" text="Add Task" />
 
 
 <!--                <GridPane fx:id="formGrid" hgap="14" vgap="24">-->
@@ -154,52 +151,50 @@
                 <!-- ───── grid inside the add-task card (complete, with fixed row indexes) ───── -->
                 <GridPane fx:id="formGrid" hgap="14" vgap="16">
                     <columnConstraints>
-                        <ColumnConstraints percentWidth="50"/>
-                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50" />
+                        <ColumnConstraints percentWidth="50" />
                     </columnConstraints>
 
                     <!-- ───────── row 0 ▸ task-name caption ───────── -->
-                    <Label text="Task name" styleClass="hint-label"
-                           GridPane.columnSpan="2" GridPane.rowIndex="0"/>
+                    <Label styleClass="hint-label" text="Task name" GridPane.columnSpan="2" GridPane.rowIndex="0" />
 
                     <!-- ───────── row 1 ▸ task-name field ───────── -->
-                    <TextField fx:id="titleField" styleClass="form-field"
-                               promptText="What has to be done?"
-                               GridPane.columnSpan="2" GridPane.rowIndex="1"/>
+                    <TextField fx:id="titleField" promptText="What has to be done?" styleClass="form-field" GridPane.columnSpan="2" GridPane.rowIndex="1" />
 
                     <!-- ───────── row 2 ▸ date / time captions ───────── -->
-                    <Label text="Date"       styleClass="hint-label"
-                           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <Label text="Start time" styleClass="hint-label"
-                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label styleClass="hint-label" text="Date" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label styleClass="hint-label" text="Start time" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
                     <!-- ───────── row 3 ▸ date / time inputs ───────── -->
-                    <DatePicker fx:id="datePick" promptText="Pick a date"
-                                GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <DatePicker fx:id="datePick" promptText="Pick a date" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
                     <HBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                        <Spinner fx:id="hourSpin" prefWidth="80"/>
-                        <Label text=":" style="-fx-text-fill:#e0e0e0; -fx-font-size:18;"/>
-                        <Spinner fx:id="minSpin"  prefWidth="80"/>
+                        <Spinner fx:id="hourSpin" prefWidth="80" />
+                        <Label style="-fx-text-fill:#e0e0e0; -fx-font-size:18;" text=":" />
+                        <Spinner fx:id="minSpin" prefWidth="80" />
                     </HBox>
 
                     <!-- ───────── row 4 ▸ duration / priority captions ───────── -->
-                    <Label text="Duration (min)" styleClass="hint-label"
-                           GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                    <Label text="Priority"       styleClass="hint-label"
-                           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    <Label styleClass="hint-label" text="Duration (min)" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label styleClass="hint-label" text="Priority" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                     <!-- ───────── row 5 ▸ duration / priority inputs ───────── -->
-                    <Spinner fx:id="durSpin" prefWidth="110"
-                             GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                    <ChoiceBox fx:id="prioChoice"
-                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                    <Spinner fx:id="durSpin" prefWidth="110" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <ChoiceBox fx:id="prioChoice" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
                 </GridPane>
 
 
                 <HBox alignment="CENTER_RIGHT" spacing="16">
-                    <Button fx:id="cancelBtn" text="Cancel"   styleClass="flat-btn"/>
-                    <Button fx:id="saveBtn"   text="Save"     styleClass="accent-btn"/>
+                    <Button fx:id="cancelBtn" styleClass="flat-btn" text="Cancel" />
+                    <Button fx:id="saveBtn" styleClass="accent-btn" text="Save" />
                 </HBox>
 
 
@@ -220,6 +215,17 @@
 <!--      </VBox>-->
        <VBox fx:id="navPane" alignment="CENTER" spacing="18" styleClass="nav-pane">
 
+
+           <Button fx:id="dashboardBtn" onAction="#goToDashboard" styleClass="nav-button">
+               <graphic>
+                   <FontIcon iconLiteral="fas-home" styleClass="nav-icon" />
+               </graphic>
+           </Button>
+           <Button fx:id="courseTrackerNavBtn" onAction="#goToCourseTracker" styleClass="nav-button">
+               <graphic>
+                   <FontIcon iconLiteral="fas-book" styleClass="nav-icon" />
+               </graphic>
+           </Button>
            <!-- Inbox -->
            <Button fx:id="calendarBtn" styleClass="nav-button">
                <graphic>
@@ -227,11 +233,16 @@
                    <FontIcon iconLiteral="fas-calendar" styleClass="nav-icon" />
                </graphic>
            </Button>
-         <Button fx:id="timerBtn" layoutX="22.0" layoutY="301.0" styleClass="nav-button">
+         <Button fx:id="timerBtn" layoutX="22.0" layoutY="301.0" onAction="#goToStudyTimer" styleClass="nav-button">
             <graphic>
                <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
             </graphic>
          </Button>
+           <Button fx:id="communityBtn" onAction="#goToCommunity" styleClass="nav-button">
+               <graphic>
+                   <FontIcon iconLiteral="fas-users" styleClass="nav-icon" />
+               </graphic>
+           </Button>
        </VBox>
 
    </left>
