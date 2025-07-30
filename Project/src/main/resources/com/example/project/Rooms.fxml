@@ -139,7 +139,7 @@
             </Button>
 
             <!-- Community/Study Together Button -->
-            <Button fx:id="communityBtn" styleClass="nav-button">
+            <Button fx:id="communityBtn" styleClass="nav-button-active">
                 <graphic>
                     <FontIcon iconLiteral="fas-users" styleClass="nav-icon" />
                 </graphic>

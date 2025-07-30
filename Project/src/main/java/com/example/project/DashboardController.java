@@ -20,6 +20,21 @@ import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+import java.io.BufferedReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.Priority;
+import java.time.ZoneId;
+
 public class DashboardController {
 
     @FXML private BorderPane rootPane;
@@ -34,6 +49,11 @@ public class DashboardController {
     @FXML private Label usernameLabel;
     @FXML private Label schoolLabel;
     @FXML private Button logoutBtn;
+    @FXML private Label monthlyStudyTimeLabel;
+    @FXML private VBox todayTasksContainer;
+    @FXML private VBox courseProgressContainer;
+
+    private final String BASE_DATA_PATH = "data/";
 
 
     public void initialize() {
@@ -45,6 +65,182 @@ public class DashboardController {
         // Setup logout button and user info
         if (logoutBtn != null) logoutBtn.setOnAction(this::handleLogout);
         loadUserInfo();
+        loadDashboardData();
+    }
+
+
+    private void loadDashboardData() {
+        loadMonthlyStudyTime();
+        loadTodaysTasks();
+        loadCourseProgress();
+    }
+
+    private void loadMonthlyStudyTime() {
+        if (CurrentUser.getUsername() == null) return;
+
+        String userRecordsFile = BASE_DATA_PATH + CurrentUser.getUsername() + "_study_records.txt";
+        Path recordFilePath = Paths.get(userRecordsFile);
+
+        int totalSeconds = 0;
+        String currentMonth = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM"));
+
+        try {
+            if (Files.exists(recordFilePath) && Files.size(recordFilePath) > 0) {
+                try (BufferedReader reader = Files.newBufferedReader(recordFilePath, StandardCharsets.UTF_8)) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        String[] parts = line.split(",");
+                        if (parts.length == 5) {
+                            String timestamp = parts[1];
+                            String time = parts[2];
+
+                            if (timestamp.startsWith(currentMonth)) {
+                                totalSeconds += parseTimeToSeconds(time);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading study records: " + e.getMessage());
+        }
+
+        int hours = totalSeconds / 3600;
+        int minutes = (totalSeconds % 3600) / 60;
+        int seconds = totalSeconds % 60;
+        monthlyStudyTimeLabel.setText(String.format("Monthly Study Time: %d:%02d:%02d", hours, minutes, seconds));
+    }
+
+    private void loadTodaysTasks() {
+        if (CurrentUser.getUsername() == null) return;
+
+        todayTasksContainer.getChildren().clear();
+        String tasksFile = "Project/data/tasks.txt";
+        Path tasksFilePath = Paths.get(tasksFile);
+
+        String today = LocalDate.now(java.time.ZoneId.of("GMT+6")).toString();
+
+        try {
+            if (Files.exists(tasksFilePath)) {
+                List<String> lines = Files.readAllLines(tasksFilePath, StandardCharsets.UTF_8);
+                for (String line : lines) {
+                    if (line.trim().isEmpty()) continue;
+
+                    String[] parts = line.split("\t");
+                    if (parts.length >= 7) {
+                        String taskUsername = parts[0];
+                        String taskDate = parts[1];
+                        String completed = parts[2];
+                        String taskDescription = parts[6];
+
+                        if (taskUsername.equals(CurrentUser.getUsername()) &&
+                                taskDate.equals(today) &&
+                                completed.equals("0")) {  // Only uncompleted tasks
+
+                            HBox taskItem = createTaskItem(taskDescription, false);
+                            todayTasksContainer.getChildren().add(taskItem);
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading tasks: " + e.getMessage());
+        }
+
+        if (todayTasksContainer.getChildren().isEmpty()) {
+            Label noTasksLabel = new Label("No pending tasks for today");
+            noTasksLabel.setStyle("-fx-text-fill: #b0b0b0; -fx-font-size: 14px;");
+            todayTasksContainer.getChildren().add(noTasksLabel);
+        }
+    }
+
+
+
+
+
+    private void loadCourseProgress() {
+        if (CurrentUser.getUsername() == null) return;
+
+        courseProgressContainer.getChildren().clear();
+        String coursesFile = BASE_DATA_PATH + "courses_" + CurrentUser.getUsername() + ".txt";
+        Path coursesFilePath = Paths.get(coursesFile);
+
+        try {
+            if (Files.exists(coursesFilePath)) {
+                try (BufferedReader reader = Files.newBufferedReader(coursesFilePath, StandardCharsets.UTF_8)) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        Course course = Course.fromCsvString(line);
+                        if (course != null) {
+                            HBox courseItem = createCourseProgressItem(course);
+                            courseProgressContainer.getChildren().add(courseItem);
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading courses: " + e.getMessage());
+        }
+
+        if (courseProgressContainer.getChildren().isEmpty()) {
+            Label noCoursesLabel = new Label("No courses added yet");
+            noCoursesLabel.setStyle("-fx-text-fill: #b0b0b0; -fx-font-size: 14px;");
+            courseProgressContainer.getChildren().add(noCoursesLabel);
+        }
+    }
+
+    private HBox createTaskItem(String taskDescription, boolean isCompleted) {
+        HBox taskItem = new HBox(10);
+        taskItem.setAlignment(Pos.CENTER_LEFT);
+        taskItem.getStyleClass().add("task-item");
+        taskItem.setStyle("-fx-padding: 12;");
+        // Remove checkbox, just show task as text
+        Label taskLabel = new Label(taskDescription);
+        taskLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 14px;");
+
+        taskItem.getChildren().add(taskLabel);
+        return taskItem;
+    }
+
+    private HBox createCourseProgressItem(Course course) {
+        HBox courseItem = new HBox(15);
+        courseItem.setAlignment(Pos.CENTER_LEFT);
+        courseItem.getStyleClass().add("task-item");
+        courseItem.setStyle("-fx-padding: 12;");
+
+        VBox courseInfo = new VBox(5);
+        Label courseNameLabel = new Label(course.getCourseName());
+        courseNameLabel.setStyle("-fx-text-fill: #00bfa6; -fx-font-size: 16px; -fx-font-weight: bold;");
+
+        Label progressLabel = new Label(String.format("Progress: %.0f%%", course.getProgress() * 100));
+        progressLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 14px;");
+
+        courseInfo.getChildren().addAll(courseNameLabel, progressLabel);
+
+        ProgressBar progressBar = new ProgressBar(course.getProgress());
+        progressBar.setPrefWidth(500);
+        progressBar.setStyle("-fx-accent: #00bfa6; -fx-border-radius: 5 px ; -fx-effect: dropshadow(gaussian, #00bfa6, 5, 0.0, 0, 0);");
+
+        courseItem.getChildren().addAll(courseInfo, progressBar);
+        HBox.setHgrow(courseInfo, Priority.ALWAYS);
+
+        return courseItem;
+    }
+
+    private int parseTimeToSeconds(String timeString) {
+        String[] parts = timeString.split(":");
+        if (parts.length == 3) {
+            try {
+                int h = Integer.parseInt(parts[0]);
+                int m = Integer.parseInt(parts[1]);
+                int s = Integer.parseInt(parts[2]);
+                return h * 3600 + m * 60 + s;
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing time string: " + timeString);
+                return 0;
+            }
+        }
+        return 0;
     }
 
     private void loadUserInfo() {

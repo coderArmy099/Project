@@ -26,7 +26,7 @@
                <FontIcon iconLiteral="fas-calendar" styleClass="nav-icon" />
             </graphic>
          </Button>
-         <Button fx:id="timerNavBtn" styleClass="nav-button">
+         <Button fx:id="timerNavBtn" styleClass="nav-button-active">
             <graphic>
                <FontIcon iconLiteral="fas-stopwatch" styleClass="nav-icon" />
             </graphic>

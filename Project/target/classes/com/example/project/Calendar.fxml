@@ -50,7 +50,13 @@
                         <graphic><FontIcon iconLiteral="fas-angle-right" styleClass="week-nav-icon" /></graphic>
                     </Button>
                 </HBox>
-                <ListView fx:id="taskListView" prefHeight="549.0" prefWidth="892.0" styleClass="task-list" VBox.vgrow="ALWAYS" />
+                <ListView fx:id="taskListView" prefHeight="549.0" prefWidth="892.0" styleClass="task-list" VBox.vgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></ListView>
 
             </VBox>
 
@@ -227,7 +233,7 @@
                </graphic>
            </Button>
            <!-- Inbox -->
-           <Button fx:id="calendarBtn" styleClass="nav-button">
+           <Button fx:id="calendarBtn" styleClass="nav-button-active">
                <graphic>
                    <!-- “fas” = FontAwesome-Solid pack,  “calendar” = glyph name -->
                    <FontIcon iconLiteral="fas-calendar" styleClass="nav-icon" />

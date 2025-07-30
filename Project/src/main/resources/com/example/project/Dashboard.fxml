@@ -50,7 +50,47 @@
                   </font>
                </Button>
             </HBox>
-            <VBox alignment="CENTER" prefHeight="562.0" prefWidth="892.0" styleClass="task-list" VBox.vgrow="ALWAYS" />
+            <VBox alignment="CENTER" prefHeight="562.0" prefWidth="892.0" styleClass="task-list" VBox.vgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+
+               <!-- Study Time Display (1/7 ratio) -->
+               <HBox alignment="CENTER" maxHeight="50.0" minHeight="50.0" prefHeight="80.0" prefWidth="817.0" styleClass="dashboard-info-container" VBox.vgrow="NEVER">
+                  <VBox.margin>
+                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </VBox.margin>
+                  <Label fx:id="monthlyStudyTimeLabel" styleClass="monthly-study-time" text="Monthly Study Time: 0:00:00" />
+               </HBox>
+
+               <!-- Today's Tasks (3/7 ratio) -->
+               <VBox prefHeight="240.0" spacing="10" styleClass="dashboard-info-container" VBox.vgrow="ALWAYS">
+                  <VBox.margin>
+                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </VBox.margin>
+                  <padding>
+                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  </padding>
+                  <Label styleClass="section-title" text="Today's Tasks" />
+                  <ScrollPane fx:id="tasksScrollPane" fitToWidth="true" styleClass="dashboard-scroll-pane" VBox.vgrow="ALWAYS">
+                     <VBox fx:id="todayTasksContainer" spacing="8" styleClass="dashboard-content-container" />
+                  </ScrollPane>
+               </VBox>
+
+               <!-- Course Topics Progress (3/7 ratio) -->
+               <VBox prefHeight="240.0" spacing="10" styleClass="dashboard-info-container" VBox.vgrow="ALWAYS">
+                  <VBox.margin>
+                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </VBox.margin>
+                  <padding>
+                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  </padding>
+                  <Label styleClass="section-title" text="Course Progress" />
+                  <ScrollPane fx:id="coursesScrollPane" fitToWidth="true" styleClass="dashboard-scroll-pane" VBox.vgrow="ALWAYS">
+                     <VBox fx:id="courseProgressContainer" spacing="8" styleClass="dashboard-content-container" />
+                  </ScrollPane>
+               </VBox>
+            </VBox>
 
          </VBox>
 
@@ -59,7 +99,7 @@
 
    <left>
       <VBox fx:id="navPane" alignment="CENTER" spacing="18" styleClass="nav-pane">
-         <Button fx:id="dashboardBtn" onAction="#goToDashboard" styleClass="nav-button">
+         <Button fx:id="dashboardBtn" onAction="#goToDashboard" styleClass="nav-button-active">
             <graphic>
                <FontIcon iconLiteral="fas-home" styleClass="nav-icon" />
             </graphic>

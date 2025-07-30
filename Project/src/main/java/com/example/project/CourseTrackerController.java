@@ -92,6 +92,16 @@ public class CourseTrackerController {
     @FXML private Button confirmYesButton;
     @FXML private Button confirmNoButton;
 
+    @FXML private ScrollPane coursesScrollPane;
+
+
+    @FXML private GridPane courseGridPane;
+    private static final int COLUMNS_PER_ROW = 3;
+    private int currentColumnCount = COLUMNS_PER_ROW;
+    private static final double CARD_PREF_WIDTH = 260; // ≈ width of a course card
+    private static final double HGAP            = 20;
+
+
 
     private final String BASE_DATA_PATH = "data/";
     private String USER_RECORDS_FILE;
@@ -142,7 +152,46 @@ public class CourseTrackerController {
         if (calendarBtn != null) calendarBtn.setOnAction(this::goToCalendar);
         if (timerNavBtn != null) timerNavBtn.setOnAction(this::goToStudyTimer);
         if (dashboardBtn != null) dashboardBtn.setOnAction(this::goToDashboard);
+
+        coursesScrollPane.viewportBoundsProperty().addListener((obs, oldB, newB) ->
+                adjustGridColumns(newB.getWidth()));
+
     }
+
+    private void adjustGridColumns(double availableWidth) {
+        int cols = (int) Math.floor((availableWidth + HGAP) / (CARD_PREF_WIDTH + HGAP));
+        if (cols < 1) cols = 1;
+
+        if (cols == currentColumnCount) return; // nothing to do
+        currentColumnCount = cols;
+
+        // Re-create column constraints
+        courseGridPane.getColumnConstraints().clear();
+        double percent = 100.0 / cols;
+        for (int i = 0; i < cols; i++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(percent);
+            cc.setHgrow(Priority.ALWAYS);
+            courseGridPane.getColumnConstraints().add(cc);
+        }
+
+        populateCourseCards(); // re-lay out the cards
+    }
+
+    /* ⑥  Lay out cards row/col according to currentColumnCount */
+    private void populateCourseCards() {
+        courseGridPane.getChildren().clear();
+        int row = 0, col = 0;
+        for (Course c : courses) {
+            VBox card = createCourseCard(c);  // your existing card factory
+            courseGridPane.add(card, col, row);
+            if (++col >= currentColumnCount) {
+                col = 0;
+                ++row;
+            }
+        }
+    }
+
 
     private void loadCourses() {
         courses.clear();
@@ -186,31 +235,25 @@ public class CourseTrackerController {
         }
     }
 
-    private void populateCourseCards() {
-        courseFlowPane.getChildren().clear();
-        if (courses.isEmpty()) {
-            noCoursesPromptLabel.setVisible(true);
-            noCoursesPromptLabel.setManaged(true);
-        } else {
-            noCoursesPromptLabel.setVisible(false);
-            noCoursesPromptLabel.setManaged(false);
-            for (Course course : courses) {
-                courseFlowPane.getChildren().add(createCourseCard(course));
-            }
-        }
-    }
-
     private VBox createCourseCard(Course course) {
         VBox card = new VBox(10);
         card.getStyleClass().add("course-card");
         card.setPadding(new Insets(15));
         card.setAlignment(Pos.TOP_LEFT);
 
+        // Make card fill the grid cell
+        GridPane.setHgrow(card, Priority.ALWAYS);
+        GridPane.setVgrow(card, Priority.NEVER);
+        //GridPane.setFillWidth(card, true);
+//        card.setMaxWidth(Double.MAX_VALUE);
+//        card.setMinWidth(Region.USE_PREF_SIZE);
+        card.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
         // Make the entire card clickable to show details
         card.setOnMouseClicked(e -> showCourseDetails(course));
 
         Label courseNameLabel = new Label(course.getCourseName());
-        courseNameLabel.getStyleClass().add("course-title-label"); // Styled with #00bfa6 color via CSS
+        courseNameLabel.getStyleClass().add("course-title-label");
 
         Label teacherNameLabel = new Label("Teacher: " + course.getTeacherName());
         teacherNameLabel.getStyleClass().add("course-detail-label");
@@ -219,32 +262,33 @@ public class CourseTrackerController {
         creditHourLabel.getStyleClass().add("course-detail-label");
 
         ProgressBar progressBar = new ProgressBar(course.getProgress());
-        progressBar.setPrefWidth(200); // Set a preferred width
-        progressBar.getStyleClass().add("course-progress-bar"); // Add a style class for custom styling
+        progressBar.getStyleClass().add("course-progress-bar");
+        progressBar.setMaxWidth(Double.MAX_VALUE); // Fill available width
+
         Label progressText = new Label(String.format("%.0f%%", course.getProgress() * 100));
         progressText.getStyleClass().add("accent-label");
 
-        HBox progressBox = new HBox(5, progressBar, progressText);
+        HBox progressBox = new HBox(8, progressBar, progressText);
         progressBox.setAlignment(Pos.CENTER_LEFT);
-        VBox.setVgrow(progressBox, Priority.ALWAYS); // Push progress bar to bottom if needed
+        HBox.setHgrow(progressBar, Priority.ALWAYS);
 
         // Delete Icon at top right
         Button deleteIconBtn = new Button();
-        FontIcon deleteIcon = new FontIcon("fas-times"); // FontAwesome cross icon
-        deleteIcon.getStyleClass().add("delete-icon"); // Style the icon
+        FontIcon deleteIcon = new FontIcon("fas-times");
+        deleteIcon.getStyleClass().add("delete-icon");
         deleteIconBtn.setGraphic(deleteIcon);
-        deleteIconBtn.getStyleClass().add("icon-button"); // Style the button transparently
+        deleteIconBtn.getStyleClass().add("icon-button");
         deleteIconBtn.setOnAction(e -> {
-            e.consume(); // Consume the event to prevent card click
+            e.consume();
             confirmDeleteCourse(course);
         });
 
         StackPane topArea = new StackPane();
         topArea.getChildren().addAll(courseNameLabel);
         StackPane.setAlignment(courseNameLabel, Pos.TOP_LEFT);
-        StackPane.setAlignment(deleteIconBtn, Pos.TOP_RIGHT); // Position delete icon top right
+        StackPane.setAlignment(deleteIconBtn, Pos.TOP_RIGHT);
         topArea.getChildren().add(deleteIconBtn);
-        StackPane.setMargin(deleteIconBtn, new Insets(-5, -5, 0, 0)); // Adjust margin to push it to corner
+        StackPane.setMargin(deleteIconBtn, new Insets(-5, -5, 0, 0));
 
         card.getChildren().addAll(topArea, teacherNameLabel, creditHourLabel, progressBox);
         return card;

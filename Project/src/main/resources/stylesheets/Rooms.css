@@ -18,7 +18,7 @@
 /* HIVES title - similar to month/year labels but in teal */
 .hives-title {
     -fx-text-fill: #00bfa6;   /* teal accent color */
-    -fx-font-size: 34px;
+    -fx-font-size: 27px;
     -fx-font-weight: bold;
     -fx-font-family: "Artifakt Element Heavy";
 }
@@ -328,4 +328,86 @@
 .back-icon {
     -fx-icon-size: 16px;
     -fx-icon-color: white;
+}
+
+
+/* Dashboard info container styling */
+.dashboard-info-container {
+    -fx-background-color: #252525;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.55),15,0.35,0,0);
+}
+
+/* Section titles within info containers */
+.section-title {
+    -fx-text-fill: #00bfa6;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 0;
+    -fx-font-family: 'Artifakt Element Heavy';
+}
+
+
+.monthly-study-time {
+    -fx-text-fill: #00bfa6;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Artifakt Element Heavy';
+}
+
+/* Dashboard content containers inside scroll panes */
+.dashboard-content-container {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
+
+/* Dashboard scroll pane styling */
+.dashboard-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.dashboard-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.dashboard-scroll-pane .content {
+    -fx-background-color: transparent;
+}
+
+/* Task item styling for better contrast */
+.task-item {
+    -fx-background-color: #303030;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.3), 8, 0, 0, 2);
+}
+
+.task-item:hover {
+    -fx-background-color: #383838;
+    /*-fx-border-color: rgba(0, 191, 166, 0.5);*/
+}
+
+.nav-button-active {
+    -fx-background-color: #00bfa6;
+    -fx-background-radius: 50%;
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-max-width: 44;
+    -fx-max-height: 44;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.nav-button-active:hover {
+    -fx-background-color: #00d7c0;
+    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.8), 15, 0.35, 0, 5);
+}
+
+.nav-button-active .nav-icon {
+    -fx-fill: #ffffff;
+    -fx-font-size: 18px;
 }

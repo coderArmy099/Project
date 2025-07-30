@@ -43,17 +43,15 @@ import javafx.stage.Stage;
 
 public class CalendarController {
 
-    /* --------------- FXML refs --------------- */
     @FXML private Button prevWeekBtn;
     @FXML private Button nextWeekBtn;
     @FXML private HBox   dayButtonsBox;
 
-    /* --------------- internal state --------------- */
-    private LocalDate weekStart;                 // Sunday of the currently shown week
+
+    private LocalDate weekStart;
     private final ToggleGroup dayToggleGroup = new ToggleGroup();
     private final List<ToggleButton> dateButtons = new ArrayList<>(7);
     private static final ZoneId APP_ZONE = ZoneId.of("GMT+6");
-    /* extra FXML refs for the header */
     @FXML private Label monthLabel;
     @FXML private Label yearLabel;
 
@@ -72,16 +70,10 @@ public class CalendarController {
 
     private LocalDate selectedDate;
 
-
-
     private static final Path TASK_FILE =
             Paths.get("Project/data/tasks.txt");
 
     private static final PseudoClass DONE = PseudoClass.getPseudoClass("completed");
-
-
-
-
 
     public static class Task {
         private final StringProperty  title = new SimpleStringProperty();
@@ -201,7 +193,7 @@ public class CalendarController {
             -fx-text-fill: #b0b0b0;
             -fx-font-size: 34px;
             -fx-font-weight: 900;
-            -fx-font-family: 'Impact';
+            -fx-font-family: 'Artifakt Element Heavy';
             """);
 
         /* subtle cyan glow */
@@ -215,7 +207,93 @@ public class CalendarController {
 
     }
 
-    // ─── inner class: fancy cell implementation ──────────────────────────
+//    private final class TaskCell extends ListCell<Task> {
+//
+//        private final CheckBox check = new CheckBox();
+//        private final Label timeLbl = new Label();
+//        private final Label titleLbl = new Label();
+//        private final Label prioLbl = new Label();
+//        private final Label durLbl  = new Label();
+//        private final VBox  texts   = new VBox(2, titleLbl,
+//                new HBox(5, prioLbl, durLbl));
+//        private final HBox  root    = new HBox(10, timeLbl, check, texts);
+//
+//        TaskCell() {
+//            root.setAlignment(Pos.CENTER_LEFT);
+//
+//            /* teal start-time */
+//            timeLbl.setTextFill(Color.TEAL);
+//            timeLbl.setStyle("-fx-font-weight:bold;");
+//
+//            /* Lilita One for title (falls back to default if not installed) */
+//            titleLbl.setFont(Font.font("Lilita One", 16));
+//
+//            /* small bottom line */
+//            prioLbl.setStyle("-fx-font-size:12;");
+//            durLbl.setStyle("-fx-font-size:12; -fx-font-style:italic;");
+//
+//            /* checkbox action → remove + save */
+//            check.selectedProperty().addListener((obs, wasChecked, nowChecked) -> {
+//                Task t = getItem();
+//                if (t == null) return;
+//                t.completed.set(nowChecked);     // model flag
+//                pseudoClassStateChanged(DONE, nowChecked);   // CSS
+//
+//                saveAllTasks();
+//            });
+//
+//        }
+//
+//        private void deleteTaskFromFile(Task task) {
+//            try {
+//                List<String> kept = Files.lines(TASK_FILE, StandardCharsets.UTF_8)
+//                        .filter(line -> {
+//                            /* split once – layout:  user<TAB>title<TAB>date<TAB>start … */
+//                            String[] p = line.split("\t");
+//                            if (p.length < 4) return true;
+//                            return !(p[1].equals(task.title.get())
+//                                    && p[2].equals(task.date.toString())
+//                                    && p[3].equals(task.start.toString()));
+//                        })
+//                        .toList();
+//
+//                Files.write(TASK_FILE, kept,
+//                        StandardCharsets.UTF_8,
+//                        StandardOpenOption.TRUNCATE_EXISTING,
+//                        StandardOpenOption.WRITE);
+//            } catch (IOException ex) { ex.printStackTrace(); }
+//        }
+//
+//
+//
+//        @Override
+//        protected void updateItem(Task t, boolean empty) {
+//            super.updateItem(t, empty);
+//            if (empty || t == null) {
+//                setGraphic(null);
+//                return;
+//            } else {
+//                /* bind visual parts to task */
+//                check.setSelected(t.completed.get());
+//                timeLbl.setText(String.format("%02d:%02d",
+//                        t.start.getHour(), t.start.getMinute()));
+//
+//                titleLbl.setText(t.title.get());
+//
+//                prioLbl.setText(t.priority + "  ");
+//                switch (t.priority) {
+//                    case "Low"    -> prioLbl.getStyleClass().setAll("priority-low");
+//                    case "Normal" -> prioLbl.getStyleClass().setAll("priority-normal");
+//                    case "High"   -> prioLbl.getStyleClass().setAll("priority-high");
+//                }
+//                durLbl.setText(t.duration + " min");
+//
+//                pseudoClassStateChanged(DONE, t.completed.get());   // <- NEW
+//                setGraphic(root);
+//            }
+//        }
+//    }
+
     private final class TaskCell extends ListCell<Task> {
 
         private final CheckBox check = new CheckBox();
@@ -228,56 +306,37 @@ public class CalendarController {
         private final HBox  root    = new HBox(10, timeLbl, check, texts);
 
         TaskCell() {
-            root.setAlignment(Pos.CENTER_LEFT);
+            // Apply main container styling
+            root.getStyleClass().add("task-cell-container");
 
-            /* teal start-time */
-            timeLbl.setTextFill(Color.TEAL);
-            timeLbl.setStyle("-fx-font-weight:bold;");
+            // Apply individual component styles
+            check.getStyleClass().add("task-checkbox");
+            timeLbl.getStyleClass().add("task-time-label");
+            titleLbl.getStyleClass().add("task-title-label");
+            texts.getStyleClass().add("task-details-box");
 
-            /* Lilita One for title (falls back to default if not installed) */
-            titleLbl.setFont(Font.font("Lilita One", 16));
+            HBox infoBox = (HBox) texts.getChildren().get(1);
+            infoBox.getStyleClass().add("task-info-box");
 
-            /* small bottom line */
-            prioLbl.setStyle("-fx-font-size:12;");
-            durLbl.setStyle("-fx-font-size:12; -fx-font-style:italic;");
+            prioLbl.getStyleClass().add("task-priority-label");
+            durLbl.getStyleClass().add("task-duration-label");
 
-            /* checkbox action → remove + save */
+            /* checkbox action → update completed state + styling */
             check.selectedProperty().addListener((obs, wasChecked, nowChecked) -> {
                 Task t = getItem();
                 if (t == null) return;
+                t.completed.set(nowChecked);
 
-                t.completed.set(nowChecked);         // model flag
-                pseudoClassStateChanged(DONE, nowChecked);   // CSS
+                // Update visual state
+                if (nowChecked) {
+                    root.getStyleClass().add("completed");
+                } else {
+                    root.getStyleClass().remove("completed");
+                }
 
                 saveAllTasks();
-
-
             });
-
         }
-
-
-        private void deleteTaskFromFile(Task task) {
-            try {
-                List<String> kept = Files.lines(TASK_FILE, StandardCharsets.UTF_8)
-                        .filter(line -> {
-                            /* split once – layout:  user<TAB>title<TAB>date<TAB>start … */
-                            String[] p = line.split("\t");
-                            if (p.length < 4) return true;
-                            return !(p[1].equals(task.title.get())
-                                    && p[2].equals(task.date.toString())
-                                    && p[3].equals(task.start.toString()));
-                        })
-                        .toList();
-
-                Files.write(TASK_FILE, kept,
-                        StandardCharsets.UTF_8,
-                        StandardOpenOption.TRUNCATE_EXISTING,
-                        StandardOpenOption.WRITE);
-            } catch (IOException ex) { ex.printStackTrace(); }
-        }
-
-
 
         @Override
         protected void updateItem(Task t, boolean empty) {
@@ -288,20 +347,29 @@ public class CalendarController {
             } else {
                 /* bind visual parts to task */
                 check.setSelected(t.completed.get());
+
+                // Update completed styling
+                if (t.completed.get()) {
+                    root.getStyleClass().add("completed");
+                } else {
+                    root.getStyleClass().remove("completed");
+                }
+
                 timeLbl.setText(String.format("%02d:%02d",
                         t.start.getHour(), t.start.getMinute()));
 
                 titleLbl.setText(t.title.get());
 
                 prioLbl.setText(t.priority + "  ");
+                // Clear previous priority styles
+                prioLbl.getStyleClass().removeAll("priority-low", "priority-normal", "priority-high");
                 switch (t.priority) {
-                    case "Low"    -> prioLbl.getStyleClass().setAll("priority-low");
-                    case "Normal" -> prioLbl.getStyleClass().setAll("priority-normal");
-                    case "High"   -> prioLbl.getStyleClass().setAll("priority-high");
+                    case "Low"    -> prioLbl.getStyleClass().add("priority-low");
+                    case "Normal" -> prioLbl.getStyleClass().add("priority-normal");
+                    case "High"   -> prioLbl.getStyleClass().add("priority-high");
                 }
                 durLbl.setText(t.duration + " min");
 
-                pseudoClassStateChanged(DONE, t.completed.get());   // <- NEW
                 setGraphic(root);
             }
         }
@@ -361,13 +429,8 @@ public class CalendarController {
         } catch (IOException ex){ ex.printStackTrace(); }
     }
 
-    /* ------------------------------------------------------------------
-   REPLACE the old saveAllTasks() with the version below
-   ------------------------------------------------------------------ */
-    private void saveAllTasks() {
 
-    /* 1 ── read everything that is already on disk into a map keyed by
-            a flag-independent signature (date+time+dur+prio+title)     */
+    private void saveAllTasks() {
         Map<String,Task> map = new LinkedHashMap<>();
         try (BufferedReader r = Files.newBufferedReader(TASK_FILE)) {
             r.lines().filter(s -> !s.isBlank())
@@ -375,8 +438,6 @@ public class CalendarController {
                     .forEach(t -> map.put(signatureOf(t), t));
         } catch (IOException ignored) { }
 
-    /* 2 ── overwrite / insert every task that is currently visible
-            in the ListView (same signature, but maybe other flag)      */
         taskListView.getItems()
                 .forEach(t -> map.put(signatureOf(t), t));
 
@@ -391,7 +452,7 @@ public class CalendarController {
         }
     }
 
-    /* helper ─ builds a unique key *without* the completed flag */
+
     private static String signatureOf(Task t) {
         return String.join("|",
                 t.date.toString(),
@@ -399,12 +460,12 @@ public class CalendarController {
                 String.valueOf(t.duration),
                 t.priority,
                 t.title.get()
-        ).toLowerCase();       // case-insensitive title comparison
+        ).toLowerCase();
     }
 
 
 
-    /* ── HEADER (month + year) ───────────────────────────────────────── */
+
     private void updateHeader(LocalDate date) {
         monthLabel.setText(
                 date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH)
@@ -415,7 +476,7 @@ public class CalendarController {
 
 
 
-    /* -------------- build weekday buttons only once -------------- */
+
     private void createDayButtons() {
         for (int i = 0; i < 7; i++) {
 
@@ -440,7 +501,6 @@ public class CalendarController {
             dateButtons.add(btn);
         }
 
-        /* default selection = today (use the same time-zone!) */
         LocalDate today = LocalDate.now(APP_ZONE);
         int todayOffset = (int) ChronoUnit.DAYS.between(weekStart, today);
 
@@ -459,7 +519,7 @@ public class CalendarController {
 
     }
 
-    /* -------------- update captions when week changes -------------- */
+
     private void fillButtons() {
         for (int i = 0; i < 7; i++) {
             LocalDate date = weekStart.plusDays(i);
@@ -467,7 +527,6 @@ public class CalendarController {
         }
     }
 
-    /* ── WEEK NAVIGATION (with header refresh) ───────────────────────── */
     private void moveWeek(int delta) {
         int selectedOffset = 0;
         Toggle sel = dayToggleGroup.getSelectedToggle();
@@ -479,7 +538,7 @@ public class CalendarController {
         dateButtons.get(selectedOffset).setSelected(true);
         LocalDate newDate = weekStart.plusDays(selectedOffset);
 
-        updateHeader(newDate);          // <─ keep labels in sync
+        updateHeader(newDate);
         showTasksForDay(newDate);
     }
 
