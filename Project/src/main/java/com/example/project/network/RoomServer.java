@@ -8,6 +8,9 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import com.example.project.model.SharedFile;
+import com.example.project.network.FileTransferServer;
+
 
 public class RoomServer {
     private Room room;
@@ -15,6 +18,9 @@ public class RoomServer {
     private RoomDiscovery roomDiscovery;
     private boolean isRunning = false;
     private Timer sessionTimer;
+    private FileTransferServer fileTransferServer;
+    private long sessionStartTime;
+    private int sessionDurationMinutes;
 
     // Thread-safe collections for client management
     private Map<String, ClientHandler> clients = new ConcurrentHashMap<>();
@@ -22,9 +28,31 @@ public class RoomServer {
 
     private Set<String> mutedUsers = ConcurrentHashMap.newKeySet();
 
+    private Map<String, SharedFile> sharedFiles = new ConcurrentHashMap<>();
+    private String filesDirectory;
+
     public RoomServer(Room room) {
         this.room = room;
         this.roomDiscovery = new RoomDiscovery();
+        this.filesDirectory = "room_files_" + room.getPort();
+        this.sessionDurationMinutes = room.getDuration();
+        this.sessionStartTime = System.currentTimeMillis();
+        createFilesDirectory();
+
+        this.fileTransferServer = new FileTransferServer(this);
+        this.fileTransferServer.startFileServer();
+
+    }
+
+    private void createFilesDirectory() {
+        File dir = new File(filesDirectory);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+    }
+
+    public int getFilePort() {
+        return fileTransferServer != null ? fileTransferServer.getFilePort() : -1;
     }
 
 
@@ -84,6 +112,13 @@ public class RoomServer {
         }, durationMillis);
     }
 
+    public int getRemainingTimeSeconds() {
+        long currentTime = System.currentTimeMillis();
+        long elapsedSeconds = (currentTime - sessionStartTime) / 1000;
+        long totalSeconds = sessionDurationMinutes * 60L;
+        return Math.max(0, (int)(totalSeconds - elapsedSeconds));
+    }
+
     private void handleNewClient(Socket clientSocket) {
         if (room.getCurrentUsers() >= room.getMaxUsers()) {
             try {
@@ -130,7 +165,8 @@ public class RoomServer {
 
             // Accept the client
             out.println("SUCCESS:Welcome to " + room.getRoomName());
-
+            out.println("FILE_PORT:" + getFilePort());
+            out.println("REMAINING_TIME:" + getRemainingTimeSeconds());
             // Create clientHandler
             ClientHandler clientHandler = new ClientHandler(username, clientSocket, in, out);
             clients.put(username, clientHandler);
@@ -247,6 +283,10 @@ public class RoomServer {
             roomDiscovery.cleanup();
         }
 
+        if (fileTransferServer != null) {
+            fileTransferServer.stopFileServer();
+        }
+
         // Close server socket
         try {
             if (serverSocket != null && !serverSocket.isClosed()) {
@@ -326,5 +366,37 @@ public class RoomServer {
                 System.err.println("Error closing client socket: " + e.getMessage());
             }
         }
+    }
+
+
+
+    public void handleFileUpload(String uploaderUsername, String fileId, String fileName, long fileSize) {
+        SharedFile sharedFile = new SharedFile(fileId, fileName, uploaderUsername, fileSize);
+        sharedFiles.put(fileId, sharedFile);
+
+        // Broadcast file availability
+        Message fileMessage = Message.systemMessage(
+                uploaderUsername + " shared a file: " + fileName + " (" + formatFileSize(fileSize) + ")"
+        );
+        fileMessage.setFileId(fileId);
+        broadcastMessage(fileMessage);
+
+        Message fileMessage1 = new Message(uploaderUsername, fileName, false, fileId);
+        broadcastMessage(fileMessage1);
+    }
+
+
+    public SharedFile getSharedFile(String fileId) {
+        return sharedFiles.get(fileId);
+    }
+
+    public String getFilesDirectory() {
+        return filesDirectory;
+    }
+
+    private String formatFileSize(long bytes) {
+        if (bytes < 1024) return bytes + " B";
+        if (bytes < 1024 * 1024) return (bytes / 1024) + " KB";
+        return (bytes / (1024 * 1024)) + " MB";
     }
 }

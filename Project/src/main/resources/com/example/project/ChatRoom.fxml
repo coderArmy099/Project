@@ -42,8 +42,14 @@
 
             <!-- Message Input -->
             <HBox prefHeight="0.0" prefWidth="742.0" spacing="10" styleClass="message-input-area">
-                <TextField fx:id="messageTextField" onAction="#sendMessage" prefHeight="48.0" prefWidth="637.0" promptText="Type your message..." styleClass="message-input" HBox.hgrow="ALWAYS" />
-                <Button fx:id="sendBtn" onAction="#sendMessage" prefHeight="48.0" prefWidth="71.0" styleClass="send-btn">
+                <TextField fx:id="messageTextField" onAction="#sendMessage" prefHeight="48.0" prefWidth="494.0" promptText="Type your message..." styleClass="message-input" HBox.hgrow="ALWAYS" />
+<!--                <Button fx:id="fileUpBtn" mnemonicParsing="false" onAction="#onFileUploadButtonClicked" prefHeight="48.0" prefWidth="53.0" styleClass="send-btn" />-->
+                <Button fx:id="fileUpBtn" mnemonicParsing="false" onAction="#onFileUploadButtonClicked" prefHeight="48.0" prefWidth="53.0" styleClass="send-btn">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-paperclip" styleClass="send-icon" />
+                    </graphic>
+                </Button>
+                <Button fx:id="sendBtn" onAction="#sendMessage" prefHeight="48.0" prefWidth="53.0" styleClass="send-btn">
                     <graphic>
                         <FontIcon iconLiteral="fas-paper-plane" styleClass="send-icon" />
                     </graphic>

@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.OverrunStyle;
 
 import com.example.project.components.MessageBubble;
+import com.example.project.network.FileTransferClient;
 import javafx.scene.control.ListCell;
 import org.kordamp.ikonli.javafx.FontIcon;
 import javafx.util.Duration;
@@ -33,6 +34,7 @@ import javafx.animation.Timeline;
 import javafx.scene.layout.Region;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -45,6 +47,7 @@ public class ChatRoomController {
     @FXML private ListView<Message> messagesListView;
     @FXML private TextField messageTextField;
     @FXML private Button sendBtn;
+    @FXML private Button fileUpBtn;
     @FXML private ListView<String> usersListView;
     @FXML private Label sessionTimerLabel;
 
@@ -146,6 +149,7 @@ public class ChatRoomController {
         this.currentRoom = room;
         this.username = username;
 
+
         this.sessionTimeRemaining = room.getDuration() * 60;
 
         updateUIForHost();
@@ -160,7 +164,7 @@ public class ChatRoomController {
 
 
     private void connectToRoom(String password) {
-        connectionStatusLabel.setText("🟡 Connecting...");
+        connectionStatusLabel.setText("Connecting...");
 
         chatClient = new ChatClient(currentRoom, username, password);
 
@@ -168,33 +172,35 @@ public class ChatRoomController {
         chatClient.setOnUserListUpdated(this::onUserListUpdated);
         chatClient.setOnConnectionStatusChanged(this::onConnectionStatusChanged);
         chatClient.setOnError(this::onError);
-
         chatClient.setOnServerShutdown(this::onServerShutdown);
         chatClient.setOnKicked(this::onKicked);
         chatClient.setOnMuted(this::onMuted);
+        chatClient.setOnRemainingTimeReceived(this::onRemainingTimeReceived);
 
-        // Connect in background thread
         Thread connectThread = new Thread(() -> {
-            try {
-                boolean connected = chatClient.connect();
-                if (!connected) {
-                    Platform.runLater(() -> {
-                        connectionStatusLabel.setText("🔴 Connection Failed");
-                        showAlert("Failed to connect to room", "Connection Error");
-                    });
+            boolean connectionResult = chatClient.connect();
+            Platform.runLater(() -> {
+                if (connectionResult) {
+                    connectionStatusLabel.setText("Connected");
+
+                    // Initialize file transfer with the server's file port
+//                    if (hostedServer != null) {
+//                        chatClient.initializeFileTransfer(hostedServer.getFilePort());
+//                    } else {
+//                        // For clients, you might need to get file port from server
+//                        chatClient.initializeFileTransfer(currentRoom.getPort() + 1000); // Temporary solution
+//                    }
+
+                    // Set reference for MessageBubble
+                    MessageBubble.setChatClientReference(chatClient);
+                } else {
+                    connectionStatusLabel.setText("Failed to connect");
                 }
-            } catch (Exception e) {
-                Platform.runLater(() -> {
-                    connectionStatusLabel.setText("🔴 Connection Error");
-                    showAlert("Connection error: " + e.getMessage(), "Error");
-                    e.printStackTrace();
-                });
-            }
+            });
         });
         connectThread.setDaemon(true);
         connectThread.start();
     }
-
 
     private void updateUIForHost() {
         if (isHost) {
@@ -231,6 +237,66 @@ public class ChatRoomController {
             }
         } else {
             goBack(event);
+        }
+    }
+
+    @FXML
+    public void onFileUploadButtonClicked(ActionEvent event) {
+        if (chatClient == null || !chatClient.isConnected()) {
+            showAlert("You must be connected to upload files.", "Connection Error");
+            return;
+        }
+
+        // Check if the user is muted
+        if (hostedServer != null && hostedServer.isUserMuted(username)) {
+            showAlert("You are muted and cannot upload files.", "Muted User");
+            return;
+        }
+        handleFileUpload();
+    }
+
+
+
+    private void handleFileUpload() {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("Select File to Share");
+
+        fileChooser.getExtensionFilters().addAll(
+                new javafx.stage.FileChooser.ExtensionFilter("All Files", "*.*"),
+                new javafx.stage.FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif"),
+                new javafx.stage.FileChooser.ExtensionFilter("Documents", "*.txt", "*.pdf", "*.doc")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(rootPane.getScene().getWindow());
+        if (selectedFile != null) {
+            long maxSize = 10 * 1024 * 1024;
+            if (selectedFile.length() > maxSize) {
+                showAlert("File too large. Maximum size is 10MB.", "File Size Error");
+                return;
+            }
+
+            Alert uploadDialog = new Alert(Alert.AlertType.NONE);
+            uploadDialog.setTitle("Uploading File");
+            uploadDialog.setHeaderText("Uploading: " + selectedFile.getName());
+            uploadDialog.setContentText("Please wait...");
+            // Use a ButtonType to allow closing the dialog programmatically
+            uploadDialog.getButtonTypes().add(ButtonType.CANCEL);
+            uploadDialog.show();
+
+            // Upload in background thread
+            Thread uploadThread = new Thread(() -> {
+                boolean success = chatClient.uploadFile(selectedFile);
+                Platform.runLater(() -> {
+                    uploadDialog.close(); // Close the dialog
+                    if (success) {
+                        // The server broadcast will add the message, no need for another alert.
+                    } else {
+                        showAlert("Failed to upload file.", "Upload Error");
+                    }
+                });
+            });
+            uploadThread.setDaemon(true);
+            uploadThread.start();
         }
     }
 
@@ -433,6 +499,11 @@ public class ChatRoomController {
     private void onMessageReceived(Message message) {
         Platform.runLater(() -> {
             messages.add(message);
+
+            if (message.isFileMessage()) {
+                // You can add a download button to the message bubble
+                // or handle it in the MessageBubble component
+            }
         });
     }
 
@@ -457,6 +528,15 @@ public class ChatRoomController {
     private void onError(String error) {
         Platform.runLater(() -> {
             showAlert(error, "Chat Error");
+        });
+    }
+
+    private void onRemainingTimeReceived(Integer remainingSeconds) {
+        Platform.runLater(() -> {
+            if (!isHost) { // Only update for clients
+                this.sessionTimeRemaining = remainingSeconds;
+                updateSessionTimerDisplay();
+            }
         });
     }
 

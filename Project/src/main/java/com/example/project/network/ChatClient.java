@@ -2,6 +2,8 @@ package com.example.project.network;
 
 import com.example.project.model.Message;
 import com.example.project.model.Room;
+import com.example.project.model.SharedFile;
+import com.example.project.network.FileTransferClient;
 
 import java.io.*;
 import java.net.Socket;
@@ -17,6 +19,7 @@ public class ChatClient {
     private BufferedReader in;
     private PrintWriter out;
     private boolean connected = false;
+    private FileTransferClient fileTransferClient;
 
     // Callbacks
     private Consumer<Message> onMessageReceived;
@@ -26,6 +29,7 @@ public class ChatClient {
     private Consumer<String> onServerShutdown;
     private Consumer<String> onKicked;
     private Consumer<Boolean> onMuted;
+    private Consumer<Integer> onRemainingTimeReceived;
 
     public ChatClient(Room room, String username, String password) {
         this.room = room;
@@ -158,6 +162,15 @@ public class ChatClient {
                         onServerShutdown.accept("Session timeout: " + reason);
                     }
                     break;
+                }else if(inputLine.startsWith("FILE_PORT:")) {
+                    int filePort = Integer.parseInt(inputLine.substring(10));
+                    initializeFileTransfer(filePort);
+                    //continue;
+                }else if (inputLine.startsWith("REMAINING_TIME:")) {
+                    int remainingSeconds = Integer.parseInt(inputLine.substring(15));
+                    if (onRemainingTimeReceived != null) {
+                        onRemainingTimeReceived.accept(remainingSeconds);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -233,5 +246,25 @@ public class ChatClient {
 
     public void setOnMuted(Consumer<Boolean> callback) {
         this.onMuted = callback;
+    }
+
+    public void setOnRemainingTimeReceived(Consumer<Integer> callback) {this.onRemainingTimeReceived = callback;}
+
+    public void initializeFileTransfer(int filePort) {
+        this.fileTransferClient = new FileTransferClient(room.getHostIP(), filePort);
+    }
+
+    public boolean uploadFile(File file) {
+        if (fileTransferClient != null) {
+            return fileTransferClient.uploadFile(file, username);
+        }
+        return false;
+    }
+
+    public boolean downloadFile(String fileId, File destination) {
+        if (fileTransferClient != null) {
+            return fileTransferClient.downloadFile(fileId, destination);
+        }
+        return false;
     }
 }
