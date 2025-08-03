@@ -969,3 +969,47 @@
 .task-list .scroll-bar .decrement-arrow {
     -fx-background-color: #00bfa6;
 }
+
+
+/* Topic checkbox styling - similar to task-checkbox but for standard CheckBox */
+.topic-checkbox {
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 18px;
+    -fx-font-family: "Artifakt Element Black";
+    -fx-padding: 5 5 5 5 ;
+}
+
+.topic-checkbox > .box {
+    -fx-background-color: transparent;
+    -fx-border-color: #00bfa6;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-min-width: 22;
+    -fx-min-height: 22;
+    -fx-max-width: 22;
+    -fx-max-height: 22;
+}
+
+.topic-checkbox:selected > .box {
+    -fx-background-color: #00bfa6;
+    -fx-border-color: #00bfa6;
+}
+
+.topic-checkbox > .box > .mark {
+    -fx-background-color: white;
+    -fx-padding: 0;
+    -fx-shape: "M2,6 L6,10 L14,2";
+    -fx-background-insets: 0;
+    -fx-scale-shape: true;
+}
+
+/* Hover effects */
+.topic-checkbox:hover > .box {
+    -fx-border-color: #00d7c0;
+}
+
+.topic-checkbox:selected:hover > .box {
+    -fx-background-color: #00d7c0;
+    -fx-border-color: #00d7c0;
+}

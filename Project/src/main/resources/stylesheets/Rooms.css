@@ -381,8 +381,9 @@
     -fx-background-color: #303030;
     -fx-background-radius: 8;
     -fx-border-radius: 8;
+    -fx-border-color: #00bfa6;
     -fx-border-width: 1;
-    -fx-effect: dropshadow(gaussian, rgba(0,191,166,0.3), 8, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0, 0, 3);
 }
 
 .task-item:hover {
@@ -410,4 +411,48 @@
 .nav-button-active .nav-icon {
     -fx-fill: #ffffff;
     -fx-font-size: 18px;
+}
+
+
+.course-progress-bar .bar {
+    -fx-background-color: linear-gradient(to right, #00bfa6, #00d7c0); /* Teal gradient */
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-padding: 0.2em;
+    -fx-border-radius: 8;
+    -fx-background-clip: padding-box;
+    -fx-border-width: 0;
+}
+
+.course-progress-bar {
+    -fx-control-inner-background: #4a4a4a; /* Background of the progress bar track */
+    -fx-background-radius: 8;
+    -fx-padding: 0;
+    -fx-pref-height: 16px;
+    -fx-background-clip: padding-box;
+    -fx-border-width: 0;
+    -fx-hgrow: ALWAYS; /* Allow progress bar to grow horizontally */
+}
+
+.course-progress-bar {
+    -fx-pref-height: 12;
+    -fx-max-height: 12;
+    -fx-min-height: 12;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 0;
+}
+
+.course-progress-bar > .bar {
+    -fx-background-color: #00bfa6;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 0;
+}
+
+.course-progress-bar > .track {
+    -fx-background-color: #404040;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 0;
 }

@@ -390,7 +390,7 @@ public class CourseTrackerController {
         for (String topic : course.getTopics()) {
             CheckBox checkBox = new CheckBox(topic);
             checkBox.setSelected(course.getCompletedTopics().contains(topic));
-            checkBox.getStyleClass().add("check-box"); // Apply CSS for checkbox text
+            checkBox.getStyleClass().add("topic-checkbox"); // Apply CSS for checkbox text
             checkBox.setOnAction(e -> {
                 if (checkBox.isSelected()) {
                     course.markTopicCompleted(topic);
@@ -431,7 +431,7 @@ public class CourseTrackerController {
 
         gc.clearRect(0, 0, width, height);
 
-        gc.setFill(Color.rgb(50, 50, 50));
+        gc.setFill(Color.rgb(25,25,25));
         gc.fillOval(centerX - radius, centerY - radius, radius * 2, radius * 2);
 
         gc.setFill(Color.rgb(0, 191, 166));
@@ -440,6 +440,7 @@ public class CourseTrackerController {
 
         gc.fillArc(centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, arcExtent, javafx.scene.shape.ArcType.ROUND);
     }
+
 
     private Map<String, Integer> getStudyTimesForCourseTopics(String courseName) {
         Map<String, Integer> topicStudyTimes = new HashMap<>();

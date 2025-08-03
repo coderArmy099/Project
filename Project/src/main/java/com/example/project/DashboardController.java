@@ -132,12 +132,14 @@ public class DashboardController {
                         String taskDate = parts[1];
                         String completed = parts[2];
                         String taskDescription = parts[6];
+                        String priority = parts[5];
+                        String starttime = parts[3];
 
                         if (taskUsername.equals(CurrentUser.getUsername()) &&
                                 taskDate.equals(today) &&
                                 completed.equals("0")) {  // Only uncompleted tasks
 
-                            HBox taskItem = createTaskItem(taskDescription, false);
+                            HBox taskItem = createTaskItem(taskDescription, priority, starttime,false);
                             todayTasksContainer.getChildren().add(taskItem);
                         }
                     }
@@ -189,16 +191,33 @@ public class DashboardController {
         }
     }
 
-    private HBox createTaskItem(String taskDescription, boolean isCompleted) {
-        HBox taskItem = new HBox(10);
+    private HBox createTaskItem(String taskDescription,String priority, String starttime, boolean isCompleted) {
+        HBox taskItem = new HBox(8);
         taskItem.setAlignment(Pos.CENTER_LEFT);
         taskItem.getStyleClass().add("task-item");
-        taskItem.setStyle("-fx-padding: 12;");
+        taskItem.setStyle("-fx-padding: 8;");
         // Remove checkbox, just show task as text
         Label taskLabel = new Label(taskDescription);
-        taskLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 14px;");
+        taskLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 14px; -fx-font-family: 'Artifakt Element'");
 
+        Label priorityLabel = new Label(priority);
+        priorityLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 14px; -fx-font-family: 'Artifakt Element'");
+
+        Label startTimeLabel = new Label(starttime);
+        startTimeLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 14px; -fx-font-family: 'Artifakt Element'");
+
+        Label dot = new Label("•");
+        dot.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 20px; -fx-font-family: 'Artifakt Element'");
+
+        Label dot2 = new Label("•");
+        dot2.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 20px; -fx-font-family: 'Artifakt Element'");
+
+
+        taskItem.getChildren().add(startTimeLabel);
+        taskItem.getChildren().add(dot);
         taskItem.getChildren().add(taskLabel);
+        taskItem.getChildren().add(dot2);
+        taskItem.getChildren().add(priorityLabel);
         return taskItem;
     }
 
@@ -210,16 +229,17 @@ public class DashboardController {
 
         VBox courseInfo = new VBox(5);
         Label courseNameLabel = new Label(course.getCourseName());
-        courseNameLabel.setStyle("-fx-text-fill: #00bfa6; -fx-font-size: 16px; -fx-font-weight: bold;");
+        courseNameLabel.setStyle("-fx-text-fill: #00bfa6; -fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Artifakt Element'");
 
         Label progressLabel = new Label(String.format("Progress: %.0f%%", course.getProgress() * 100));
-        progressLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 14px;");
+        progressLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 14px; -fx-font-family: 'Artifakt Element'");
 
         courseInfo.getChildren().addAll(courseNameLabel, progressLabel);
 
         ProgressBar progressBar = new ProgressBar(course.getProgress());
         progressBar.setPrefWidth(500);
-        progressBar.setStyle("-fx-accent: #00bfa6; -fx-border-radius: 5 px ; -fx-effect: dropshadow(gaussian, #00bfa6, 5, 0.0, 0, 0);");
+//        progressBar.getStyleClass().add("course-progress-bar");
+        progressBar.getStyleClass().add("course-progress-bar");
 
         courseItem.getChildren().addAll(courseInfo, progressBar);
         HBox.setHgrow(courseInfo, Priority.ALWAYS);
